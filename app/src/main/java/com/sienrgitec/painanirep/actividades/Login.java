@@ -45,7 +45,7 @@ public class Login extends AppCompatActivity {
 
     }
     public void NuevoUsuario(){
-        startActivity(new Intent(Login.this, Registro.class));
+        startActivity(new Intent(Login.this, ValidaDir.class));
         finish();
     }
     public void MuestraMensaje(){
