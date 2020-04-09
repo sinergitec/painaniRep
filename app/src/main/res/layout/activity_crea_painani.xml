@@ -9,14 +9,14 @@
 
     <TableLayout
         android:layout_width="347dp"
-        android:layout_height="230dp"
+        android:layout_height="380dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.615"
+        app:layout_constraintHorizontal_bias="0.718"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.065">
+        app:layout_constraintVertical_bias="0.304">
 
         <TableRow
             android:layout_width="match_parent"
@@ -88,10 +88,54 @@
                 android:hint="Correo electronico" />
         </TableRow>
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/etObsP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Observaciones"
+                android:inputType="textPersonName"
+                tools:layout_editor_absoluteX="55dp"
+                tools:layout_editor_absoluteY="310dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/etFBook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="FaceBook"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="481dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/etTwit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Twitter"
+                android:inputType="textPersonName"
+                tools:layout_editor_absoluteX="87dp"
+                tools:layout_editor_absoluteY="519dp" />
+        </TableRow>
+
 
     </TableLayout>
-
-
 
     <ImageButton
         android:id="@+id/btnAdelante"

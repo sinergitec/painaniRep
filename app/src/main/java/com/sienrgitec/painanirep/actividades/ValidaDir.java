@@ -45,10 +45,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.sienrgitec.painanirep.model.ctDomicilio;
 
 public class ValidaDir extends AppCompatActivity {
 
-    private Globales globales;
+    public Globales globales;
     private  static RequestQueue mRequestQueue;
     private StringRequest mStringRequest;
 
@@ -152,17 +153,41 @@ public class ValidaDir extends AppCompatActivity {
 
 
                             if (Error == true) {
+                                btnValida.setEnabled(true);
                                 MuestraMensaje("Error", Mensaje);
                                 return;
 
                             } else {
+                                /**Crea domicilio*/
+
+                                ctDomicilio objNuevoDom = new ctDomicilio();
+                                objNuevoDom.setcCalle(vcCalle.getText().toString());
+                                objNuevoDom.setcNumExt(vcNumE.getText().toString());
+                                objNuevoDom.setcNumInt(vcNumI.getText().toString());
+                                objNuevoDom.setcColonia(vcColonia.getText().toString());
+                                objNuevoDom.setcMpioDeleg(vcDelegacion.getText().toString());
+                                objNuevoDom.setcEstado(vcEstado.getText().toString());
+                                objNuevoDom.setcCP(vcCP.getText().toString());
+                                objNuevoDom.setcPais(vcPais.getText().toString());
+                                objNuevoDom.setcReferencia("");
+                                objNuevoDom.setcObs("");
+                                objNuevoDom.setlActivo(true);
+                                objNuevoDom.setDtCreado(null);
+                                objNuevoDom.getcUsuModifica();
+                                objNuevoDom.setcUsuCrea("");
+
+                                globales.ctDomicilioList.add(objNuevoDom);
+
                                 nDialog.dismiss();
                                 startActivity(new Intent(ValidaDir.this, CreaPainani.class));
+
+
+
                                 finish();
 
                             }
                         } catch (JSONException e) {
-
+                            btnValida.setEnabled(true);
                             AlertDialog.Builder myBuild = new AlertDialog.Builder(ValidaDir.this);
                             myBuild.setMessage("Error en la conversión de Datos. Vuelva a Intentar. " + e);
                             myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR CONVERSION </font>"));
@@ -181,6 +206,7 @@ public class ValidaDir extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        btnValida.setEnabled(true);
                         // TODO: Handle error
                         Log.i("Error Respuesta", error.toString());
                         AlertDialog.Builder myBuild = new AlertDialog.Builder(ValidaDir.this);

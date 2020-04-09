@@ -67,7 +67,7 @@
                 app:srcCompat="@mipmap/user" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/etUsuLog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -88,7 +88,7 @@
                 app:srcCompat="@android:drawable/ic_lock_lock" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/etPword"
                 android:layout_width="294dp"
                 android:layout_height="40dp"
                 android:hint="Contraseña"
