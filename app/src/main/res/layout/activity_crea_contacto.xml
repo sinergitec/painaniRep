@@ -55,7 +55,7 @@
         android:id="@+id/btnFinReg"
         android:layout_width="344dp"
         android:layout_height="36dp"
-        android:background="@drawable/btnaceptar"
+        android:background="@drawable/btniniciar"
         android:text="FINALIZAR REGISTRO"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
