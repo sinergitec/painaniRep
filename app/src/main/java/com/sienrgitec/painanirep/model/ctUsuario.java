@@ -4,7 +4,6 @@ import java.io.Serializable;
 public class ctUsuario implements Serializable{
     private String cUsuario;
     private Integer iPersona;
-    private Integer iPainani;
     private Integer iTipoPersona;
     private String cPassword;
     private Boolean lActivo;
@@ -29,13 +28,7 @@ public class ctUsuario implements Serializable{
         this.iPersona = iPersona;
     }
 
-    public Integer getiPainani() {
-        return iPainani;
-    }
 
-    public void setiPainani(Integer iPainani) {
-        this.iPainani = iPainani;
-    }
 
     public Integer getiTipoPersona() {
         return iTipoPersona;

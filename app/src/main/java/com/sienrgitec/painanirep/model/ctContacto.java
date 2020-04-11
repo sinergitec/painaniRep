@@ -3,8 +3,10 @@ package com.sienrgitec.painanirep.model;
 import java.io.Serializable;
 
 public class ctContacto implements Serializable {
-    private Integer iContacto;
+
     private Integer iPersona;
+    private Integer iContacto;
+    private Integer iTipoPersona;
     private Integer iTipoContacto;
     private String  cNombre;
     private String  cApellidos;
@@ -110,5 +112,13 @@ public class ctContacto implements Serializable {
 
     public void setId(Object id) {
         this.id = id;
+    }
+
+    public Integer getiTipoPersona() {
+        return iTipoPersona;
+    }
+
+    public void setiTipoPersona(Integer iTipoPersona) {
+        this.iTipoPersona = iTipoPersona;
     }
 }
