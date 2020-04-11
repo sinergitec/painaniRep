@@ -58,7 +58,7 @@ public class CreaContacto extends AppCompatActivity {
 
         btnCreaRegistro = (Button) findViewById(R.id.btnFinReg);
         etNombreUsu     = (EditText) findViewById(R.id.etUsuario);
-        etPwReg         = (EditText) findViewById(R.id.etUsuario);
+        etPwReg         = (EditText) findViewById(R.id.edPSUsu);
         etNombreC       = (EditText) findViewById(R.id.etNombreC);
         etApellidosC    = (EditText) findViewById(R.id.etApellidosC);
         etObsC          = (EditText) findViewById(R.id.etObsC);
@@ -84,6 +84,10 @@ public class CreaContacto extends AppCompatActivity {
         nDialog.setMessage("Cargando...");
         nDialog.setTitle("Guarda Orden");
         nDialog.setIndeterminate(false);
+
+        for(ctPainani ov: globales.ctPainaniList){
+            Log.e("crea registro ", ov.getcNombre());
+        }
 
 
         ctUsuario ObjctUsuario = new ctUsuario();
@@ -157,7 +161,7 @@ public class CreaContacto extends AppCompatActivity {
             jsonDataSet.put("tt_ctUsuario",  ctUsuarioJS);
 
 
-            jsonParams.put("ds_ctPainani", jsonDataSet);
+            jsonParams.put("ds_Painani", jsonDataSet);
             jsonBody.put("request", jsonParams);
 
             Log.i("Response", jsonBody.toString());
@@ -173,7 +177,7 @@ public class CreaContacto extends AppCompatActivity {
         getmRequestQueue();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.POST, url + "/ctCreaPainai/", jsonBody, new Response.Listener<JSONObject>() {
+                (Request.Method.POST, url + "ctPainani/", jsonBody, new Response.Listener<JSONObject>() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onResponse(JSONObject response) {
@@ -182,7 +186,7 @@ public class CreaContacto extends AppCompatActivity {
                             Log.i("respuesta resrt->", "mensaje: " + respuesta.toString());
 
                             Boolean Error = respuesta.getBoolean("oplError");
-                            String Mensaje = respuesta.getString("opcMensaje");
+                            String Mensaje = respuesta.getString("opcError");
                             if (Error == true) {
                                 nDialog.dismiss();
                                 MuestraMensaje("Error" , Mensaje);

@@ -4,23 +4,58 @@ import java.io.Serializable;
 public class ctPainani implements Serializable{
     private Integer iPainani;
     private String cNombre;
-    private String cApellidoP;
-    private String cApellidoM;
+    private String cApellidoPat;
+    private String cApellidoMat;
     private Boolean lVehiculo;
     private String cMail;
-    private String cWhatsApp;
+    private String cWhattsApp;
     private String cFacebook;
     private String cTwitter;
+
+    public String getcApellidoMat() {
+        return cApellidoMat;
+    }
+
+    public void setcApellidoMat(String cApellidoMat) {
+        this.cApellidoMat = cApellidoMat;
+    }
+
     private String cObs;
     private String dtCreado;
     private String dtModificado;
     private Integer iEdoPainani;
     private String cUsuCrea;
     private String cUsuModifica;
+    private String bImagen;
+
+    public String getcApellidoPat() {
+        return cApellidoPat;
+    }
+
+    public void setcApellidoPat(String cApellidoPat) {
+        this.cApellidoPat = cApellidoPat;
+    }
+
+    public String getbImagen() {
+        return bImagen;
+    }
+
+    public void setbImagen(String bImagen) {
+        this.bImagen = bImagen;
+    }
+
     private Object id;
 
     public Integer getiPainani() {
         return iPainani;
+    }
+
+    public String getcWhattsApp() {
+        return cWhattsApp;
+    }
+
+    public void setcWhattsApp(String cWhattsApp) {
+        this.cWhattsApp = cWhattsApp;
     }
 
     public void setiPainani(Integer iPainani) {
@@ -43,21 +78,9 @@ public class ctPainani implements Serializable{
         this.cNombre = cNombre;
     }
 
-    public String getcApellidoP() {
-        return cApellidoP;
-    }
 
-    public void setcApellidoP(String cApellidoP) {
-        this.cApellidoP = cApellidoP;
-    }
 
-    public String getcApellidoM() {
-        return cApellidoM;
-    }
 
-    public void setcApellidoM(String cApellidoM) {
-        this.cApellidoM = cApellidoM;
-    }
 
     public Boolean getlVehiculo() {
         return lVehiculo;
@@ -75,13 +98,7 @@ public class ctPainani implements Serializable{
         this.cMail = cMail;
     }
 
-    public String getcWhatsApp() {
-        return cWhatsApp;
-    }
 
-    public void setcWhatsApp(String cWhatsApp) {
-        this.cWhatsApp = cWhatsApp;
-    }
 
     public String getcFacebook() {
         return cFacebook;

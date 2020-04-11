@@ -142,6 +142,8 @@ public class Login extends AppCompatActivity {
                                 return;
 
                             } else {
+                                btnEntrar.setEnabled(true);
+                                MuestraMensaje("Aviso", "Bienvenido");
 
 
                             }

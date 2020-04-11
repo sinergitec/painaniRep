@@ -2,6 +2,7 @@ package com.sienrgitec.painanirep.actividades;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -55,11 +56,11 @@ public class CreaPainani extends AppCompatActivity {
         ctPainani ObjNvoPainani = new ctPainani();
 
         ObjNvoPainani.setcNombre(etNombre.getText().toString());
-        ObjNvoPainani.setcApellidoP(etAP.getText().toString());
-        ObjNvoPainani.setcApellidoM(etAM.getText().toString());
+        ObjNvoPainani.setcApellidoPat(etAP.getText().toString());
+        ObjNvoPainani.setcApellidoMat(etAM.getText().toString());
         ObjNvoPainani.setlVehiculo(true);
         ObjNvoPainani.setcMail(etCorreo.getText().toString());
-        ObjNvoPainani.setcWhatsApp(etWApp.getText().toString());
+        ObjNvoPainani.setcWhattsApp(etWApp.getText().toString());
         ObjNvoPainani.setcFacebook(etFbook.getText().toString());
         ObjNvoPainani.setcTwitter(etTwit.getText().toString());
         ObjNvoPainani.setcObs(etObs.getText().toString());
@@ -70,6 +71,9 @@ public class CreaPainani extends AppCompatActivity {
         ObjNvoPainani.setcUsuModifica("");
 
         globales.ctPainaniList.add(ObjNvoPainani);
+
+        startActivity(new Intent(CreaPainani.this, CreaContacto.class));
+        finish();
 
     }
 }
