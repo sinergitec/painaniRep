@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".actividades.CreaContacto"></activity>
+        <activity android:name=".RecuperaPW"></activity>
+        <activity android:name=".actividades.CreaContacto" />
         <activity android:name=".actividades.CreaPainani" />
         <activity
             android:name=".actividades.ValidaDir"

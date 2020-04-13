@@ -146,9 +146,6 @@ public class CreaContacto extends AppCompatActivity {
                 new TypeToken<ArrayList<ctUsuario>>() {
                 }.getType());
 
-
-
-
         try {
             JSONArray ctPainaniJS   = new JSONArray(JS_ctPainani);
             JSONArray ctDomicilioJS = new JSONArray(JS_ctDomicilio);

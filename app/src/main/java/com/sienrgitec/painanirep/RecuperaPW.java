@@ -1,20 +1,17 @@
-package com.sienrgitec.painanirep.actividades;
+package com.sienrgitec.painanirep;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -24,8 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.sienrgitec.painanirep.R;
-import com.sienrgitec.painanirep.RecuperaPW;
+import com.sienrgitec.painanirep.actividades.CreaContacto;
+import com.sienrgitec.painanirep.actividades.Login;
 import com.sienrgitec.painanirep.configuracion.Globales;
 import com.sienrgitec.painanirep.model.ctUsuario;
 
@@ -37,94 +34,45 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Login extends AppCompatActivity {
+public class RecuperaPW extends AppCompatActivity {
     public Globales globales;
-
     private static RequestQueue mRequestQueue;
     private String url = globales.URL;
 
-
-    Button btnEntrar;
-    TextView txtRegistro;
-    TextView txtRecuperaPw;
-    EditText etNombreU;
-    EditText etPasword;
+    Button btnRecPW;
+    EditText etRecEmail;
+    EditText etRecTelefono;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        setContentView(R.layout.activity_recupera_pw);
 
-        btnEntrar   = (Button)   findViewById(R.id.btnEntrar);
-        txtRegistro = (TextView) findViewById(R.id.textRegistro);
-        txtRecuperaPw = (TextView) findViewById(R.id.txtRecuperaPW);
-        etNombreU   = (EditText) findViewById(R.id.etUsuLog);
-        etPasword   = (EditText) findViewById(R.id.etPword);
+        btnRecPW = (Button) findViewById(R.id.btnRecPW);
+        etRecEmail = (EditText) findViewById(R.id.etRecEmail);
+        etRecTelefono = (EditText) findViewById(R.id.etRecTelefono);
 
-        btnEntrar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                BuscarUsuario();
-            }
-        });
-
-        txtRegistro.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-               NuevoUsuario();
-            }
-        });
-
-        txtRecuperaPw.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        btnRecPW.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
                 RecuperaPW();
             }
         });
-
     }
 
-    public void BuscarUsuario(){
-        btnEntrar.setEnabled(false);
+    public void RecuperaPW(){
+        btnRecPW.setEnabled(false);
 
-        final String vcUsuLog = etNombreU.getText().toString();
-        final String password = etPasword.getText().toString();
-
-        if (etNombreU.getText().toString().isEmpty()) {
-            AlertDialog.Builder myBuild = new AlertDialog.Builder(Login.this);
-            myBuild.setMessage("No se capturo el nombre de usuario");
-            myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR </font>"));
-            myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                    btnEntrar.setEnabled(true);
-
-                }
-            });
-            AlertDialog dialog = myBuild.create();
-            dialog.show();
-            return;
+        if (etRecEmail.getText().toString().isEmpty()) {
+            MuestraMensaje("Error", "El correo de Usuario no puede estar vacío.");
         }
-
-
-        if (etPasword.getText().toString().isEmpty()) {
-            AlertDialog.Builder myBuild = new AlertDialog.Builder(Login.this);
-            myBuild.setMessage("No se capturo el password del usuario");
-            myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR </font>"));
-            myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                    btnEntrar.setEnabled(true);
-
-                }
-            });
-            AlertDialog dialog = myBuild.create();
-            dialog.show();
-            return;
+        if (etRecTelefono.getText().toString().isEmpty()) {
+            MuestraMensaje("Error", "El numero de celular de Usuario no puede estar vacío.");
         }
 
         getmRequestQueue();
-        String urlParams = String.format(url + "login?ipcUsuario=%1$s&ipcPassword=%2$s", vcUsuLog, password );
+
+        getmRequestQueue();
+        String urlParams = String.format(url + "PwordPainani?ipcEmail=%1$s&ipcTelefono=%2$s", etRecEmail.getText().toString(), etRecTelefono.getText() );
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, urlParams, null, new Response.Listener<JSONObject>() {
@@ -136,8 +84,8 @@ public class Login extends AppCompatActivity {
                             JSONObject respuesta = response.getJSONObject("response");
                             Log.i("respuesta--->", respuesta.toString());
 
-                            String Mensaje = respuesta.getString("opcError");
                             Boolean Error = respuesta.getBoolean("oplError");
+                            String Mensaje = respuesta.getString("opcError");
                             JSONObject ds_ctUsuario = respuesta.getJSONObject("tt_ctUsuario");
 
                             JSONArray tt_ctUsuario  = ds_ctUsuario.getJSONArray("tt_ctUsuario");
@@ -146,19 +94,22 @@ public class Login extends AppCompatActivity {
 
 
                             if (Error == true) {
-                                btnEntrar.setEnabled(true);
+                                btnRecPW.setEnabled(true);
                                 MuestraMensaje("Error", Mensaje);
                                 return;
 
                             } else {
-                                btnEntrar.setEnabled(true);
-                                MuestraMensaje("Aviso", "Bienvenido");
+                                for(ctUsuario objusuario : globales.g_ctUsuarioList){
+                                    Log.e("recpass", "pass" + objusuario.getcPassword());
+                                }
+                                btnRecPW.setEnabled(true);
+                                MuestraMensaje("Aviso", "Bienvenido" );
 
 
                             }
                         } catch (JSONException e) {
-                            btnEntrar.setEnabled(true);
-                            AlertDialog.Builder myBuild = new AlertDialog.Builder(Login.this);
+                            btnRecPW.setEnabled(true);
+                            AlertDialog.Builder myBuild = new AlertDialog.Builder(RecuperaPW.this);
                             myBuild.setMessage("Error en la conversión de Datos. Vuelva a Intentar. " + e);
                             myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR CONVERSION </font>"));
                             myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
@@ -176,10 +127,10 @@ public class Login extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        btnEntrar.setEnabled(true);
+                        btnRecPW.setEnabled(true);
                         // TODO: Handle error
                         Log.i("Error Respuesta", error.toString());
-                        AlertDialog.Builder myBuild = new AlertDialog.Builder(Login.this);
+                        AlertDialog.Builder myBuild = new AlertDialog.Builder(RecuperaPW.this);
                         myBuild.setMessage("No se pudo conectar con el servidor. Vuelva a Intentar. " + error.toString());
                         myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR RESPUESTA </font>"));
                         myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
@@ -196,8 +147,8 @@ public class Login extends AppCompatActivity {
             @Override
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("ipcUsuario", vcUsuLog);
-                params.put("ipcPassword", password);
+                params.put("ipcUsuario", etRecEmail.getText().toString());
+                params.put("ipcPassword", etRecTelefono.getText().toString());
 
 
                 return params;
@@ -212,8 +163,23 @@ public class Login extends AppCompatActivity {
         };
         // Access the RequestQueue through your singleton class.
         mRequestQueue.add(jsonObjectRequest);
+    }
 
+    public void MuestraMensaje(String vcTitulo, String vcMensaje){
+        AlertDialog.Builder myBuild = new AlertDialog.Builder(RecuperaPW.this);
+        myBuild.setMessage(vcMensaje);
+        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'>" + vcTitulo +"</font>"));
+        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                btnRecPW.setEnabled(true);
 
+            }
+        });
+        AlertDialog dialog = myBuild.create();
+        dialog.show();
+        return;
 
     }
     public void getmRequestQueue(){
@@ -226,37 +192,4 @@ public class Login extends AppCompatActivity {
             Log.d("Volley",e.toString());
         }
     }
-
-    public void NuevoUsuario(){
-        startActivity(new Intent(Login.this, ValidaDir.class));
-        finish();
-    }
-
-    public void RecuperaPW(){
-        startActivity(new Intent(Login.this, RecuperaPW.class));
-        finish();
-    }
-
-    public void MuestraMensaje(String vcTitulo,  String vcMensaje){
-        AlertDialog.Builder myBuild = new AlertDialog.Builder(Login.this);
-        myBuild.setMessage(vcMensaje);
-        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'>" + vcTitulo +"</font>"));
-        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                return;
-
-            }
-        });
-        AlertDialog dialog = myBuild.create();
-        dialog.show();
-        return;
-
-    }
-
-
-
-
-
 }
