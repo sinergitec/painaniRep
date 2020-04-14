@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import android.widget.Button;
@@ -72,6 +73,7 @@ public class ValidaDir extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_validadir);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         vcCalle  =   (EditText) findViewById(R.id.etCalle);
         vcNumE   =   (EditText) findViewById(R.id.etNumE);
@@ -96,6 +98,33 @@ public class ValidaDir extends AppCompatActivity {
 
 
     private void geoLocate(View view){
+
+        if (vcCalle.getText().toString().isEmpty()) {
+            btnValida.setEnabled(true);
+            MuestraMensaje("Error", "No se capturó la calle .");
+        }
+        if (vcNumE.getText().toString().isEmpty()) {
+            btnValida.setEnabled(true);
+            MuestraMensaje("Error", "No se capturó el número exterior.");
+        }
+        if (vcEstado.getText().toString().isEmpty()) {
+            btnValida.setEnabled(true);
+            MuestraMensaje("Error", "No se capturó el estado.");
+        }
+        if (vcColonia.getText().toString().isEmpty()) {
+            btnValida.setEnabled(true);
+            MuestraMensaje("Error", "No se capturó nombre de la colonia.");
+        }
+        if (vcDelegacion.getText().toString().isEmpty()) {
+            btnValida.setEnabled(true);
+            MuestraMensaje("Error", "No se capturó el Nombre de la Alcaldía.");
+        }
+        if (vcCP.getText().toString().isEmpty()) {
+            btnValida.setEnabled(true);
+            MuestraMensaje("Error", "No se capturó el Código Postal.");
+        }
+
+
         String vcDireccion = vcCalle.getText().toString() + " " + vcNumE.getText().toString() + " " + vcColonia.getText().toString() + " " + vcDelegacion.getText().toString()
                 + " " + vcCP.getText().toString() + " " + vcPais.getText().toString();
         hideSoftKeyboard(view);
@@ -130,9 +159,6 @@ public class ValidaDir extends AppCompatActivity {
         nDialog.setTitle("Valida Domicilio");
         nDialog.setIndeterminate(false);
         nDialog.show();
-
-
-
 
         getmRequestQueue();
 

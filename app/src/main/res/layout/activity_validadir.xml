@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".actividades.ValidaDir">
+    tools:context=".actividades.ValidaDir"
+    android:background="#e0e0e0">
 
 
     <Button
@@ -19,7 +20,7 @@
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.954" />
+        app:layout_constraintVertical_bias="0.663" />
 
     <Button
         android:id="@+id/btnValida"
@@ -30,20 +31,21 @@
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.885" />
+        app:layout_constraintVertical_bias="0.567" />
 
     <TableLayout
         android:id="@+id/tableLayout"
-        android:layout_width="350dp"
-        android:layout_height="100dp"
+        android:layout_width="352dp"
+        android:layout_height="113dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.338"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.358">
+        app:layout_constraintVertical_bias="0.114">
 
         <TableRow
             android:layout_width="match_parent"
@@ -96,6 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="C.P."
+                android:inputType="phone"
                 tools:layout_editor_absoluteX="4dp"
                 tools:layout_editor_absoluteY="454dp" />
         </TableRow>
@@ -109,10 +112,10 @@
         android:layout_height="140dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.426"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.57">
+        app:layout_constraintVertical_bias="0.329">
 
         <TableRow
             android:layout_width="match_parent"
@@ -161,6 +164,20 @@
 
 
     </TableLayout>
+
+    <TextView
+        android:id="@+id/tvCapturaDom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Captura tu Domicilio Completo"
+        android:ems="16"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="#304ffe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

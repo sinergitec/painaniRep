@@ -1,4 +1,4 @@
-package com.sienrgitec.painanirep;
+package com.sienrgitec.painanirep.actividades;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -21,8 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.sienrgitec.painanirep.actividades.CreaContacto;
-import com.sienrgitec.painanirep.actividades.Login;
+import com.sienrgitec.painanirep.R;
 import com.sienrgitec.painanirep.configuracion.Globales;
 import com.sienrgitec.painanirep.model.ctUsuario;
 

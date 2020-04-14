@@ -1,9 +1,12 @@
 package com.sienrgitec.painanirep.actividades;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -50,7 +53,40 @@ public class CreaPainani extends AppCompatActivity {
     }
 
     public void CreaUsuario(){
+        String vcMensaje = "";
+
         btnAvanzar.setEnabled(false);
+
+        if (etNombre.getText().toString().isEmpty()) {
+            btnAvanzar.setEnabled(true);
+            vcMensaje = "No se ha capturado el Nombre.";
+            MuestraMensaje(vcMensaje);
+            return;
+        }
+        if (etAP.getText().toString().isEmpty()) {
+            btnAvanzar.setEnabled(true);
+            vcMensaje = "No se ha capturado el Apellido Paterno.";
+            MuestraMensaje(vcMensaje);
+            return;
+        }
+        if (etAM.getText().toString().isEmpty()) {
+            btnAvanzar.setEnabled(true);
+            vcMensaje = "No se ha capturado el Apellido Materno.";
+            MuestraMensaje(vcMensaje);
+            return;
+        }
+        if (etCorreo.getText().toString().isEmpty()) {
+            btnAvanzar.setEnabled(true);
+            vcMensaje = "No se ha capturado el correo electronico del usuario.";
+            MuestraMensaje(vcMensaje);
+            return;
+        }
+        if (etWApp.getText().toString().isEmpty()) {
+            btnAvanzar.setEnabled(true);
+            vcMensaje = "El Número telefonico del usuario no puede estar vacío.";
+            MuestraMensaje(vcMensaje);
+            return;
+        }
 
 
         ctPainani ObjNvoPainani = new ctPainani();
@@ -75,5 +111,20 @@ public class CreaPainani extends AppCompatActivity {
         startActivity(new Intent(CreaPainani.this, CreaContacto.class));
         finish();
 
+    }
+    public void MuestraMensaje(String vcError){
+        AlertDialog.Builder myBuild = new AlertDialog.Builder(getApplicationContext());
+        myBuild.setMessage(vcError);
+        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR </font>"));
+        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                btnAvanzar.setEnabled(true);
+
+            }
+        });
+        AlertDialog dialog = myBuild.create();
+        dialog.show();
     }
 }

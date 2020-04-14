@@ -25,7 +25,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.sienrgitec.painanirep.R;
-import com.sienrgitec.painanirep.RecuperaPW;
 import com.sienrgitec.painanirep.configuracion.Globales;
 import com.sienrgitec.painanirep.model.ctUsuario;
 
@@ -151,9 +150,16 @@ public class Login extends AppCompatActivity {
                                 return;
 
                             } else {
-                                btnEntrar.setEnabled(true);
-                                MuestraMensaje("Aviso", "Bienvenido");
 
+
+                                for (ctUsuario objUsuario: globales.g_ctUsuarioList) {
+                                        globales.g_ctUsuario = objUsuario;
+
+                                }
+
+                               // MuestraMensaje("Aviso", "Bienvenido");
+                                startActivity(new Intent(Login.this, Home.class));
+                                finish();
 
                             }
                         } catch (JSONException e) {
