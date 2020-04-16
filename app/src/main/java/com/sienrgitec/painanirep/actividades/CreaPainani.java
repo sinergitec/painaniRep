@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -19,6 +20,7 @@ public class CreaPainani extends AppCompatActivity {
     public Globales    globales;
 
     ImageButton btnAvanzar;
+    ImageButton btnBack;
     EditText    etNombre;
     EditText    etAP;
     EditText    etAM;
@@ -33,9 +35,11 @@ public class CreaPainani extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crea_painani);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
         btnAvanzar = (ImageButton) findViewById(R.id.btnAdelante);
+        btnBack    = (ImageButton) findViewById(R.id.btnAtras);
         etNombre   = (EditText)    findViewById(R.id.etNombre);
         etAP       = (EditText)    findViewById(R.id.etApellidoP);
         etAM       = (EditText)    findViewById(R.id.etApellidoM);
@@ -48,6 +52,12 @@ public class CreaPainani extends AppCompatActivity {
         btnAvanzar.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 CreaUsuario();
+            }
+        });
+        btnBack.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                startActivity(new Intent(CreaPainani.this, ValidaDir.class));
+                finish();
             }
         });
     }
@@ -113,18 +123,19 @@ public class CreaPainani extends AppCompatActivity {
 
     }
     public void MuestraMensaje(String vcError){
-        AlertDialog.Builder myBuild = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder myBuild = new AlertDialog.Builder(CreaPainani.this);
         myBuild.setMessage(vcError);
-        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR </font>"));
+        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'>" + "Error" +"</font>"));
         myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-                btnAvanzar.setEnabled(true);
+                return;
 
             }
         });
         AlertDialog dialog = myBuild.create();
         dialog.show();
+        return;
     }
 }

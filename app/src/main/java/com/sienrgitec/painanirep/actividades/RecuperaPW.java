@@ -5,11 +5,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -39,6 +41,7 @@ public class RecuperaPW extends AppCompatActivity {
     private String url = globales.URL;
 
     Button btnRecPW;
+    Button btnCancelar;
     EditText etRecEmail;
     EditText etRecTelefono;
 
@@ -46,14 +49,23 @@ public class RecuperaPW extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recupera_pw);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         btnRecPW = (Button) findViewById(R.id.btnRecPW);
+        btnCancelar = (Button) findViewById(R.id.btnCancelar);
         etRecEmail = (EditText) findViewById(R.id.etRecEmail);
         etRecTelefono = (EditText) findViewById(R.id.etRecTelefono);
 
         btnRecPW.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 RecuperaPW();
+            }
+        });
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(RecuperaPW.this, Login.class));
+                finish();
             }
         });
     }
@@ -63,9 +75,11 @@ public class RecuperaPW extends AppCompatActivity {
 
         if (etRecEmail.getText().toString().isEmpty()) {
             MuestraMensaje("Error", "El correo de Usuario no puede estar vacío.");
+            return;
         }
         if (etRecTelefono.getText().toString().isEmpty()) {
             MuestraMensaje("Error", "El numero de celular de Usuario no puede estar vacío.");
+            return;
         }
 
         getmRequestQueue();

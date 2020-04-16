@@ -1,0 +1,42 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout">
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txtArticulo"
+                android:layout_width="300dp"
+                android:layout_height="20dp"
+                android:hint="Producto"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txtCantidad"
+                android:layout_width="280dp"
+                android:layout_height="20dp"
+                android:hint="Cantidad"
+                android:textSize="15sp" />
+
+
+
+
+        </TableRow>
+
+
+
+
+    </TableLayout>
+
+
+</LinearLayout>

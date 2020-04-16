@@ -1,6 +1,7 @@
 package com.sienrgitec.painanirep.model;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 public class opUbicaPainani implements Serializable {
     private Double   deLatitud;
@@ -13,12 +14,13 @@ public class opUbicaPainani implements Serializable {
     private Object   id;
 
 
+
     public Double getDeLatitud() {
         return deLatitud;
     }
 
     public void setDeLatitud(Double deLatitud) {
-        this.deLatitud = deLatitud;
+        this.deLatitud = (deLatitud) ;
     }
 
     public Double getDeLongitud() {

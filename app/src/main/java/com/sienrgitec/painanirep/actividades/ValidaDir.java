@@ -65,6 +65,7 @@ public class ValidaDir extends AppCompatActivity {
     EditText vcPais;
     EditText vcCP;
     Button   btnValida;
+    Button   btnCancelar;
 
 
 
@@ -84,12 +85,22 @@ public class ValidaDir extends AppCompatActivity {
         vcColonia    = (EditText) findViewById(R.id.etColonia);
         vcDelegacion = (EditText) findViewById(R.id.etAlcaldia);
 
-        btnValida = (Button) findViewById(R.id.btnValida);
+        btnValida   = (Button) findViewById(R.id.btnValida);
+        btnCancelar = (Button) findViewById(R.id.btnCancelar);
+        btnValida.setEnabled(true);
 
         btnValida.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 btnValida.setEnabled(false);
                 geoLocate(v);
+            }
+        });
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //startActivity(new Intent(ValidaDir.this, Login.class));
+                startActivity(new Intent(ValidaDir.this, Home.class));
+                finish();
             }
         });
 
@@ -102,26 +113,32 @@ public class ValidaDir extends AppCompatActivity {
         if (vcCalle.getText().toString().isEmpty()) {
             btnValida.setEnabled(true);
             MuestraMensaje("Error", "No se capturó la calle .");
+            return;
         }
         if (vcNumE.getText().toString().isEmpty()) {
             btnValida.setEnabled(true);
             MuestraMensaje("Error", "No se capturó el número exterior.");
+            return;
         }
         if (vcEstado.getText().toString().isEmpty()) {
             btnValida.setEnabled(true);
             MuestraMensaje("Error", "No se capturó el estado.");
+            return;
         }
         if (vcColonia.getText().toString().isEmpty()) {
             btnValida.setEnabled(true);
             MuestraMensaje("Error", "No se capturó nombre de la colonia.");
+            return;
         }
         if (vcDelegacion.getText().toString().isEmpty()) {
             btnValida.setEnabled(true);
             MuestraMensaje("Error", "No se capturó el Nombre de la Alcaldía.");
+            return;
         }
         if (vcCP.getText().toString().isEmpty()) {
             btnValida.setEnabled(true);
             MuestraMensaje("Error", "No se capturó el Código Postal.");
+            return;
         }
 
 
@@ -152,6 +169,8 @@ public class ValidaDir extends AppCompatActivity {
     }
 
     private void ValidaUbicacion(double vdeLatitud , final double vdeLongitud){
+
+
 
         final ProgressDialog nDialog;
         nDialog = new ProgressDialog(ValidaDir.this);
@@ -184,8 +203,6 @@ public class ValidaDir extends AppCompatActivity {
                                 return;
 
                             } else {
-                                /**Crea domicilio*/
-
                                 ctDomicilio objNuevoDom = new ctDomicilio();
                                 objNuevoDom.setcCalle(vcCalle.getText().toString());
                                 objNuevoDom.setcNumExt(vcNumE.getText().toString());
@@ -226,6 +243,7 @@ public class ValidaDir extends AppCompatActivity {
                             });
                             AlertDialog dialog = myBuild.create();
                             dialog.show();
+                            nDialog.dismiss();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -247,6 +265,7 @@ public class ValidaDir extends AppCompatActivity {
 
                         AlertDialog dialog = myBuild.create();
                         dialog.show();
+                        nDialog.dismiss();
                     }
                 }) {
             @Override

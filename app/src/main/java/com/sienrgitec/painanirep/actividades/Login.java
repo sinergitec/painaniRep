@@ -64,6 +64,7 @@ public class Login extends AppCompatActivity {
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 BuscarUsuario();
+
             }
         });
 

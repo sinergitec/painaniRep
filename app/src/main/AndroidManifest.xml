@@ -14,18 +14,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".actividades.Home"></activity>
-        <activity android:name=".actividades.RecuperaPW" />
-        <activity android:name=".actividades.CreaContacto" />
-        <activity android:name=".actividades.CreaPainani" />
+        <activity android:name=".actividades.Home"
+            android:theme="@style/AppTheme.Login"
+            android:label="PAINAL"></activity>
+
+        <activity android:name=".actividades.CreaContacto"
+            android:theme="@style/AppTheme.Login"
+            android:label="PAINAL"/>
+
+        <activity android:name=".actividades.CreaPainani"
+            android:theme="@style/AppTheme.Login"
+            android:label="PAINAL"/>
+
+        <activity android:name=".actividades.RecuperaPW"
+            android:theme="@style/AppTheme.Login"
+            android:label="PAINAL"/>
+
         <activity
             android:theme="@style/AppTheme.Login"
             android:name=".actividades.ValidaDir"
-            android:label="DOMICILIO" />
+            android:label="PAINAL" />
         <activity
             android:theme="@style/AppTheme.Login"
             android:name=".actividades.Login"
-            android:label="PAINANI">
+            android:label="PAINAL">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

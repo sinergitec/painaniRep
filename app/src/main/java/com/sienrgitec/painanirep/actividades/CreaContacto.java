@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -55,6 +56,7 @@ public class CreaContacto extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crea_contacto);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         btnCreaRegistro = (Button) findViewById(R.id.btnFinReg);
         etNombreUsu     = (EditText) findViewById(R.id.etUsuario);
