@@ -7,51 +7,178 @@
     tools:context=".actividades.Home"
     android:background="#e0e0e0">
 
-<!--
-    <ScrollView
-        android:layout_width="598dp"
-        android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:scrollbars="vertical">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-            <ListView
-                android:id="@+id/lvDetalle"
-                android:layout_height="3000dp"
-                android:layout_width="598dp"
-                android:background="#ffffff"
-                android:listSelector="#99FF99"
-                android:state_activated="false"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="1dp">
-
-            </ListView>
-        </TableRow>
-    </ScrollView>
--->
-
 
     <TableLayout
-        android:layout_width="406dp"
-        android:layout_height="20dp"
+        android:id="@+id/tableLayout8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.261">
+        app:layout_constraintVertical_bias="0.005">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tvEntregar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Entregar a:"
+                tools:layout_editor_absoluteX="38dp"
+                tools:layout_editor_absoluteY="559dp" />
+            <TextView
+                android:id="@+id/tvNombreRecibe"
+                android:layout_width="287dp"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteX="71dp"
+                tools:layout_editor_absoluteY="537dp" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvDomicilio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Entregar en:"
+                tools:layout_editor_absoluteX="38dp"
+                tools:layout_editor_absoluteY="559dp" />
+
+            <TextView
+                android:id="@+id/tvNombreDom"
+                android:layout_width="287dp"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteX="71dp"
+                tools:layout_editor_absoluteY="537dp" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/tvPedProv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btniniciar"
+        android:text="PEDIDO POR PROVEEDOR"
+        android:textColor="@android:color/white"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout8"
+        app:layout_constraintVertical_bias="0.012" />
+
+    <TableLayout
+        android:id="@+id/tableLayout7"
+        android:layout_width="351dp"
+        android:layout_height="wrap_content"
+        android:background="#CDDC39"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPedProv"
+        app:layout_constraintVertical_bias="0.018">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/tvpxp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ped."
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="108dp" />
+
+            <TextView
+                android:id="@+id/tvpzas"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="Total Art"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="108dp" />
+
+            <TextView
+                android:id="@+id/tvnegocio"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:text="Negocio"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="108dp" />
+
+            <TextView
+                android:id="@+id/tvDom"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:text="Direccion"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="108dp" />
+
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/tableLayout9"
+        android:layout_width="356dp"
+        android:layout_height="149dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout7"
+        app:layout_constraintVertical_bias="0.02">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/lvPedxProv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:listSelector="#99FF99"
+                android:state_activated="false"></ListView>
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/tvDetPedxP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btniniciar"
+        android:text="DETALLE DE PEDIDO"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout9"
+        app:layout_constraintVertical_bias="0.033" />
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="357dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetPedxP"
+        app:layout_constraintVertical_bias="0.061">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
                 android:id="@+id/txtCom"
-                android:layout_width="260dp"
+                android:layout_width="265dp"
                 android:layout_height="20dp"
                 android:background="#CDDC39"
                 android:text="PRODUCTO"
@@ -61,41 +188,73 @@
 
             <TextView
                 android:id="@+id/txtProd"
-                android:layout_width="110dp"
+                android:layout_width="100dp"
                 android:layout_height="20dp"
                 android:background="#CDDC39"
                 android:text="CANTIDAD"
                 tools:layout_editor_absoluteX="166dp"
                 tools:layout_editor_absoluteY="872dp" />
         </TableRow>
-    </TableLayout>
 
-    <TableLayout
-        android:layout_width="353dp"
-        android:layout_height="324dp"
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow"
+        android:layout_width="359dp"
+        android:layout_height="167dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.592">
+        app:layout_constraintTop_toBottomOf="@+id/tableRow2"
+        app:layout_constraintVertical_bias="0.077">
 
         <TableRow
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ListView
-                android:id="@+id/lvDetalle"
+            <TableRow
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:listSelector="#99FF99"
-                android:state_activated="false">
+                android:layout_height="match_parent">
 
-            </ListView>
+                <ListView
+                    android:id="@+id/lvDetalle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:listSelector="#99FF99"
+                    android:state_activated="false"></ListView>
+            </TableRow>
         </TableRow>
+    </TableRow>
 
+    <Button
+        android:id="@+id/btnLlegoP"
+        android:layout_width="87dp"
+        android:layout_height="45dp"
+        android:text="ENTRADA"
+        android:textColor="@android:color/white"
+        android:background="@drawable/btniniciar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableRow"
+        app:layout_constraintVertical_bias="0.824" />
 
-    </TableLayout>
+    <Button
+        android:id="@+id/btnSalidaP"
+        android:layout_width="87dp"
+        android:layout_height="45dp"
+        android:text="SALIDA"
+        android:textColor="@android:color/white"
+        android:background="@drawable/btniniciar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.817"
+        app:layout_constraintStart_toEndOf="@+id/btnLlegoP"
+        app:layout_constraintTop_toBottomOf="@+id/tableRow"
+        app:layout_constraintVertical_bias="0.824" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

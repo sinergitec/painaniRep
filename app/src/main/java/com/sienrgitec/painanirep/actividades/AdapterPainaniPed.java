@@ -1,4 +1,4 @@
-package com.sienrgitec.painanirep.actividades;
+/*package com.sienrgitec.painanirep.actividades;
 
 import android.content.Context;
 import android.text.SpannableString;
@@ -9,21 +9,20 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.sienrgitec.painanirep.R;
-import com.sienrgitec.painanirep.model.opPedidoDet;
+import com.sienrgitec.painanirep.model.opPedPainaniDet;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-class AdapterHome extends BaseAdapter {
-
+public class AdapterPainaniPed extends BaseAdapter {
     private Context context;
-    private ArrayList<opPedidoDet>arrayList;
+    private ArrayList<opPedPainaniDet> arrayList;
 
-    public AdapterHome(Context context, ArrayList<opPedidoDet> arrayList) {
+
+    public AdapterPainaniPed(Context context, ArrayList<opPedPainaniDet> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
     }
-
     @Override
     public int getCount() {
         return arrayList.size();
@@ -41,26 +40,21 @@ class AdapterHome extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null){
+        if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.lista_pedidedet, null);
+            convertView = layoutInflater.inflate(R.layout.lista_pedprov, null);
 
         }
-        TextView txtArticulo = (TextView) convertView.findViewById(R.id.txtArticulo);
-        TextView txtCantidad = (TextView) convertView.findViewById(R.id.txtCantidad);
+        TextView txtDom = (TextView) convertView.findViewById(R.id.txtDom);
+        TextView txtNegocio = (TextView) convertView.findViewById(R.id.txtNegocio);
 
 
-        txtArticulo.setText(arrayList.get(position).getcDescripcion().toString());
-
-        String cantArtString = new DecimalFormat("0.00").format(arrayList.get(position).getDeCantidad());
-        SpannableString vdeCantArt = new SpannableString(cantArtString);
-        txtCantidad.setText(vdeCantArt);
-
-
-
+        txtNegocio.setText(arrayList.get(position).getcNegocion().toString());
+        txtDom.setText(arrayList.get(position).getcDirProveedor().toString());
 
 
 
         return convertView;
     }
 }
+*/

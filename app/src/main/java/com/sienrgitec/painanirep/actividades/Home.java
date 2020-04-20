@@ -1,7 +1,6 @@
 package com.sienrgitec.painanirep.actividades;
 
 import android.Manifest;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,12 +14,15 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -38,10 +40,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sienrgitec.painanirep.R;
 import com.sienrgitec.painanirep.configuracion.Globales;
+import com.sienrgitec.painanirep.model.ctUsuario;
 import com.sienrgitec.painanirep.model.opPedPainani;
 import com.sienrgitec.painanirep.model.opPedPainaniDet;
 import com.sienrgitec.painanirep.model.opPedido;
 import com.sienrgitec.painanirep.model.opPedidoDet;
+import com.sienrgitec.painanirep.model.opPedidoProveedor;
 import com.sienrgitec.painanirep.model.opUbicaPainani;
 
 import org.json.JSONArray;
@@ -64,31 +68,43 @@ public class Home extends AppCompatActivity {
     private static RequestQueue mRequestQueue;
     private String url = globales.URL;
     private AdapterHome adapter;
+    private AdapterPedXProv adapterPedXProv;
 
+    public Integer viPedido;
+    public Integer viPainani;
+    public Integer viProveedor;
 
+    TextView txtDomCli;
+    Button   btnLlegoP;
+    Button   btnSalidaP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        txtDomCli  = (TextView) findViewById(R.id.tvNombreDom);
+        btnLlegoP  = (Button) findViewById(R.id.btnLlegoP);
+        btnSalidaP = (Button) findViewById(R.id.btnSalidaP);
+
+
+        btnLlegoP.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ActPedPainaniDet("Llega", viPedido,  viProveedor);
+
+            }
+        });
+        btnSalidaP.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ActPedPainaniDet("Salida", viPedido,  viProveedor);
+
+            }
+        });
+
+
         locationStart();
 
 
-           /* new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //this will run on UI thread so you can update views here
-                            Log.i("Home--> ", "ejecutando timer");
 
-
-                            //finish();
-                                                    }
-                    } ) ;
-                }
-            }, 30000, 30000);*/
     }
 
     private void locationStart() {
@@ -298,6 +314,7 @@ public class Home extends AppCompatActivity {
         mRequestQueue.add(jsonObjectRequest);
 
     }
+
     public void MuestraMensaje(String vcTitulo, String vcMensaje){
         AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
         myBuild.setMessage(vcMensaje);
@@ -315,7 +332,9 @@ public class Home extends AppCompatActivity {
 
     }
 
-    public void ConfirmaPedido(){
+    public void ConfirmaPedido() {
+        //SystemClock.sleep(20000);
+
         Log.e("home-->", "busca pedidos");
         AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
         builder.setCancelable(true);
@@ -379,11 +398,7 @@ public class Home extends AppCompatActivity {
 
         try {
             JSONArray opPedPainaniJS   = new JSONArray(JS_opPedPainani);
-
-
             jsonDataSet.put("tt_opPedPainani",  opPedPainaniJS);
-
-
 
             jsonParams.put("ds_opPedido", jsonDataSet);
             jsonBody.put("request", jsonParams);
@@ -419,10 +434,11 @@ public class Home extends AppCompatActivity {
                             JSONArray tt_opPedidoProveedor  = ds_opPedidoProveedor.getJSONArray("tt_opPedidoProveedor");
                             JSONArray tt_opPedidoDet        = ds_opPedidoDet.getJSONArray("tt_opPedidoDet");
 
-                            //List<opPedidoDet> ListVtaSuspDet = Arrays.asList(new Gson().fromJson(tt_vtVtaSuspDet.toString(), vtVtaSuspDet[].class));
 
-                            globales.g_opPedidoList     = Arrays.asList(new Gson().fromJson(tt_opPedido.toString(), opPedido[].class));
-                            globales.g_opPedidoDetList  = Arrays.asList(new Gson().fromJson(tt_opPedidoDet.toString(), opPedidoDet[].class));
+
+                            globales.g_opPedidoList      = Arrays.asList(new Gson().fromJson(tt_opPedido.toString(), opPedido[].class));
+                            globales.g_opPedidoProvtList = Arrays.asList(new Gson().fromJson(tt_opPedidoProveedor.toString(), opPedidoProveedor[].class));
+                            globales.g_opPedidoDetList   = Arrays.asList(new Gson().fromJson(tt_opPedidoDet.toString(), opPedidoDet[].class));
 
 
 
@@ -431,16 +447,33 @@ public class Home extends AppCompatActivity {
                                 MuestraMensaje("Error" , Mensaje);
 
                             } else {
+                                /*Datos de entrega*/
+                                txtDomCli.setText(globales.g_ctPedPainaniList.get(0).getcDirCliente());
 
 
+                                /*Encabezado de pedido x Proveedor*/
+                                final ListView lviewPedxProv = (ListView) findViewById(R.id.lvPedxProv);
+                                ArrayList<opPedidoProveedor> arrayPedidoxProv = new ArrayList<opPedidoProveedor>(globales.g_opPedidoProvtList);
+                                adapterPedXProv = new AdapterPedXProv(Home.this,arrayPedidoxProv );
+                                lviewPedxProv.setAdapter(adapterPedXProv);
 
-                                final ListView lview = (ListView) findViewById(R.id.lvDetalle);
 
+                                lviewPedxProv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int iPartida, long l) {
+                                        Log.i("Home -->", " Detalle presiono " + iPartida  );
+
+
+                                        viPedido  = (globales.g_opPedidoProvtList.get(iPartida).getiPedido());
+                                        viProveedor = (globales.g_opPedidoProvtList.get(iPartida).getiProveedor());
+                                    }
+                                });
+
+
+                                final ListView lviewDetPed = (ListView) findViewById(R.id.lvDetalle);
                                 ArrayList<opPedidoDet> arrayPedidoDet = new ArrayList<opPedidoDet>(globales.g_opPedidoDetList);
                                 adapter = new AdapterHome(Home.this,arrayPedidoDet );
-                                lview.setAdapter(adapter);
-
-
+                                lviewDetPed.setAdapter(adapter);
                             }
 
                         } catch (JSONException e) {
@@ -471,6 +504,102 @@ public class Home extends AppCompatActivity {
             }
         };
         mRequestQueue.add(jsonObjectRequest);
+
+    }
+
+    public void ActPedPainaniDet(final String vcAccion, Integer iPedido, Integer iProveedor){
+        Integer viPainani =   globales.g_ctUsuario.getiPersona();
+        Log.e("variables recibidos", vcAccion + " " + iPedido + " "+ globales.g_ctUsuario.getiPersona() + " " +iProveedor);
+
+        getmRequestQueue();
+        String urlParams = String.format(url + "opPedPainaniDet?ipiPedido=%1$s&ipiPainani=%2$s&ipiProveedor=%3$s&ipcAccion=%4$s", iPedido, viPainani,iProveedor, vcAccion );
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.PUT, urlParams, null, new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            JSONObject respuesta = response.getJSONObject("response");
+                            Log.i("respuesta--->", respuesta.toString());
+
+                            String Mensaje = respuesta.getString("opcError");
+                            Boolean Error = respuesta.getBoolean("oplError");
+
+
+
+
+
+                            if (Error == true) {
+
+                                MuestraMensaje("Error", Mensaje);
+                                return;
+
+                            } else {
+
+
+
+
+                            }
+                        } catch (JSONException e) {
+
+                            AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
+                            myBuild.setMessage("Error en la conversión de Datos. Vuelva a Intentar. " + e);
+                            myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR CONVERSION </font>"));
+                            myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+
+                                }
+                            });
+                            AlertDialog dialog = myBuild.create();
+                            dialog.show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        Log.i("Error Respuesta", error.toString());
+                        AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
+                        myBuild.setMessage("No se pudo conectar con el servidor. Vuelva a Intentar. " + error.toString());
+                        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR RESPUESTA </font>"));
+                        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        AlertDialog dialog = myBuild.create();
+                        dialog.show();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("ipiPedido", "iPedido");
+                params.put("ipiPainani", "viPainani");
+                params.put("ipiProveedor", "iProveedor");
+                params.put("ipcAccion", vcAccion);
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        // Access the RequestQueue through your singleton class.
+        mRequestQueue.add(jsonObjectRequest);
+
 
     }
 
