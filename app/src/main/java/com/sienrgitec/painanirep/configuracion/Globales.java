@@ -36,5 +36,5 @@ public class Globales {
     public static ArrayList<ctContacto>  ctContactoList  = new ArrayList<>();
     public static ArrayList<opUbicaPainani>  opUbicaPainaniList  = new ArrayList<>();
     public static ArrayList<opPedPainani> opPedPainaniList = new ArrayList<>();
-
+    public static ArrayList<opPedidoDet> g_ctDetalleFinal = new ArrayList<opPedidoDet>();
 }

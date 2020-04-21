@@ -3,9 +3,17 @@ package com.sienrgitec.painanirep.actividades;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -43,7 +51,7 @@ public class Login extends AppCompatActivity {
     private String url = globales.URL;
 
 
-    Button btnEntrar;
+    Button   btnEntrar;
     TextView txtRegistro;
     TextView txtRecuperaPw;
     EditText etNombreU;
@@ -55,11 +63,11 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        btnEntrar   = (Button)   findViewById(R.id.btnEntrar);
-        txtRegistro = (TextView) findViewById(R.id.textRegistro);
+        btnEntrar     = (Button)   findViewById(R.id.btnEntrar);
+        txtRegistro   = (TextView) findViewById(R.id.textRegistro);
         txtRecuperaPw = (TextView) findViewById(R.id.txtRecuperaPW);
-        etNombreU   = (EditText) findViewById(R.id.etUsuLog);
-        etPasword   = (EditText) findViewById(R.id.etPword);
+        etNombreU     = (EditText) findViewById(R.id.etUsuLog);
+        etPasword     = (EditText) findViewById(R.id.etPword);
 
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -80,11 +88,46 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        int permissionCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        if(permissionCheck == PackageManager.PERMISSION_DENIED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)){
+            }else{
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
+        }
     }
 
     public void BuscarUsuario(){
         btnEntrar.setEnabled(false);
+        /**busca coordenadas**/
+        LocationManager locationManager = (LocationManager) Login.this.getSystemService(Context.LOCATION_SERVICE);
 
+        LocationListener locationListener= new LocationListener(){
+            public void onLocationChanged(Location location){
+                //Log.e("Login ", "ubicacion " + location.getLatitude() + " " + location.getLongitude());
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            @Override
+            public void onProviderEnabled(String provider){}
+            @Override
+            public void onProviderDisabled(String provider){}
+
+        };
+        int permissionCheck = ContextCompat.checkSelfPermission(Login.this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,30000,0,locationListener);
+        /*********************/
+
+
+
+
+
+        /****/
         final String vcUsuLog = etNombreU.getText().toString();
         final String password = etPasword.getText().toString();
 
@@ -151,12 +194,7 @@ public class Login extends AppCompatActivity {
                                 return;
 
                             } else {
-
-
-                                for (ctUsuario objUsuario: globales.g_ctUsuarioList) {
-                                        globales.g_ctUsuario = objUsuario;
-
-                                }
+                                globales.g_ctUsuario = globales.g_ctUsuarioList.get(0);
 
                                // MuestraMensaje("Aviso", "Bienvenido");
                                 startActivity(new Intent(Login.this, Home.class));

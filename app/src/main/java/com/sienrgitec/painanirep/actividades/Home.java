@@ -1,6 +1,7 @@
 package com.sienrgitec.painanirep.actividades;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,7 +15,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
@@ -28,6 +29,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -40,7 +42,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sienrgitec.painanirep.R;
 import com.sienrgitec.painanirep.configuracion.Globales;
-import com.sienrgitec.painanirep.model.ctUsuario;
 import com.sienrgitec.painanirep.model.opPedPainani;
 import com.sienrgitec.painanirep.model.opPedPainaniDet;
 import com.sienrgitec.painanirep.model.opPedido;
@@ -73,11 +74,21 @@ public class Home extends AppCompatActivity {
     public Integer viPedido;
     public Integer viPainani;
     public Integer viProveedor;
+    public Integer viPedidoProv;
+    public String  vcTiempo;
+
+    private CountDownTimer countDownTimer;
+    private long viTiempo = 20000;
+    private boolean vlContar;
 
     TextView txtDomCli;
     Button   btnLlegoP;
     Button   btnSalidaP;
+    TextView tvTiempo;
 
+    public static  List<opPedidoDet> listapedido = null;
+
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,112 +96,59 @@ public class Home extends AppCompatActivity {
         txtDomCli  = (TextView) findViewById(R.id.tvNombreDom);
         btnLlegoP  = (Button) findViewById(R.id.btnLlegoP);
         btnSalidaP = (Button) findViewById(R.id.btnSalidaP);
+        tvTiempo   = (TextView) findViewById(R.id.tvTemporazidor);
 
 
         btnLlegoP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ActPedPainaniDet("Llega", viPedido,  viProveedor);
+                startStop();
+                /*ActPedPainaniDet("Llega", viPedido,  viProveedor);
+                MuestraMensaje("Aviso", "Recoge la mercancía");*/
 
             }
         });
         btnSalidaP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ActPedPainaniDet("Salida", viPedido,  viProveedor);
-
+                MuestraMensaje("Aviso", "Hecho");
             }
         });
 
+        BuscaCoordenadas();
+        onTrimMemory(0x0000003c);
 
-        locationStart();
 
 
-
-    }
-
-    private void locationStart() {
-        Log.e("home", "location");
-        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Localizacion Local = new Localizacion();
-        Local.setMainActivity(this);
-        final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if (!gpsEnabled) {
-            Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(settingsIntent);
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 30000);
-            return;
-        }
-        mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) Local);
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) Local);
 
     }
 
-    public class Localizacion implements LocationListener {
-        Home mainActivity;
-        public Home getMainActivity() {
-            return mainActivity;
-        }
-        public void setMainActivity(Home mainActivity) {
-            this.mainActivity = mainActivity;
-        }
-        @Override
-        public void onLocationChanged(Location loc) {
-            // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
-            // debido a la deteccion de un cambio de ubicacion
-            loc.getLatitude();
-            loc.getLongitude();
+    public void BuscaCoordenadas(){
+        /**busca coordenadas**/
+        LocationManager locationManager = (LocationManager) Home.this.getSystemService(Context.LOCATION_SERVICE);
 
-            CreaUbicacion( loc.getLatitude(), loc.getLongitude());
+        LocationListener locationListener= new LocationListener(){
+            public void onLocationChanged(Location location){
 
-            this.mainActivity.setLocation(loc);
-        }
-        @Override
-        public void onProviderDisabled(String provider) {
-            // Este metodo se ejecuta cuando el GPS es desactivado
-
-        }
-        @Override
-        public void onProviderEnabled(String provider) {
-            // Este metodo se ejecuta cuando el GPS es activado
-
-        }
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            switch (status) {
-                case LocationProvider.AVAILABLE:
-                    Log.d("debug", "LocationProvider.AVAILABLE");
-                    break;
-                case LocationProvider.OUT_OF_SERVICE:
-                    Log.d("debug", "LocationProvider.OUT_OF_SERVICE");
-                    break;
-                case LocationProvider.TEMPORARILY_UNAVAILABLE:
-                    Log.d("debug", "LocationProvider.TEMPORARILY_UNAVAILABLE");
-                    break;
+                CreaUbicacion(location.getLatitude() , location.getLongitude());
             }
-        }
-    }
 
-    public void setLocation(Location loc) {
-        //Obtener la direccion de la calle a partir de la latitud y la longitud
-        if (loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0) {
-            try {
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                List<Address> list = geocoder.getFromLocation(
-                        loc.getLatitude(), loc.getLongitude(), 1);
-                if (!list.isEmpty()) {
-                    Address DirCalle = list.get(0);
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            @Override
+            public void onProviderEnabled(String provider){}
+            @Override
+            public void onProviderDisabled(String provider){}
 
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        };
+        int permissionCheck = ContextCompat.checkSelfPermission(Home.this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,35000,0,locationListener);
+        /*********************/
     }
 
     public void CreaUbicacion(double vdeLatitud, double vdeLongitud){
-        //locationStart();
+
+
         globales.g_ctPedPainaniList = null;
 
         DecimalFormat df = new DecimalFormat("0.00000000000");
@@ -199,8 +157,6 @@ public class Home extends AppCompatActivity {
         double vdeFLatitud = Double.parseDouble(df.format(vdeLatitud));
         double vdeFLongitud = Double.parseDouble(df.format(vdeLongitud));
 
-
-        Log.e("vdeFLongitud", "vdeFLongitud " + vdeFLongitud);
 
         final ProgressDialog nDialog;
         nDialog = new ProgressDialog(getApplicationContext());
@@ -333,9 +289,10 @@ public class Home extends AppCompatActivity {
     }
 
     public void ConfirmaPedido() {
-        //SystemClock.sleep(20000);
 
-        Log.e("home-->", "busca pedidos");
+        //startStop();
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
         builder.setCancelable(true);
         builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Tienes un nuevo pedido </font>"));
@@ -345,12 +302,16 @@ public class Home extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ActualizaPedido(true);
+                        stopTimer();
+                        tvTiempo.setVisibility(View.INVISIBLE);
                     }
                 });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ActualizaPedido(false);
+                stopTimer();
+                tvTiempo.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -358,6 +319,53 @@ public class Home extends AppCompatActivity {
         dialog.show();
     }
 
+    public void startStop(){
+        if(vlContar){
+            stopTimer();
+        }else{
+            startTimer();
+        }
+    }
+
+    public void startTimer(){
+        tvTiempo.setVisibility(View.VISIBLE);
+        countDownTimer = new CountDownTimer(viTiempo, 1000) {
+            @Override
+            public void onTick(long l) {
+                viTiempo = l;
+                ActualizaTiempo();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+        vlContar = true;
+    }
+
+    public void stopTimer(){
+        countDownTimer.cancel();
+        vlContar = false;
+    }
+
+    public void ActualizaTiempo(){
+        int viSegundos = (int) viTiempo / 1000;
+
+        vcTiempo = "" + viSegundos;
+        tvTiempo.setText(vcTiempo);
+
+        Log.e("home--->", vcTiempo);
+        if(vcTiempo.equals("1")){
+            Log.e("home", "tiempo igual a 1");
+            tvTiempo.setVisibility(View.INVISIBLE);
+            stopTimer();
+            //ActualizaPedido(false);
+            
+        }
+
+
+    }
     public void ActualizaPedido(Boolean vlAceptado){
         final ProgressDialog nDialog;
         nDialog = new ProgressDialog(getApplicationContext());
@@ -466,14 +474,17 @@ public class Home extends AppCompatActivity {
 
                                         viPedido  = (globales.g_opPedidoProvtList.get(iPartida).getiPedido());
                                         viProveedor = (globales.g_opPedidoProvtList.get(iPartida).getiProveedor());
+                                        viPedidoProv = (globales.g_opPedidoProvtList.get(iPartida).getiPedidoProv());
+
+                                        ConstruyeDet( viPedido,  viPedidoProv);
                                     }
                                 });
 
 
-                                final ListView lviewDetPed = (ListView) findViewById(R.id.lvDetalle);
+                                /*final ListView lviewDetPed = (ListView) findViewById(R.id.lvDetalle);
                                 ArrayList<opPedidoDet> arrayPedidoDet = new ArrayList<opPedidoDet>(globales.g_opPedidoDetList);
                                 adapter = new AdapterHome(Home.this,arrayPedidoDet );
-                                lviewDetPed.setAdapter(adapter);
+                                lviewDetPed.setAdapter(adapter);*/
                             }
 
                         } catch (JSONException e) {
@@ -600,6 +611,30 @@ public class Home extends AppCompatActivity {
         // Access the RequestQueue through your singleton class.
         mRequestQueue.add(jsonObjectRequest);
 
+
+    }
+
+    public void ConstruyeDet(Integer viPedido, Integer viPedidoProv){
+
+        globales.g_ctDetalleFinal.clear();
+        for(opPedidoDet obj: globales.g_opPedidoDetList){
+            if(obj.getiPedido().equals(viPedido) && obj.getiPedProv().equals(viPedidoProv)){
+
+                opPedidoDet objFinal = new opPedidoDet();
+                objFinal.setcDescripcion(obj.getcDescripcion());
+                objFinal.setDeCantidad(obj.getDeCantidad());
+                globales.g_ctDetalleFinal.add(objFinal);
+
+
+
+
+            }
+        }
+
+        final ListView lviewDetPed = (ListView) findViewById(R.id.lvDetalle);
+        ArrayList<opPedidoDet> arrayPedidoDet = new ArrayList<opPedidoDet>(globales.g_ctDetalleFinal);
+        adapter = new AdapterHome(Home.this,arrayPedidoDet );
+        lviewDetPed.setAdapter(adapter);
 
     }
 
