@@ -5,30 +5,31 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
+
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
+
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.provider.Settings;
+
+import android.os.Handler;
+
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.android.volley.AuthFailureError;
@@ -53,16 +54,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 public class Home extends AppCompatActivity {
     public Globales globales;
@@ -71,20 +70,18 @@ public class Home extends AppCompatActivity {
     private AdapterHome adapter;
     private AdapterPedXProv adapterPedXProv;
 
-    public Integer viPedido;
-    public Integer viPainani;
-    public Integer viProveedor;
+    public Integer viPedido = 0;
+    public Integer viProveedor = 0;
     public Integer viPedidoProv;
-    public String  vcTiempo;
 
-    private CountDownTimer countDownTimer;
-    private long viTiempo = 20000;
-    private boolean vlContar;
+
+
 
     TextView txtDomCli;
     Button   btnLlegoP;
     Button   btnSalidaP;
     TextView tvTiempo;
+    ProgressBar progressBar;
 
     public static  List<opPedidoDet> listapedido = null;
 
@@ -97,18 +94,30 @@ public class Home extends AppCompatActivity {
         btnLlegoP  = (Button) findViewById(R.id.btnLlegoP);
         btnSalidaP = (Button) findViewById(R.id.btnSalidaP);
         tvTiempo   = (TextView) findViewById(R.id.tvTemporazidor);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        progressBar.getIndeterminateDrawable()
+                .setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
 
 
         btnLlegoP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startStop();
-                /*ActPedPainaniDet("Llega", viPedido,  viProveedor);
-                MuestraMensaje("Aviso", "Recoge la mercancía");*/
+                Log.e("home", "vacio " + viPedido);
+                if(viPedido ==  0){
+                    MuestraMensaje("Error", "Debes seleccional al menos un pedido");
+                    return;
+                }
 
+                MuestraMensaje("Aviso", "Asegurate de que los productos correspondan con el pedido");
+                ActPedPainaniDet("Llega", viPedido,  viProveedor);
             }
         });
         btnSalidaP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if(viProveedor ==  0){
+                    MuestraMensaje("Error", "Debes seleccional al menos un pedido");
+                    return;
+                }
                 ActPedPainaniDet("Salida", viPedido,  viProveedor);
                 MuestraMensaje("Aviso", "Hecho");
             }
@@ -116,9 +125,6 @@ public class Home extends AppCompatActivity {
 
         BuscaCoordenadas();
         onTrimMemory(0x0000003c);
-
-
-
 
     }
 
@@ -142,18 +148,14 @@ public class Home extends AppCompatActivity {
         };
         int permissionCheck = ContextCompat.checkSelfPermission(Home.this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,35000,0,locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,30000,0,locationListener);
         /*********************/
     }
 
     public void CreaUbicacion(double vdeLatitud, double vdeLongitud){
 
-
         globales.g_ctPedPainaniList = null;
-
         DecimalFormat df = new DecimalFormat("0.00000000000");
-
-
         double vdeFLatitud = Double.parseDouble(df.format(vdeLatitud));
         double vdeFLongitud = Double.parseDouble(df.format(vdeLongitud));
 
@@ -232,11 +234,9 @@ public class Home extends AppCompatActivity {
                                 MuestraMensaje("Error" , Mensaje);
 
                             } else {
-
                                 if(!globales.g_ctPedPainaniList.isEmpty()) {
                                     globales.g_opPedPainani = globales.g_ctPedPainaniList.get(0);
                                     ConfirmaPedido();
-
                                 }
                             }
 
@@ -291,9 +291,9 @@ public class Home extends AppCompatActivity {
     public void ConfirmaPedido() {
 
         //startStop();
+        progressBar.setVisibility(View.VISIBLE);
 
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
         builder.setCancelable(true);
         builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Tienes un nuevo pedido </font>"));
         builder.setMessage("¿Aceptar Pedido?");
@@ -302,70 +302,46 @@ public class Home extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ActualizaPedido(true);
-                        stopTimer();
                         tvTiempo.setVisibility(View.INVISIBLE);
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ActualizaPedido(false);
-                stopTimer();
                 tvTiempo.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
-    public void startStop(){
-        if(vlContar){
-            stopTimer();
-        }else{
-            startTimer();
-        }
-    }
+        final AlertDialog alert = builder.create();
+        alert.show();
 
-    public void startTimer(){
-        tvTiempo.setVisibility(View.VISIBLE);
-        countDownTimer = new CountDownTimer(viTiempo, 1000) {
+        final Handler handler  = new Handler();
+        final Runnable runnable = new Runnable() {
             @Override
-            public void onTick(long l) {
-                viTiempo = l;
-                ActualizaTiempo();
+            public void run() {
+                if (alert.isShowing()) {
+                    alert.dismiss();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Log.e("Home ...", "cierre de alert");
+                    ActualizaPedido(false);
+                }
             }
-
+        };
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void onFinish() {
-
+            public void onDismiss(DialogInterface dialog) {
+                handler.removeCallbacks(runnable);
             }
-        }.start();
-        vlContar = true;
+        });
+        handler.postDelayed(runnable, 15000);
     }
 
-    public void stopTimer(){
-        countDownTimer.cancel();
-        vlContar = false;
-    }
-
-    public void ActualizaTiempo(){
-        int viSegundos = (int) viTiempo / 1000;
-
-        vcTiempo = "" + viSegundos;
-        tvTiempo.setText(vcTiempo);
-
-        Log.e("home--->", vcTiempo);
-        if(vcTiempo.equals("1")){
-            Log.e("home", "tiempo igual a 1");
-            tvTiempo.setVisibility(View.INVISIBLE);
-            stopTimer();
-            //ActualizaPedido(false);
-            
-        }
 
 
-    }
     public void ActualizaPedido(Boolean vlAceptado){
         final ProgressDialog nDialog;
         nDialog = new ProgressDialog(getApplicationContext());

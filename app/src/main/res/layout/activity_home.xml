@@ -223,7 +223,10 @@
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
                     android:listSelector="#99FF99"
-                    android:state_activated="false"></ListView>
+                    android:state_activated="false">
+
+                    <!---->
+                </ListView>
             </TableRow>
         </TableRow>
     </TableRow>
@@ -260,16 +263,30 @@
         android:id="@+id/tvTemporazidor"
         android:layout_width="91dp"
         android:layout_height="27dp"
-        android:textAlignment="center"
         android:hint="00:00"
+        android:textAlignment="center"
         android:textSize="20dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.882"
-        android:visibility="invisible"/>
+        app:layout_constraintVertical_bias="0.973" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+
+        android:layout_width="128dp"
+        android:layout_height="178dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tableLayout7"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.963"
+        android:progressDrawable="@drawable/progress" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
