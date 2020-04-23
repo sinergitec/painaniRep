@@ -16,7 +16,7 @@
 
             <TextView
                 android:id="@+id/txtArticulo"
-                android:layout_width="300dp"
+                android:layout_width="280dp"
                 android:layout_height="20dp"
                 android:hint="Producto"
                 android:textSize="15sp" />

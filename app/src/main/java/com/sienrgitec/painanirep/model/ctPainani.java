@@ -3,6 +3,16 @@ import java.io.Serializable;
 
 public class ctPainani implements Serializable{
     private Integer iPainani;
+    private Integer iUnidad;
+
+    public Integer getiUnidad() {
+        return iUnidad;
+    }
+
+    public void setiUnidad(Integer iUnidad) {
+        this.iUnidad = iUnidad;
+    }
+
     private String cNombre;
     private String cApellidoPat;
     private String cApellidoMat;

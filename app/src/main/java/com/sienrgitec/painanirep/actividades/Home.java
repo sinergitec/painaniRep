@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 
@@ -25,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -43,6 +45,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sienrgitec.painanirep.R;
 import com.sienrgitec.painanirep.configuracion.Globales;
+import com.sienrgitec.painanirep.model.ctPainani;
+import com.sienrgitec.painanirep.model.ctUsuario;
 import com.sienrgitec.painanirep.model.opPedPainani;
 import com.sienrgitec.painanirep.model.opPedPainaniDet;
 import com.sienrgitec.painanirep.model.opPedido;
@@ -80,8 +84,9 @@ public class Home extends AppCompatActivity {
     TextView txtDomCli;
     Button   btnLlegoP;
     Button   btnSalidaP;
-    TextView tvTiempo;
     ProgressBar progressBar;
+    TextView tvEstatusP;
+    Switch sEstatusP;
 
     public static  List<opPedidoDet> listapedido = null;
 
@@ -93,21 +98,21 @@ public class Home extends AppCompatActivity {
         txtDomCli  = (TextView) findViewById(R.id.tvNombreDom);
         btnLlegoP  = (Button) findViewById(R.id.btnLlegoP);
         btnSalidaP = (Button) findViewById(R.id.btnSalidaP);
-        tvTiempo   = (TextView) findViewById(R.id.tvTemporazidor);
+
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        progressBar.getIndeterminateDrawable()
-                .setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+        tvEstatusP = (TextView) findViewById(R.id.tvDescEst);
+        sEstatusP  = (Switch)   findViewById(R.id.switch1);
 
+        tvEstatusP.setText("Disponible");
 
         btnLlegoP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.e("home", "vacio " + viPedido);
                 if(viPedido ==  0){
-                    MuestraMensaje("Error", "Debes seleccional al menos un pedido");
+                    MuestraMensaje("Error", "Debes seleccionar al menos un pedido");
                     return;
                 }
-
                 MuestraMensaje("Aviso", "Asegurate de que los productos correspondan con el pedido");
                 ActPedPainaniDet("Llega", viPedido,  viProveedor);
             }
@@ -115,11 +120,28 @@ public class Home extends AppCompatActivity {
         btnSalidaP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(viProveedor ==  0){
-                    MuestraMensaje("Error", "Debes seleccional al menos un pedido");
+                    MuestraMensaje("Error", "Debes seleccionar al menos un pedido");
                     return;
                 }
                 ActPedPainaniDet("Salida", viPedido,  viProveedor);
                 MuestraMensaje("Aviso", "Hecho");
+            }
+        });
+
+        sEstatusP.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if(view.getId()==R.id.switch1){
+                    if(view.getId()==R.id.switch1){
+                        if(sEstatusP.isChecked()){
+                            tvEstatusP.setText("Disponible");
+                            ActualizaEstadoP(true);
+                        }else {
+                            tvEstatusP.setText("No Disponible");
+                            ActualizaEstadoP(false);
+                        }
+                    }
+
+                }
             }
         });
 
@@ -128,10 +150,37 @@ public class Home extends AppCompatActivity {
 
     }
 
+    public void getmRequestQueue(){
+        try{
+            if (mRequestQueue == null) {
+                mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+                //your code
+            }
+        }catch(Exception e){
+            Log.d("Volley",e.toString());
+        }
+    }
+
+    public void MuestraMensaje(String vcTitulo, String vcMensaje){
+        AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
+        myBuild.setMessage(vcMensaje);
+        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'>" + vcTitulo +"</font>"));
+        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+
+            }
+        });
+        AlertDialog dialog = myBuild.create();
+        dialog.show();
+        return;
+
+    }
+
     public void BuscaCoordenadas(){
         /**busca coordenadas**/
         LocationManager locationManager = (LocationManager) Home.this.getSystemService(Context.LOCATION_SERVICE);
-
         LocationListener locationListener= new LocationListener(){
             public void onLocationChanged(Location location){
 
@@ -271,26 +320,7 @@ public class Home extends AppCompatActivity {
 
     }
 
-    public void MuestraMensaje(String vcTitulo, String vcMensaje){
-        AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
-        myBuild.setMessage(vcMensaje);
-        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'>" + vcTitulo +"</font>"));
-        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-
-            }
-        });
-        AlertDialog dialog = myBuild.create();
-        dialog.show();
-        return;
-
-    }
-
     public void ConfirmaPedido() {
-
-        //startStop();
         progressBar.setVisibility(View.VISIBLE);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
@@ -302,7 +332,7 @@ public class Home extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ActualizaPedido(true);
-                        tvTiempo.setVisibility(View.INVISIBLE);
+
                         progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
@@ -310,7 +340,7 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ActualizaPedido(false);
-                tvTiempo.setVisibility(View.INVISIBLE);
+
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
@@ -340,7 +370,29 @@ public class Home extends AppCompatActivity {
         handler.postDelayed(runnable, 15000);
     }
 
+    public void ConstruyeDet(Integer viPedido, Integer viPedidoProv){
 
+        globales.g_ctDetalleFinal.clear();
+        for(opPedidoDet obj: globales.g_opPedidoDetList){
+            if(obj.getiPedido().equals(viPedido) && obj.getiPedProv().equals(viPedidoProv)){
+
+                opPedidoDet objFinal = new opPedidoDet();
+                objFinal.setcDescripcion(obj.getcDescripcion());
+                objFinal.setDeCantidad(obj.getDeCantidad());
+                globales.g_ctDetalleFinal.add(objFinal);
+
+
+
+
+            }
+        }
+
+        final ListView lviewDetPed = (ListView) findViewById(R.id.lvDetalle);
+        ArrayList<opPedidoDet> arrayPedidoDet = new ArrayList<opPedidoDet>(globales.g_ctDetalleFinal);
+        adapter = new AdapterHome(Home.this,arrayPedidoDet );
+        lviewDetPed.setAdapter(adapter);
+
+    }
 
     public void ActualizaPedido(Boolean vlAceptado){
         final ProgressDialog nDialog;
@@ -440,6 +492,8 @@ public class Home extends AppCompatActivity {
                                 ArrayList<opPedidoProveedor> arrayPedidoxProv = new ArrayList<opPedidoProveedor>(globales.g_opPedidoProvtList);
                                 adapterPedXProv = new AdapterPedXProv(Home.this,arrayPedidoxProv );
                                 lviewPedxProv.setAdapter(adapterPedXProv);
+
+
 
 
                                 lviewPedxProv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -590,38 +644,92 @@ public class Home extends AppCompatActivity {
 
     }
 
-    public void ConstruyeDet(Integer viPedido, Integer viPedidoProv){
+    public void ActualizaEstadoP(final Boolean vlEstatus){
+        sEstatusP.setEnabled(false);
+        getmRequestQueue();
+        String urlParams = String.format(url + "ctPainani?iplActivo=%1$s&ipiPainani=%2$s", vlEstatus, globales.g_ctUsuario.getiPersona());
 
-        globales.g_ctDetalleFinal.clear();
-        for(opPedidoDet obj: globales.g_opPedidoDetList){
-            if(obj.getiPedido().equals(viPedido) && obj.getiPedProv().equals(viPedidoProv)){
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.PUT, urlParams, null, new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
 
-                opPedidoDet objFinal = new opPedidoDet();
-                objFinal.setcDescripcion(obj.getcDescripcion());
-                objFinal.setDeCantidad(obj.getDeCantidad());
-                globales.g_ctDetalleFinal.add(objFinal);
+                            JSONObject respuesta = response.getJSONObject("response");
+                            Log.i("respuesta--->", respuesta.toString());
+
+                            String Mensaje = respuesta.getString("opcError");
+                            Boolean Error = respuesta.getBoolean("oplError");
 
 
 
+                            if (Error == true) {
+                                MuestraMensaje("Error", Mensaje);
+                                return;
 
+                            } else {
+                                sEstatusP.setEnabled(true);
+                                MuestraMensaje("Aviso", "Estatus Actualizado");
+
+                            }
+                        } catch (JSONException e) {
+                            sEstatusP.setEnabled(true);
+                            AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
+                            myBuild.setMessage("Error en la conversión de Datos. Vuelva a Intentar. " + e);
+                            myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR CONVERSION </font>"));
+                            myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+
+                                }
+                            });
+                            AlertDialog dialog = myBuild.create();
+                            dialog.show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        sEstatusP.setEnabled(true);
+                        // TODO: Handle error
+                        Log.i("Error Respuesta", error.toString());
+                        AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
+                        myBuild.setMessage("No se pudo conectar con el servidor. Vuelva a Intentar. " + error.toString());
+                        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR RESPUESTA </font>"));
+                        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        AlertDialog dialog = myBuild.create();
+                        dialog.show();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("iplActivo", "vlEstatus");
+                params.put("ipiPainani", globales.g_ctUsuario.getiPersona().toString());
+
+
+                return params;
             }
-        }
 
-        final ListView lviewDetPed = (ListView) findViewById(R.id.lvDetalle);
-        ArrayList<opPedidoDet> arrayPedidoDet = new ArrayList<opPedidoDet>(globales.g_ctDetalleFinal);
-        adapter = new AdapterHome(Home.this,arrayPedidoDet );
-        lviewDetPed.setAdapter(adapter);
-
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        // Access the RequestQueue through your singleton class.
+        mRequestQueue.add(jsonObjectRequest);
     }
 
-    public void getmRequestQueue(){
-        try{
-            if (mRequestQueue == null) {
-                mRequestQueue = Volley.newRequestQueue(getApplicationContext());
-                //your code
-            }
-        }catch(Exception e){
-            Log.d("Volley",e.toString());
-        }
-    }
+
 }
