@@ -131,27 +131,27 @@
 
         </TableLayout>
 
-        <TextView
-            android:id="@+id/tvPedProv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/btniniciar"
-            android:text="PEDIDO POR PROVEEDOR"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tableLayout8"
-            app:layout_constraintVertical_bias="0.02" />
+    <TextView
+        android:id="@+id/tvPedProv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/btniniciar"
+        android:text="PEDIDO POR PROVEEDOR"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout8"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <TableLayout
+    <TableLayout
             android:id="@+id/tableLayout7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -297,7 +297,7 @@
             <TableLayout
                 android:id="@+id/tableLayout11"
                 android:layout_width="match_parent"
-                android:layout_height="330dp"
+                android:layout_height="290dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginEnd="8dp"
