@@ -2,6 +2,9 @@ package com.sienrgitec.painanirep.actividades;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,6 +35,7 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.android.volley.AuthFailureError;
@@ -77,6 +81,7 @@ public class Home extends AppCompatActivity {
     public Integer viPedido = 0;
     public Integer viProveedor = 0;
     public Integer viPedidoProv;
+    private static  final int idUnica = 6192523;
 
 
 
@@ -87,6 +92,7 @@ public class Home extends AppCompatActivity {
     ProgressBar progressBar;
     TextView tvEstatusP;
     Switch sEstatusP;
+    NotificationCompat.Builder notificacion;
 
     public static  List<opPedidoDet> listapedido = null;
 
@@ -104,6 +110,9 @@ public class Home extends AppCompatActivity {
         progressBar.getIndeterminateDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
         tvEstatusP = (TextView) findViewById(R.id.tvDescEst);
         sEstatusP  = (Switch)   findViewById(R.id.switch1);
+
+        notificacion = new NotificationCompat.Builder(this);
+        notificacion.setAutoCancel(true);
 
         tvEstatusP.setText("Disponible");
 
@@ -321,8 +330,23 @@ public class Home extends AppCompatActivity {
     }
 
     public void ConfirmaPedido() {
-        progressBar.setVisibility(View.VISIBLE);
+        notificacion.setSmallIcon(R.mipmap.ic_launcher);
+        notificacion.setTicker("Nuevo pedido");
+        notificacion.setWhen(System.currentTimeMillis());
+        notificacion.setContentTitle("Nuevo Pedido");
+        notificacion.setContentText("tienes un nuevo pedido ");
 
+
+        Intent intent = new Intent(Home.this,Home.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(Home.this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        notificacion.setContentIntent(pendingIntent);
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm.notify(idUnica,notificacion.build());
+
+
+
+        progressBar.setVisibility(View.VISIBLE);
         final AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
         builder.setCancelable(true);
         builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Tienes un nuevo pedido </font>"));
