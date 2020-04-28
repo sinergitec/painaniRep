@@ -29,6 +29,14 @@
         <item name="android:maxHeight">20dip</item>
     </style>
 
+    <style name="AppTheme.EvaluaCli" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#01579b</item>
+        <item name="colorPrimaryDark">#01579b</item>
+        <item name="colorAccent">#01579b</item>
+
+    </style>
+
+
     <style name="SwitchTheme" parent="Theme.AppCompat.Light">
         <item name="android:colorControlActivated">#148E13</item>
     </style>

@@ -1,4 +1,4 @@
-/*package com.sienrgitec.painanirep.actividades;
+package com.sienrgitec.painanirep.actividades;
 
 import android.content.Context;
 import android.text.SpannableString;
@@ -42,19 +42,18 @@ public class AdapterPainaniPed extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.lista_pedprov, null);
+            convertView = layoutInflater.inflate(R.layout.lista_pedxprov, null);
 
         }
-        TextView txtDom = (TextView) convertView.findViewById(R.id.txtDom);
+        //TextView txtDom = (TextView) convertView.findViewById(R.id.txtDom);
         TextView txtNegocio = (TextView) convertView.findViewById(R.id.txtNegocio);
 
 
         txtNegocio.setText(arrayList.get(position).getcNegocion().toString());
-        txtDom.setText(arrayList.get(position).getcDirProveedor().toString());
+        //txtDom.setText(arrayList.get(position).getcDirProveedor().toString());
 
 
 
         return convertView;
     }
 }
-*/

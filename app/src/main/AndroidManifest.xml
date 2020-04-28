@@ -14,11 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EvaluaCli"></activity>
         <activity
             android:name=".actividades.Home"
             android:label="PAINAL"
-            android:theme="@style/AppTheme.Login" />
+            android:theme="@style/AppTheme.Login"/>
+
         <activity
             android:name=".actividades.CreaContacto"
             android:label="PAINAL"

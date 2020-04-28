@@ -75,6 +75,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 BuscarUsuario();
 
+
             }
         });
 
@@ -100,18 +101,16 @@ public class Login extends AppCompatActivity {
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
-    }
 
-    public void BuscarUsuario(){
-        btnEntrar.setEnabled(false);
-        /**busca coordenadas**/
         LocationManager locationManager = (LocationManager) Login.this.getSystemService(Context.LOCATION_SERVICE);
 
         LocationListener locationListener= new LocationListener(){
             public void onLocationChanged(Location location){
-                //Log.e("Login ", "ubicacion " + location.getLatitude() + " " + location.getLongitude());
+                Log.e("Login ", "ubicacion " + location.getLatitude() + " " + location.getLongitude());
                 vdeLatitud  = location.getLatitude();
                 vdeLongitud = location.getLongitude();
+
+
             }
 
             @Override
@@ -122,10 +121,16 @@ public class Login extends AppCompatActivity {
             public void onProviderDisabled(String provider){}
 
         };
-        int permissionCheck = ContextCompat.checkSelfPermission(Login.this,
+        int permissionChecks = ContextCompat.checkSelfPermission(Login.this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,30000,0,locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,5000,0,locationListener);
         /*********************/
+    }
+
+    public void BuscarUsuario(){
+        btnEntrar.setEnabled(false);
+        /**busca coordenadas**/
+
 
 
 
@@ -171,8 +176,8 @@ public class Login extends AppCompatActivity {
         }
 
         getmRequestQueue();
-        //String urlParams = String.format(url + "login?ipcUsuario=%1$s&ipcPassword=%2$sipdeLongitud=%3$s&ipdLatitud=%2$s", vcUsuLog, password, vdeLongitud, vdeLatitud );
-        String urlParams = String.format(url + "login?ipcUsuario=%1$s&ipcPassword=%2$s", vcUsuLog, password );
+        //String urlParams = String.format(url + "buscaPainani?ipcUsuario=%1$s&ipcPassword=%2$&sipdeLongitud=%3$s&ipdLatitud=%4$s", vcUsuLog, password, vdeLongitud, vdeLatitud );
+        String urlParams = String.format(url + "buscaPainani?ipcUsuario=%1$s&ipcPassword=%2$s&ipdeLongitud=%3$s&ipdeLatitud=%4$s", vcUsuLog, password, vdeLongitud, vdeLatitud );
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, urlParams, null, new Response.Listener<JSONObject>() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -247,8 +252,8 @@ public class Login extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("ipcUsuario", vcUsuLog);
                 params.put("ipcPassword", password);
-                /*params.put("ipdeLongitud", "vdeLongitud");
-                params.put("ipdeLatitud", "vdeLatitud");*/
+                params.put("ipdeLongitud", "vdeLongitud");
+                params.put("ipdeLatitud", "vdeLatitud");
 
 
                 return params;

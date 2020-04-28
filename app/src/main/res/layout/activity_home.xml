@@ -8,6 +8,7 @@
     tools:context=".actividades.Home">
 
 
+
     <TableRow
         android:id="@+id/tableRow1"
         android:layout_width="75dp"
