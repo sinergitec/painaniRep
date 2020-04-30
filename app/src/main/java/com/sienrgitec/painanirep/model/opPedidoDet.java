@@ -26,7 +26,7 @@ public class opPedidoDet implements Serializable {
     private Integer iArticulo;
     private Integer iPartida;
     private Integer iPedido;
-    private Integer iPedProv;
+    private Integer iPedidoProv;
     private Integer iRazon;
     private Object id;
 
@@ -215,12 +215,12 @@ public class opPedidoDet implements Serializable {
         this.iPedido = iPedido;
     }
 
-    public Integer getiPedProv() {
-        return iPedProv;
+    public Integer getiPedidoProv() {
+        return iPedidoProv;
     }
 
-    public void setiPedProv(Integer iPedProv) {
-        this.iPedProv = iPedProv;
+    public void setiPedidoProv(Integer iPedidoProv) {
+        this.iPedidoProv = iPedidoProv;
     }
 
     public Integer getiRazon() {

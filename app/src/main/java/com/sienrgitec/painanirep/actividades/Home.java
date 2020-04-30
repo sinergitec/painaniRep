@@ -93,6 +93,7 @@ public class Home extends AppCompatActivity {
     TextView tvEstatusP;
     Switch sEstatusP;
     NotificationCompat.Builder notificacion;
+    Button btnFin;
 
     public static  List<opPedidoDet> listapedido = null;
 
@@ -115,6 +116,7 @@ public class Home extends AppCompatActivity {
         notificacion.setAutoCancel(true);
 
         tvEstatusP.setText("Disponible");
+        btnFin = (Button) findViewById(R.id.btnFin);
 
         btnLlegoP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -151,6 +153,15 @@ public class Home extends AppCompatActivity {
                     }
 
                 }
+            }
+        });
+
+        btnFin.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //BuscarUsuario();
+                startActivity(new Intent(Home.this, EvaluaCli.class));
+                finish();
+
             }
         });
 
@@ -394,29 +405,7 @@ public class Home extends AppCompatActivity {
         handler.postDelayed(runnable, 15000);
     }
 
-    public void ConstruyeDet(Integer viPedido, Integer viPedidoProv){
 
-        globales.g_ctDetalleFinal.clear();
-        for(opPedidoDet obj: globales.g_opPedidoDetList){
-            if(obj.getiPedido().equals(viPedido) && obj.getiPedProv().equals(viPedidoProv)){
-
-                opPedidoDet objFinal = new opPedidoDet();
-                objFinal.setcDescripcion(obj.getcDescripcion());
-                objFinal.setDeCantidad(obj.getDeCantidad());
-                globales.g_ctDetalleFinal.add(objFinal);
-
-
-
-
-            }
-        }
-
-        final ListView lviewDetPed = (ListView) findViewById(R.id.lvDetalle);
-        ArrayList<opPedidoDet> arrayPedidoDet = new ArrayList<opPedidoDet>(globales.g_ctDetalleFinal);
-        adapter = new AdapterHome(Home.this,arrayPedidoDet );
-        lviewDetPed.setAdapter(adapter);
-
-    }
 
     public void ActualizaPedido(Boolean vlAceptado){
         final ProgressDialog nDialog;
@@ -523,7 +512,7 @@ public class Home extends AppCompatActivity {
                                 lviewPedxProv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int iPartida, long l) {
-                                        Log.i("Home -->", " Detalle presiono " + iPartida  );
+
 
 
                                         viPedido  = (globales.g_opPedidoProvtList.get(iPartida).getiPedido());
@@ -570,6 +559,27 @@ public class Home extends AppCompatActivity {
         };
         mRequestQueue.add(jsonObjectRequest);
 
+    }
+
+    public void ConstruyeDet(Integer viPedido, Integer viPedidoProv){
+
+
+        globales.g_ctDetalleFinal.clear();
+        for(opPedidoDet obj: globales.g_opPedidoDetList){
+
+            if(obj.getiPedido().equals(viPedido) && obj.getiPedidoProv().equals(viPedidoProv)){
+
+                opPedidoDet objFinal = new opPedidoDet();
+                objFinal.setcDescripcion(obj.getcDescripcion());
+                objFinal.setDeCantidad(obj.getDeCantidad());
+                globales.g_ctDetalleFinal.add(objFinal);
+            }
+        }
+
+        final ListView lviewDetPed = (ListView) findViewById(R.id.lvDetalle);
+        ArrayList<opPedidoDet> arrayPedidoDet = new ArrayList<opPedidoDet>(globales.g_ctDetalleFinal);
+        adapter = new AdapterHome(Home.this,arrayPedidoDet );
+        lviewDetPed.setAdapter(adapter);
     }
 
     public void ActPedPainaniDet(final String vcAccion, Integer iPedido, Integer iProveedor){

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e0e0e0">
+
+    <TableLayout
+        android:id="@+id/tableLayout12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvFecha"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="Fecha"
+
+                tools:layout_editor_absoluteX="137dp"
+                tools:layout_editor_absoluteY="476dp" />
+
+            <TextView
+                android:id="@+id/tvCli"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:text="Cliente"
+                tools:layout_editor_absoluteX="54dp"
+                tools:layout_editor_absoluteY="197dp" />
+
+            <TextView
+                android:id="@+id/tvCliId"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteX="82dp"
+                tools:layout_editor_absoluteY="261dp" />
+
+            <TextView
+                android:id="@+id/tvPed"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:text="Pedido"
+                tools:layout_editor_absoluteX="151dp"
+                tools:layout_editor_absoluteY="359dp" />
+
+            <TextView
+                android:id="@+id/tvPedID"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:text=""
+                tools:layout_editor_absoluteX="137dp"
+                tools:layout_editor_absoluteY="476dp" />
+
+        </TableRow>
+
+
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/tableLayout13"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout12">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/lvEvaluacion"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:background="#ffffff"
+                android:listSelector="#99FF99"
+                android:state_activated="false"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="518dp" />
+
+        </TableRow>
+
+
+    </TableLayout>
+
+    <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout14">
+
+        <EditText
+            android:id="@+id/etObsEvalua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Observaciones"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteY="532dp" />
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableRow3">
+
+        <Button
+            android:id="@+id/btnEvalua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btnaceptar"
+            android:text="FINALIZAR EVALUACION"
+            android:textColor="@android:color/white"
+            tools:layout_editor_absoluteX="77dp"
+            tools:layout_editor_absoluteY="555dp" />
+
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.272"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout13">
+
+        <TextView
+            android:id="@+id/tvQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fd6000"
+            android:text="¿Qué valor le asignas?"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="586dp" />
+    </TableRow>
+
+
+    <TableRow
+        android:layout_width="70dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toEndOf="@+id/tableRow3"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout14">
+
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btnevalua"
+            android:text="EVALUAR"
+            android:textColor="@android:color/white"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="558dp" />
+
+
+    </TableRow>
+
+    <TableLayout
+        android:id="@+id/tableLayout14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableRow4">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/etValor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:ems="10"
+                android:hint="Malo,Regular,Bueno"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/tableRow3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tableRow4"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </TableRow>
+
+
+    </TableLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

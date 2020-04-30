@@ -2,53 +2,25 @@ package com.sienrgitec.painanirep.model;
 
 import java.io.Serializable;
 
-public class opClienteEvalua implements Serializable {
-    private String cObs;
+public class ctEvaluacion implements Serializable {
+
+    private String cEvalua;
     private String cTipo;
     private String cUsuCrea;
     private String cUsuModifica;
-    private String cValor;
     private String dtCreado;
-    private String dtFecha;
     private String dtModificado;
-    private Integer iPersona;
-    public Integer iTipoPersona;
-    public Integer iPunto;
-
-    public Integer getiPunto() {
-        return iPunto;
-    }
-
-    public void setiPunto(Integer iPunto) {
-        this.iPunto = iPunto;
-    }
-
-    public Integer getiPersona() {
-        return iPersona;
-    }
-
-    public void setiPersona(Integer iPersona) {
-        this.iPersona = iPersona;
-    }
-
-    public Integer getiTipoPersona() {
-        return iTipoPersona;
-    }
-
-    public void setiTipoPersona(Integer iTipoPersona) {
-        this.iTipoPersona = iTipoPersona;
-    }
-
     private Integer iEvalua;
-    private Integer iPedido;
+    private Integer iPunto;
+    private Boolean lActivo;
     private Object id;
 
-    public String getcObs() {
-        return cObs;
+    public String getcEvalua() {
+        return cEvalua;
     }
 
-    public void setcObs(String cObs) {
-        this.cObs = cObs;
+    public void setcEvalua(String cEvalua) {
+        this.cEvalua = cEvalua;
     }
 
     public String getcTipo() {
@@ -75,28 +47,12 @@ public class opClienteEvalua implements Serializable {
         this.cUsuModifica = cUsuModifica;
     }
 
-    public String getcValor() {
-        return cValor;
-    }
-
-    public void setcValor(String cValor) {
-        this.cValor = cValor;
-    }
-
     public String getDtCreado() {
         return dtCreado;
     }
 
     public void setDtCreado(String dtCreado) {
         this.dtCreado = dtCreado;
-    }
-
-    public String getDtFecha() {
-        return dtFecha;
-    }
-
-    public void setDtFecha(String dtFecha) {
-        this.dtFecha = dtFecha;
     }
 
     public String getDtModificado() {
@@ -107,8 +63,6 @@ public class opClienteEvalua implements Serializable {
         this.dtModificado = dtModificado;
     }
 
-
-
     public Integer getiEvalua() {
         return iEvalua;
     }
@@ -117,12 +71,20 @@ public class opClienteEvalua implements Serializable {
         this.iEvalua = iEvalua;
     }
 
-    public Integer getiPedido() {
-        return iPedido;
+    public Integer getiPunto() {
+        return iPunto;
     }
 
-    public void setiPedido(Integer iPedido) {
-        this.iPedido = iPedido;
+    public void setiPunto(Integer iPunto) {
+        this.iPunto = iPunto;
+    }
+
+    public Boolean getlActivo() {
+        return lActivo;
+    }
+
+    public void setlActivo(Boolean lActivo) {
+        this.lActivo = lActivo;
     }
 
     public Object getId() {
