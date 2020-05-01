@@ -275,6 +275,7 @@ public class EvaluaCli extends AppCompatActivity {
             JSONArray opEvaluaJS   = new JSONArray(JS_opClienteEvalua);
             jsonDataSet.put("tt_opClienteEvalua",  opEvaluaJS);
             jsonParams.put("ds_NvaEvaluacion", jsonDataSet);
+            jsonParams.put("ipcPersona", "Painani");
             jsonBody.put("request", jsonParams);
 
             Log.i("Response", jsonBody.toString());

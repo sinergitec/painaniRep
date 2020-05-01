@@ -19,19 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <EditText
-        android:id="@+id/etRecTelefono"
-        android:layout_width="353dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="112dp"
-        android:ems="10"
-        android:hint="5511223344"
-        android:inputType="phone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etRecEmail"
-        app:layout_constraintVertical_bias="0.153" />
 
     <Button
         android:id="@+id/btnRecPW"
@@ -46,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.615"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etRecTelefono"
+        app:layout_constraintTop_toBottomOf="@+id/etRecEmail"
         app:layout_constraintVertical_bias="0.129" />
 
     <ImageView
@@ -64,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ems="16"
-        android:text="Captura los siguientes datos "
+        android:text="Captura tu correo electronico "
         android:textAlignment="center"
         android:textColor="#304ffe"
         android:textStyle="bold"

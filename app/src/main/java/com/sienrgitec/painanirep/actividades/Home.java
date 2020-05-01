@@ -218,7 +218,7 @@ public class Home extends AppCompatActivity {
         int permissionCheck = ContextCompat.checkSelfPermission(Home.this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,30000,0,locationListener);
-        /*********************/
+
     }
 
     public void CreaUbicacion(double vdeLatitud, double vdeLongitud){
@@ -367,7 +367,6 @@ public class Home extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ActualizaPedido(true);
-
                         progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
@@ -375,7 +374,6 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ActualizaPedido(false);
-
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
@@ -393,6 +391,7 @@ public class Home extends AppCompatActivity {
                     progressBar.setVisibility(View.INVISIBLE);
                     Log.e("Home ...", "cierre de alert");
                     ActualizaPedido(false);
+                    MuestraMensaje("Aviso", "El tiempo de respuesta se ha terminado. El pedido fue rechazado");
                 }
             }
         };

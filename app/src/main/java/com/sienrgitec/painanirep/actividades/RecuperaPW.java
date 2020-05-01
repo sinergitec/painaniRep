@@ -54,7 +54,7 @@ public class RecuperaPW extends AppCompatActivity {
         btnRecPW = (Button) findViewById(R.id.btnRecPW);
         btnCancelar = (Button) findViewById(R.id.btnCancelar);
         etRecEmail = (EditText) findViewById(R.id.etRecEmail);
-        etRecTelefono = (EditText) findViewById(R.id.etRecTelefono);
+
 
         btnRecPW.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -77,15 +77,12 @@ public class RecuperaPW extends AppCompatActivity {
             MuestraMensaje("Error", "El correo de Usuario no puede estar vacío.");
             return;
         }
-        if (etRecTelefono.getText().toString().isEmpty()) {
-            MuestraMensaje("Error", "El numero de celular de Usuario no puede estar vacío.");
-            return;
-        }
+
 
         getmRequestQueue();
 
         getmRequestQueue();
-        String urlParams = String.format(url + "PwordPainani?ipcEmail=%1$s&ipcTelefono=%2$s", etRecEmail.getText().toString(), etRecTelefono.getText() );
+        String urlParams = String.format(url + "recuperapw?ipcEmail=%1$s&ipcPersona=%2$s", etRecEmail.getText().toString(), "Painani" );
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, urlParams, null, new Response.Listener<JSONObject>() {
@@ -115,8 +112,9 @@ public class RecuperaPW extends AppCompatActivity {
                                 for(ctUsuario objusuario : globales.g_ctUsuarioList){
                                     Log.e("recpass", "pass" + objusuario.getcPassword());
                                 }
-                                btnRecPW.setEnabled(true);
-                                MuestraMensaje("Aviso", "Bienvenido" );
+                                btnRecPW.setEnabled(false);
+                                MuestraMensaje("Aviso", "Tu contraseña es " + globales.g_ctUsuarioList.get(0).getcPassword());
+
 
 
                             }
@@ -160,8 +158,8 @@ public class RecuperaPW extends AppCompatActivity {
             @Override
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("ipcUsuario", etRecEmail.getText().toString());
-                params.put("ipcPassword", etRecTelefono.getText().toString());
+                params.put("ipcEmail", etRecEmail.getText().toString());
+                params.put("ipcPersona", "painani");
 
 
                 return params;
