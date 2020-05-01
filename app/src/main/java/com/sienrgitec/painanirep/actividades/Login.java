@@ -34,7 +34,10 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.sienrgitec.painanirep.R;
 import com.sienrgitec.painanirep.configuracion.Globales;
+import com.sienrgitec.painanirep.model.ctComisiones;
+import com.sienrgitec.painanirep.model.ctEstadoPainani;
 import com.sienrgitec.painanirep.model.ctUsuario;
+import com.sienrgitec.painanirep.model.opDispPainani;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -176,7 +179,7 @@ public class Login extends AppCompatActivity {
         }
 
         getmRequestQueue();
-        //String urlParams = String.format(url + "buscaPainani?ipcUsuario=%1$s&ipcPassword=%2$&sipdeLongitud=%3$s&ipdLatitud=%4$s", vcUsuLog, password, vdeLongitud, vdeLatitud );
+
         String urlParams = String.format(url + "buscaPainani?ipcUsuario=%1$s&ipcPassword=%2$s&ipdeLongitud=%3$s&ipdeLatitud=%4$s", vcUsuLog, password, vdeLongitud, vdeLatitud );
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, urlParams, null, new Response.Listener<JSONObject>() {
@@ -190,11 +193,20 @@ public class Login extends AppCompatActivity {
 
                             String Mensaje = respuesta.getString("opcError");
                             Boolean Error = respuesta.getBoolean("oplError");
-                            JSONObject ds_ctUsuario = respuesta.getJSONObject("tt_ctUsuario");
+                            JSONObject ds_ctUsuario       = respuesta.getJSONObject("tt_ctUsuario");
+                            JSONObject ds_ctComisiones    = respuesta.getJSONObject("tt_ctComisiones");
+                            JSONObject ds_ctEstadoPainani = respuesta.getJSONObject("tt_ctEstadoPainani");
+                            JSONObject ds_opdispPainani   = respuesta.getJSONObject("tt_opDispPainani");
 
-                            JSONArray tt_ctUsuario  = ds_ctUsuario.getJSONArray("tt_ctUsuario");
+                            JSONArray tt_ctUsuario       = ds_ctUsuario.getJSONArray("tt_ctUsuario");
+                            JSONArray tt_ctComisiones    = ds_ctComisiones.getJSONArray("tt_ctComisiones");
+                            JSONArray tt_ctEstadoPainani = ds_ctEstadoPainani.getJSONArray("tt_ctEstadoPainani");
+                            JSONArray tt_opDispPainani = ds_opdispPainani.getJSONArray("tt_opDispPainani");
 
                             globales.g_ctUsuarioList     = Arrays.asList(new Gson().fromJson(tt_ctUsuario.toString(), ctUsuario[].class));
+                            globales.g_ctComisionesList  = Arrays.asList(new Gson().fromJson(tt_ctComisiones.toString(), ctComisiones[].class));
+                            globales.g_ctEdoPainaniList  = Arrays.asList(new Gson().fromJson(tt_ctEstadoPainani.toString(), ctEstadoPainani[].class));
+                            globales.g_opDispPList       = Arrays.asList(new Gson().fromJson(tt_opDispPainani.toString(), opDispPainani[].class));
 
 
                             if (Error == true) {
@@ -205,10 +217,13 @@ public class Login extends AppCompatActivity {
                             } else {
                                 globales.g_ctUsuario = globales.g_ctUsuarioList.get(0);
 
-                               // MuestraMensaje("Aviso", "Bienvenido");
-                                startActivity(new Intent(Login.this, Home.class));
-                                finish();
-
+                                if(globales.g_ctEdoPainaniList != null){
+                                    startActivity(new Intent(Login.this, AsignaComision.class));
+                                    finish();
+                                }else {
+                                    startActivity(new Intent(Login.this, Home.class));
+                                    finish();
+                                }
                             }
                         } catch (JSONException e) {
                             btnEntrar.setEnabled(true);

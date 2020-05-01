@@ -84,6 +84,14 @@ public class Home extends AppCompatActivity {
     private static  final int idUnica = 6192523;
 
 
+    @Override
+    protected  void onDestroy() {
+
+        NotificationManager notificationManager = ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE));
+        notificationManager.cancelAll();
+
+        super.onDestroy();
+    }
 
 
     TextView txtDomCli;
@@ -158,6 +166,11 @@ public class Home extends AppCompatActivity {
 
         btnFin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                NotificationManager notificationManager = ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE));
+                notificationManager.cancelAll();
+
+
                 //BuscarUsuario();
                 startActivity(new Intent(Home.this, EvaluaCli.class));
                 finish();
@@ -305,6 +318,19 @@ public class Home extends AppCompatActivity {
                             } else {
                                 if(!globales.g_ctPedPainaniList.isEmpty()) {
                                     globales.g_opPedPainani = globales.g_ctPedPainaniList.get(0);
+                                    notificacion.setSmallIcon(R.mipmap.ic_launcher);
+                                    notificacion.setTicker("Nuevo pedido");
+                                    notificacion.setWhen(System.currentTimeMillis());
+                                    notificacion.setContentTitle("Nuevo Pedido");
+                                    notificacion.setContentText("tienes un nuevo pedido ");
+
+
+                                    Intent intent = new Intent(Home.this,Home.class);
+
+                                    PendingIntent pendingIntent = PendingIntent.getActivity(Home.this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                                    notificacion.setContentIntent(pendingIntent);
+                                    NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                    nm.notify(idUnica,notificacion.build());
                                     ConfirmaPedido();
                                 }
                             }
@@ -341,19 +367,7 @@ public class Home extends AppCompatActivity {
     }
 
     public void ConfirmaPedido() {
-        notificacion.setSmallIcon(R.mipmap.ic_launcher);
-        notificacion.setTicker("Nuevo pedido");
-        notificacion.setWhen(System.currentTimeMillis());
-        notificacion.setContentTitle("Nuevo Pedido");
-        notificacion.setContentText("tienes un nuevo pedido ");
 
-
-        Intent intent = new Intent(Home.this,Home.class);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(Home.this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        notificacion.setContentIntent(pendingIntent);
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(idUnica,notificacion.build());
 
 
 
@@ -680,7 +694,7 @@ public class Home extends AppCompatActivity {
     public void ActualizaEstadoP(final Boolean vlEstatus){
         sEstatusP.setEnabled(false);
         getmRequestQueue();
-        String urlParams = String.format(url + "ctPainani?iplActivo=%1$s&ipiPainani=%2$s", vlEstatus, globales.g_ctUsuario.getiPersona());
+        String urlParams = String.format(url + "opDispPainani?iplActivo=%1$s&ipiPainani=%2$s", vlEstatus, globales.g_ctUsuario.getiPersona());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.PUT, urlParams, null, new Response.Listener<JSONObject>() {

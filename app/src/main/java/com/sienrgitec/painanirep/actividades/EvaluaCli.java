@@ -240,7 +240,7 @@ public class EvaluaCli extends AppCompatActivity {
         objNvaEvaluacion.setcValor(txtValor.getText().toString());
         objNvaEvaluacion.setcObs(txtObsEvalua.getText().toString());
         objNvaEvaluacion.setcUsuCrea("AUTO");
-        objNvaEvaluacion.setDtCreado(null);
+        objNvaEvaluacion.setDtCreado("");
         objNvaEvaluacion.setcUsuModifica("");
         objNvaEvaluacion.setDtModificado(null);
         objNvaEvaluacion.setDtFecha(globales.g_opPedPainani.getDtFecha());
