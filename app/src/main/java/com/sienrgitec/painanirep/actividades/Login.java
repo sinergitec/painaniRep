@@ -192,6 +192,7 @@ public class Login extends AppCompatActivity {
 
                             String Mensaje = respuesta.getString("opcError");
                             Boolean Error = respuesta.getBoolean("oplError");
+                            Boolean lComision = respuesta.getBoolean("oplInicio");
                             JSONObject ds_ctUsuario       = respuesta.getJSONObject("tt_ctUsuario");
                             JSONObject ds_ctComisiones    = respuesta.getJSONObject("tt_ctComisiones");
                             JSONObject ds_ctEstadoPainani = respuesta.getJSONObject("tt_ctEstadoPainani");
@@ -216,7 +217,7 @@ public class Login extends AppCompatActivity {
                             } else {
                                 globales.g_ctUsuario = globales.g_ctUsuarioList.get(0);
 
-                                if(globales.g_ctComisionesList != null){
+                                if(lComision == true){
                                     Log.e("home-->", "dentro dl if");
                                     startActivity(new Intent(Login.this, AsignaComision.class));
                                     finish();
