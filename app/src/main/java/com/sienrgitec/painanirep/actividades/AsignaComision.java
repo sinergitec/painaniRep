@@ -77,13 +77,14 @@ public class AsignaComision extends AppCompatActivity {
         LinearLayout GridOrdenes = (LinearLayout) findViewById(R.id.LinearComision);
 
         for(final ctComisiones objComisiones: globales.g_ctComisionesList){
-
+            Log.e("asigan comision ", objComisiones.getcComision());
+            Drawable d = getResources().getDrawable(R.drawable.btnporcentaje);
             Button myButton = new Button(getBaseContext());
             //Personalizando botones
             myButton.setId(objComisiones.getiComision());
             myButton.setText(objComisiones.getDeValor() + "%");
             myButton.setTag(objComisiones.getiComision().toString());
-
+            myButton.setBackgroundDrawable(d);
 
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {

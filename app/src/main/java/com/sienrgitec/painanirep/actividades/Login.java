@@ -78,7 +78,6 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 BuscarUsuario();
 
-
             }
         });
 
@@ -133,7 +132,7 @@ public class Login extends AppCompatActivity {
     public void BuscarUsuario(){
         btnEntrar.setEnabled(false);
         /**busca coordenadas**/
-
+        globales.g_ctComisionesList    = null;
 
 
 
@@ -217,7 +216,8 @@ public class Login extends AppCompatActivity {
                             } else {
                                 globales.g_ctUsuario = globales.g_ctUsuarioList.get(0);
 
-                                if(globales.g_ctEdoPainaniList != null){
+                                if(globales.g_ctComisionesList != null){
+                                    Log.e("home-->", "dentro dl if");
                                     startActivity(new Intent(Login.this, AsignaComision.class));
                                     finish();
                                 }else {
