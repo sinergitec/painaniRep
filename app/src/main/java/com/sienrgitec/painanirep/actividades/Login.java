@@ -49,8 +49,8 @@ import java.util.Map;
 
 public class Login extends AppCompatActivity {
     public Globales globales;
-    public Double vdeLongitud;
-    public Double vdeLatitud;
+    public Double vdeLongitud, vdeLatitud;
+
 
     private static RequestQueue mRequestQueue;
     private String url = globales.URL;
@@ -109,7 +109,7 @@ public class Login extends AppCompatActivity {
         LocationListener locationListener= new LocationListener(){
             public void onLocationChanged(Location location){
                 Log.e("Login ", "ubicacion " + location.getLatitude() + " " + location.getLongitude());
-                vdeLatitud  = location.getLatitude();
+                vdeLatitud = location.getLatitude();
                 vdeLongitud = location.getLongitude();
 
 
@@ -177,9 +177,10 @@ public class Login extends AppCompatActivity {
             return;
         }
 
+
         getmRequestQueue();
 
-        String urlParams = String.format(url + "buscaPainani?ipcUsuario=%1$s&ipcPassword=%2$s&ipdeLongitud=%3$s&ipdeLatitud=%4$s", vcUsuLog, password, vdeLongitud, vdeLatitud );
+        String urlParams = String.format(url + "buscaPainani?ipcUsuario=%1$s&ipcPassword=%2$s&ipdeLatitud=%3$s&ipdeLongitud=%4$s", vcUsuLog, password, vdeLatitud, vdeLatitud );
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, urlParams, null, new Response.Listener<JSONObject>() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -268,8 +269,9 @@ public class Login extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("ipcUsuario", vcUsuLog);
                 params.put("ipcPassword", password);
+                params.put("ipdeLatitud","vdeLatitud");
                 params.put("ipdeLongitud", "vdeLongitud");
-                params.put("ipdeLatitud", "vdeLatitud");
+
 
 
                 return params;

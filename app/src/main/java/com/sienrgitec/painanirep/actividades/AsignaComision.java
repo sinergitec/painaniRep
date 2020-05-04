@@ -50,6 +50,7 @@ public class AsignaComision extends AppCompatActivity {
     Button btnAgregar;
 
     public Integer viComision = 0;
+    public String vcComision = "";
 
 
     @Override
@@ -63,8 +64,32 @@ public class AsignaComision extends AppCompatActivity {
 
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                AgregarComision();
+                if(viComision == 0){
+                    MuestraMensaje("Error", "No has Seleccionado la Comision");
+                    return;
+                }
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(AsignaComision.this);
+                builder.setCancelable(true);
+                builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Agrega Comision </font>"));
+                builder.setMessage("¿Deseas aportar este porcentaje: " + vcComision + "% al finalizar el día  ?");
+                builder.setPositiveButton("Si",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                AgregarComision();
+                            }
+                });
+	            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    return;
+
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
 
             }
         });
@@ -78,8 +103,8 @@ public class AsignaComision extends AppCompatActivity {
 
         for(final ctComisiones objComisiones: globales.g_ctComisionesList){
             Log.e("asigan comision ", objComisiones.getcComision());
-            Drawable d = getResources().getDrawable(R.drawable.btnporcentaje);
-            Button myButton = new Button(getBaseContext());
+            final Drawable d = getResources().getDrawable(R.drawable.btnporcentaje);
+            final Button myButton = new Button(getBaseContext());
             //Personalizando botones
             myButton.setId(objComisiones.getiComision());
             myButton.setText(objComisiones.getDeValor() + "%");
@@ -88,27 +113,34 @@ public class AsignaComision extends AppCompatActivity {
 
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    viComision = objComisiones.getiComision();
-                    Log.e("Selecciono", "comision " + viComision );
+
+
+                        viComision = objComisiones.getiComision();
+                        vcComision = objComisiones.getDeValor().toString();
+                        Log.e("Selecciono", "comision " + viComision );
+                        Drawable d = getResources().getDrawable(R.drawable.seleccporc);
+                        myButton.setBackgroundDrawable(d);
+
+
+
 
                 }
             });
+
             GridOrdenes.addView(myButton);
         }
     }
 
     public void AgregarComision(){
 
-        if(viComision == 0){
-            MuestraMensaje("Error", "No has Seleccionado la Comision");
-            return;
-        }
 
         final ProgressDialog nDialog;
         nDialog = new ProgressDialog(AsignaComision.this);
         nDialog.setMessage("Cargando...");
         nDialog.setTitle("Agregando Comisión");
         nDialog.setIndeterminate(false);
+
+
 
         opDispPainani objComisionDispP = new opDispPainani();
         objComisionDispP.setiPainani(globales.g_opDispPList.get(0).getiPainani());
@@ -179,6 +211,7 @@ public class AsignaComision extends AppCompatActivity {
 
                             } else {
                                 MuestraMensaje("Aviso" , "Comisíon del día Agregada");
+
                                 startActivity(new Intent(AsignaComision.this, Home.class));
                                 finish();
                             }
