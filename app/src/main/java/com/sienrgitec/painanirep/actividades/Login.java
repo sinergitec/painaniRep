@@ -176,7 +176,7 @@ public class Login extends AppCompatActivity {
             dialog.show();
             return;
         }
-
+Log.e("login ", "iniciando");
 
         getmRequestQueue();
 
