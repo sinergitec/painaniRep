@@ -232,16 +232,16 @@ public class EvaluaCli extends AppCompatActivity {
 
         opClienteEvalua objNvaEvaluacion = new opClienteEvalua();
         objNvaEvaluacion.setiPedido(globales.g_opPedPainani.getiPedido());
-        objNvaEvaluacion.setiPersona(globales.g_ctUsuario.getiPersona());
+        objNvaEvaluacion.setiPersona(globales.g_opPedPainani.getiCliente());
         objNvaEvaluacion.setiPunto(viPunto);
         objNvaEvaluacion.setiEvalua(viEvalua);
         objNvaEvaluacion.setiTipoPersona(0);
         objNvaEvaluacion.setcTipo(vcTipo);
         objNvaEvaluacion.setcValor(txtValor.getText().toString());
         objNvaEvaluacion.setcObs(txtObsEvalua.getText().toString());
-        objNvaEvaluacion.setcUsuCrea("AUTO");
+        objNvaEvaluacion.setcUsuCrea(globales.g_ctUsuario.getcUsuario());
         objNvaEvaluacion.setDtCreado("");
-        objNvaEvaluacion.setcUsuModifica("");
+        objNvaEvaluacion.setcUsuModifica(globales.g_ctUsuario.getcUsuario());
         objNvaEvaluacion.setDtModificado(null);
         objNvaEvaluacion.setDtFecha(globales.g_opPedPainani.getDtFecha());
 
@@ -275,7 +275,7 @@ public class EvaluaCli extends AppCompatActivity {
             JSONArray opEvaluaJS   = new JSONArray(JS_opClienteEvalua);
             jsonDataSet.put("tt_opClienteEvalua",  opEvaluaJS);
             jsonParams.put("ds_NvaEvaluacion", jsonDataSet);
-            jsonParams.put("ipcPersona", "Painani");
+            jsonParams.put("ipcPersona", "Cliente");
             jsonBody.put("request", jsonParams);
 
             Log.i("Response", jsonBody.toString());

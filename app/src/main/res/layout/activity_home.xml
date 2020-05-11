@@ -30,7 +30,7 @@
 
     <TableRow
         android:id="@+id/tableRow2"
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="25dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -47,6 +47,28 @@
             android:textSize="20dp"
             tools:layout_editor_absoluteX="121dp"
             tools:layout_editor_absoluteY="546dp" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow"
+        android:layout_width="80dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tableRow2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.007">
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:checked="true"
+            android:theme="@style/SwitchTheme"
+            tools:layout_editor_absoluteX="148dp"
+            tools:layout_editor_absoluteY="149dp" />
+
+
     </TableRow>
 
 
@@ -325,6 +347,7 @@
         android:background="@drawable/btniniciar"
         android:ems="10"
         android:text="estatus"
+        android:visibility="invisible"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

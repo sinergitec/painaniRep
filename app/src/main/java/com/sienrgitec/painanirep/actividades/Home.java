@@ -120,7 +120,7 @@ public class Home extends AppCompatActivity {
 
         progressBar.getIndeterminateDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
         tvEstatusP = (TextView) findViewById(R.id.tvDescEst);
-        // sEstatusP  = (Switch)   findViewById(R.id.switch1);
+        sEstatusP  = (Switch)   findViewById(R.id.switch1);
         btnSalir = (Button) findViewById(R.id.btnSalir);
 
 
@@ -152,26 +152,26 @@ public class Home extends AppCompatActivity {
             }
         });
 
-       /* sEstatusP.setOnClickListener(new View.OnClickListener() {
+        sEstatusP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if(view.getId()==R.id.switch1){
                     if(view.getId()==R.id.switch1){
                         if(sEstatusP.isChecked()){
                             tvEstatusP.setText("Disponible");
-                            ActualizaEstadoP(true);
+                            ActualizaEstadoP(true, false);
                         }else {
                             tvEstatusP.setText("No Disponible");
-                            ActualizaEstadoP(false);
+                            ActualizaEstadoP(false, false);
                         }
                     }
 
                 }
             }
-        });*/
+        });
 
         btnSalir.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ActualizaEstadoP(false);
+                ActualizaEstadoP(false, true);
                 finish();
                 System.exit(0);
             }
@@ -690,7 +690,7 @@ public class Home extends AppCompatActivity {
 
     }
 
-    public void ActualizaEstadoP(final Boolean vlEstatus){
+    public void ActualizaEstadoP(final Boolean vlEstatus, final Boolean vlSalida){
         btnSalir.setEnabled(false);
 
         final ProgressDialog nDialog;
@@ -698,6 +698,14 @@ public class Home extends AppCompatActivity {
         nDialog.setMessage("Cargando...");
         nDialog.setTitle("Agregando Comisión");
         nDialog.setIndeterminate(false);
+
+        int viEstatus = 0;
+
+        if(vlEstatus == false){
+            viEstatus = 2;
+        } else{
+            viEstatus = 1;
+        }
 
 
         opDispPainani objComisionDispP = new opDispPainani();
@@ -708,7 +716,7 @@ public class Home extends AppCompatActivity {
         objComisionDispP.setiCheckIn(globales.g_opDispPList.get(0).getiCheckIn());
         objComisionDispP.setDtCheckOut(globales.g_opDispPList.get(0).getDtCheckOut());
         objComisionDispP.setiCheckOut(globales.g_opDispPList.get(0).getiCheckOut());
-        objComisionDispP.setiEstadoProceso(2);
+        objComisionDispP.setiEstadoProceso(viEstatus);
         objComisionDispP.setDeUltLat(globales.g_opDispPList.get(0).getDeUltLat());
         objComisionDispP.setDeUltLong(globales.g_opDispPList.get(0).getDeUltLong());
 
@@ -725,7 +733,6 @@ public class Home extends AppCompatActivity {
                 globales.opDispPainani,
                 new TypeToken<ArrayList<opDispPainani>>() {
                 }.getType());
-
 
 
         try {
@@ -770,7 +777,13 @@ public class Home extends AppCompatActivity {
                                 btnSalir.setEnabled(true);
 
                             } else {
-                                finish();
+                               /* if(vlSalida == true){
+                                    finish();
+                                }else{*/
+                                    MuestraMensaje("Alerta" , "Estatus Actualizado");
+                                    btnSalir.setEnabled(true);
+                               // }
+
                             }
 
                         } catch (JSONException e) {
