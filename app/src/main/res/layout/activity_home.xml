@@ -244,7 +244,7 @@
                 android:layout_height="match_parent">
                 <ListView
                     android:id="@+id/lvDetalle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="264dp"
                     android:background="#ffffff"
                     android:listSelector="#99FF99"
@@ -256,12 +256,10 @@
     <TableLayout
         android:id="@+id/tableLayout15"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
+        android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -276,13 +274,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btnaceptar"
-                android:ems="8"
+                android:ems="9"
                 android:text="ARRIBO PROVEEDOR"
                 android:textColor="@android:color/white" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
-                android:layout_width="55dp"
+                android:layout_width="45dp"
                 android:layout_height="wrap_content"
                 android:progressDrawable="@drawable/progress"
                 android:visibility="invisible" />
@@ -302,13 +300,14 @@
 
     </TableLayout>
 
+
     <Button
         android:id="@+id/btnFin"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/btnevalua"
@@ -319,44 +318,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout15" />
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:background="#ff6f00"
+    <Button
+        android:id="@+id/btnEstatus"
+        android:layout_width="90dp"
+        android:layout_height="35dp"
+        android:background="@drawable/btniniciar"
+        android:ems="10"
+        android:text="estatus"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFin"
-        app:layout_constraintVertical_bias="0.952">
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <TableRow
-            android:layout_width="360dp"
-            android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/btnSalir"
+        android:layout_width="90dp"
+        android:layout_height="35dp"
+        android:background="@drawable/btniniciar"
+        android:ems="10"
+        android:text="salir"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnEstatus"
 
-            <Button
-                android:id="@+id/btnFin1"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@drawable/btniniciar"
-                android:ems="10"
-                android:text="salir"
-                android:textColor="@android:color/white" />
-
-            <Button
-                android:id="@+id/btnFin12"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@drawable/btniniciar"
-                android:ems="10"
-                android:text="estatus"
-                android:textColor="@android:color/white"
-                app:layout_constraintTop_toBottomOf="@+id/tableLayout15" />
-        </TableRow>
-
-    </TableLayout>
+        app:layout_constraintHorizontal_bias="0.005"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

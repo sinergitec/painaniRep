@@ -51,6 +51,7 @@ import com.sienrgitec.painanirep.R;
 import com.sienrgitec.painanirep.configuracion.Globales;
 import com.sienrgitec.painanirep.model.ctPainani;
 import com.sienrgitec.painanirep.model.ctUsuario;
+import com.sienrgitec.painanirep.model.opDispPainani;
 import com.sienrgitec.painanirep.model.opPedPainani;
 import com.sienrgitec.painanirep.model.opPedPainaniDet;
 import com.sienrgitec.painanirep.model.opPedido;
@@ -101,7 +102,8 @@ public class Home extends AppCompatActivity {
     TextView tvEstatusP;
     Switch sEstatusP;
     NotificationCompat.Builder notificacion;
-    Button btnFin;
+    Button btnFin, btnSalir, btnEstatus;
+
 
     public static  List<opPedidoDet> listapedido = null;
 
@@ -118,7 +120,10 @@ public class Home extends AppCompatActivity {
 
         progressBar.getIndeterminateDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
         tvEstatusP = (TextView) findViewById(R.id.tvDescEst);
-       // sEstatusP  = (Switch)   findViewById(R.id.switch1);
+        // sEstatusP  = (Switch)   findViewById(R.id.switch1);
+        btnSalir = (Button) findViewById(R.id.btnSalir);
+
+
 
         notificacion = new NotificationCompat.Builder(this);
         notificacion.setAutoCancel(true);
@@ -163,6 +168,14 @@ public class Home extends AppCompatActivity {
                 }
             }
         });*/
+
+        btnSalir.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ActualizaEstadoP(false);
+                finish();
+                System.exit(0);
+            }
+        });
 
         btnFin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -299,8 +312,10 @@ public class Home extends AppCompatActivity {
                             JSONObject respuesta = response.getJSONObject("response");
                             Log.i("respuesta resrt->", "mensaje: " + respuesta.toString());
 
+                            Boolean vlPedidos = respuesta.getBoolean("oplPedidos");
                             Boolean Error = respuesta.getBoolean("oplError");
                             String Mensaje = respuesta.getString("opcError");
+
 
                             JSONObject ds_opPedPainani    = respuesta.getJSONObject("tt_opPedPainani");
                             JSONObject ds_opPedPainaniDet = respuesta.getJSONObject("tt_opPedPainaniDet");
@@ -316,7 +331,7 @@ public class Home extends AppCompatActivity {
                                 MuestraMensaje("Error" , Mensaje);
 
                             } else {
-                                if(!globales.g_ctPedPainaniList.isEmpty()) {
+                                if(vlPedidos == true) {
                                     globales.g_opPedPainani = globales.g_ctPedPainaniList.get(0);
                                     notificacion.setSmallIcon(R.mipmap.ic_launcher);
                                     notificacion.setTicker("Nuevo pedido");
@@ -519,9 +534,6 @@ public class Home extends AppCompatActivity {
                                 adapterPedXProv = new AdapterPedXProv(Home.this,arrayPedidoxProv );
                                 lviewPedxProv.setAdapter(adapterPedXProv);
 
-
-
-
                                 lviewPedxProv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int iPartida, long l) {
@@ -536,11 +548,6 @@ public class Home extends AppCompatActivity {
                                     }
                                 });
 
-
-                                /*final ListView lviewDetPed = (ListView) findViewById(R.id.lvDetalle);
-                                ArrayList<opPedidoDet> arrayPedidoDet = new ArrayList<opPedidoDet>(globales.g_opPedidoDetList);
-                                adapter = new AdapterHome(Home.this,arrayPedidoDet );
-                                lviewDetPed.setAdapter(adapter);*/
                             }
 
                         } catch (JSONException e) {
@@ -615,19 +622,11 @@ public class Home extends AppCompatActivity {
                             String Mensaje = respuesta.getString("opcError");
                             Boolean Error = respuesta.getBoolean("oplError");
 
-
-
-
-
                             if (Error == true) {
-
                                 MuestraMensaje("Error", Mensaje);
                                 return;
 
                             } else {
-
-
-
 
                             }
                         } catch (JSONException e) {
@@ -692,81 +691,108 @@ public class Home extends AppCompatActivity {
     }
 
     public void ActualizaEstadoP(final Boolean vlEstatus){
-        sEstatusP.setEnabled(false);
-        getmRequestQueue();
-        String urlParams = String.format(url + "opDispPainani?iplActivo=%1$s&ipiPainani=%2$s", vlEstatus, globales.g_ctUsuario.getiPersona());
+        btnSalir.setEnabled(false);
 
+        final ProgressDialog nDialog;
+        nDialog = new ProgressDialog(Home.this);
+        nDialog.setMessage("Cargando...");
+        nDialog.setTitle("Agregando Comisión");
+        nDialog.setIndeterminate(false);
+
+
+        opDispPainani objComisionDispP = new opDispPainani();
+        objComisionDispP.setiPainani(globales.g_opDispPList.get(0).getiPainani());
+        objComisionDispP.setDtFecha(globales.g_opDispPList.get(0).getDtFecha());
+        objComisionDispP.setiComision(globales.g_opDispPList.get(0).getiComision());
+        objComisionDispP.setDtCheckIn(globales.g_opDispPList.get(0).getDtCheckIn());
+        objComisionDispP.setiCheckIn(globales.g_opDispPList.get(0).getiCheckIn());
+        objComisionDispP.setDtCheckOut(globales.g_opDispPList.get(0).getDtCheckOut());
+        objComisionDispP.setiCheckOut(globales.g_opDispPList.get(0).getiCheckOut());
+        objComisionDispP.setiEstadoProceso(2);
+        objComisionDispP.setDeUltLat(globales.g_opDispPList.get(0).getDeUltLat());
+        objComisionDispP.setDeUltLong(globales.g_opDispPList.get(0).getDeUltLong());
+
+        globales.opDispPainani.add(objComisionDispP);
+
+
+        JSONObject jsonBody = new JSONObject();
+        JSONObject jsonParams = new JSONObject();
+        JSONObject jsonDataSet = new JSONObject();
+
+        final Gson gson = new Gson();
+
+        String JS_opDispPainani = gson.toJson(
+                globales.opDispPainani,
+                new TypeToken<ArrayList<opDispPainani>>() {
+                }.getType());
+
+
+
+        try {
+            JSONArray opDispPainaniJS   = new JSONArray(JS_opDispPainani);
+
+
+            jsonDataSet.put("tt_opDispPainani",  opDispPainaniJS);
+
+            jsonParams.put("ds_opDispPainani", jsonDataSet);
+            jsonParams.put("iplFinal",true);
+
+            jsonBody.put("request", jsonParams);
+
+            Log.i("Response", jsonBody.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            nDialog.dismiss();
+            MuestraMensaje("Error", e.getMessage());
+            btnSalir.setEnabled(true);
+        }
+
+
+        getmRequestQueue();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.PUT, urlParams, null, new Response.Listener<JSONObject>() {
+                (Request.Method.PUT, url + "opDispPainani/", jsonBody, new Response.Listener<JSONObject>() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-
                             JSONObject respuesta = response.getJSONObject("response");
-                            Log.i("respuesta--->", respuesta.toString());
+                            Log.i("respuesta resrt->", "mensaje: " + respuesta.toString());
 
-                            String Mensaje = respuesta.getString("opcError");
                             Boolean Error = respuesta.getBoolean("oplError");
+                            String Mensaje = respuesta.getString("opcError");
 
 
 
                             if (Error == true) {
-                                MuestraMensaje("Error", Mensaje);
-                                return;
+                                nDialog.dismiss();
+                                MuestraMensaje("Error" , Mensaje);
+                                btnSalir.setEnabled(true);
 
                             } else {
-                                sEstatusP.setEnabled(true);
-                                MuestraMensaje("Aviso", "Estatus Actualizado");
-
+                                finish();
                             }
-                        } catch (JSONException e) {
-                            sEstatusP.setEnabled(true);
-                            AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
-                            myBuild.setMessage("Error en la conversión de Datos. Vuelva a Intentar. " + e);
-                            myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR CONVERSION </font>"));
-                            myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
 
-                                }
-                            });
-                            AlertDialog dialog = myBuild.create();
-                            dialog.show();
+                        } catch (JSONException e) {
+                            Log.i("Error JSONExcepcion", e.getMessage());
+
+                            nDialog.dismiss();
+                            Log.i("Error JSONExcepcion", e.getMessage());
+                            MuestraMensaje("Error", "Error Conversión de Datos." + "\n " + e.getMessage());
+                            btnSalir.setEnabled(true);
                         }
                     }
                 }, new Response.ErrorListener() {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        sEstatusP.setEnabled(true);
                         // TODO: Handle error
-                        Log.i("Error Respuesta", error.toString());
-                        AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
-                        myBuild.setMessage("No se pudo conectar con el servidor. Vuelva a Intentar. " + error.toString());
-                        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR RESPUESTA </font>"));
-                        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-
-                        AlertDialog dialog = myBuild.create();
-                        dialog.show();
+                        Log.i("Error", error.toString());
+                        nDialog.dismiss();
+                        MuestraMensaje("Error", error.toString());
+                        btnSalir.setEnabled(true);
                     }
                 }) {
-            @Override
-            public Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("iplActivo", "vlEstatus");
-                params.put("ipiPainani", globales.g_ctUsuario.getiPersona().toString());
-
-
-                return params;
-            }
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
@@ -774,7 +800,6 @@ public class Home extends AppCompatActivity {
                 return headers;
             }
         };
-        // Access the RequestQueue through your singleton class.
         mRequestQueue.add(jsonObjectRequest);
     }
 
