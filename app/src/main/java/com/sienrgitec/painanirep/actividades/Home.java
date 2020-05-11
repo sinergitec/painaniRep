@@ -118,7 +118,7 @@ public class Home extends AppCompatActivity {
 
         progressBar.getIndeterminateDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
         tvEstatusP = (TextView) findViewById(R.id.tvDescEst);
-        sEstatusP  = (Switch)   findViewById(R.id.switch1);
+       // sEstatusP  = (Switch)   findViewById(R.id.switch1);
 
         notificacion = new NotificationCompat.Builder(this);
         notificacion.setAutoCancel(true);
@@ -147,7 +147,7 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        sEstatusP.setOnClickListener(new View.OnClickListener() {
+       /* sEstatusP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if(view.getId()==R.id.switch1){
                     if(view.getId()==R.id.switch1){
@@ -162,7 +162,7 @@ public class Home extends AppCompatActivity {
 
                 }
             }
-        });
+        });*/
 
         btnFin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
