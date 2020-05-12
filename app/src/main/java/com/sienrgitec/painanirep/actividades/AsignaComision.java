@@ -175,9 +175,11 @@ public class AsignaComision extends AppCompatActivity {
 
 
             jsonDataSet.put("tt_opDispPainani",  opDispPainaniJS);
-
             jsonParams.put("ds_opDispPainani", jsonDataSet);
+
+
             jsonBody.put("request", jsonParams);
+
 
             Log.i("Response", jsonBody.toString());
 
@@ -201,6 +203,10 @@ public class AsignaComision extends AppCompatActivity {
 
                             Boolean Error = respuesta.getBoolean("oplError");
                             String Mensaje = respuesta.getString("opcError");
+
+                            //JSONObject ds_opdispPainani   = respuesta.getJSONObject("tt_opDispPainani");
+                            //JSONArray tt_opDispPainani = ds_opdispPainani.getJSONArray("tt_opDispPainani");
+                            //globales.g_opDispPList       = Arrays.asList(new Gson().fromJson(tt_opDispPainani.toString(), opDispPainani[].class));
 
 
 

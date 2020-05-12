@@ -158,10 +158,11 @@ public class Home extends AppCompatActivity {
                     if(view.getId()==R.id.switch1){
                         if(sEstatusP.isChecked()){
                             tvEstatusP.setText("Disponible");
-                            ActualizaEstadoP(true, false);
+                            ActualizaEstadoP(true);
+
                         }else {
                             tvEstatusP.setText("No Disponible");
-                            ActualizaEstadoP(false, false);
+                            ActualizaEstadoP(false);
                         }
                     }
 
@@ -171,9 +172,8 @@ public class Home extends AppCompatActivity {
 
         btnSalir.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ActualizaEstadoP(false, true);
-                finish();
-                System.exit(0);
+                CerrarSesion(false, true);
+
             }
         });
 
@@ -194,6 +194,103 @@ public class Home extends AppCompatActivity {
         BuscaCoordenadas();
         onTrimMemory(0x0000003c);
 
+    }
+    public void ActualizaEstadoP(final Boolean vlActivo){
+        int viEstatus = 0;
+
+        if(vlActivo == true){
+            viEstatus = 1;
+        }else {
+            viEstatus = 2;
+        }
+
+
+        getmRequestQueue();
+
+        String urlParams = String.format(url + "ActDispPainani?ipiPainani=%1$s&ipiEstado=%2$s",  globales.g_opDispPList.get(0).getiPainani(), viEstatus );
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.PUT, urlParams, null, new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            JSONObject respuesta = response.getJSONObject("response");
+                            Log.i("respuesta--->", respuesta.toString());
+
+                            String Mensaje = respuesta.getString("opcError");
+                            Boolean Error = respuesta.getBoolean("oplError");
+
+
+                            if (Error == true) {
+                                sEstatusP.setEnabled(true);
+                                MuestraMensaje("Error", Mensaje);
+                                return;
+
+                            } else {
+
+                                MuestraMensaje("Aviso", "Estatus Actualizado");
+
+
+                            }
+                        } catch (JSONException e) {
+                            sEstatusP.setEnabled(true);
+                            AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
+                            myBuild.setMessage("Error en la conversión de Datos. Vuelva a Intentar. " + e);
+                            myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR CONVERSION </font>"));
+                            myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+
+                                }
+                            });
+                            AlertDialog dialog = myBuild.create();
+                            dialog.show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        sEstatusP.setEnabled(true);
+                        // TODO: Handle error
+                        Log.i("Error Respuesta", error.toString());
+                        AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
+                        myBuild.setMessage("No se pudo conectar con el servidor. Vuelva a Intentar. " + error.toString());
+                        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR RESPUESTA </font>"));
+                        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        AlertDialog dialog = myBuild.create();
+                        dialog.show();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("ipiPainani",globales.g_opDispPList.get(0).getiPainani().toString());
+                params.put("ipiEstado", "viEstatus");
+
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        // Access the RequestQueue through your singleton class.
+        mRequestQueue.add(jsonObjectRequest);
     }
 
     public void getmRequestQueue(){
@@ -383,9 +480,6 @@ public class Home extends AppCompatActivity {
 
     public void ConfirmaPedido() {
 
-
-
-
         progressBar.setVisibility(View.VISIBLE);
         final AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
         builder.setCancelable(true);
@@ -432,8 +526,6 @@ public class Home extends AppCompatActivity {
         });
         handler.postDelayed(runnable, 15000);
     }
-
-
 
     public void ActualizaPedido(Boolean vlAceptado){
         final ProgressDialog nDialog;
@@ -526,6 +618,11 @@ public class Home extends AppCompatActivity {
                             } else {
                                 /*Datos de entrega*/
                                 txtDomCli.setText(globales.g_ctPedPainaniList.get(0).getcDirCliente());
+
+
+                                for(opPedidoProveedor objpprov: globales.g_opPedidoProvtList){
+                                    Log.e("home-->", "tiene registros o " + globales.g_opPedidoProvtList.get(0).getiPedido());
+                                }
 
 
                                 /*Encabezado de pedido x Proveedor*/
@@ -690,7 +787,7 @@ public class Home extends AppCompatActivity {
 
     }
 
-    public void ActualizaEstadoP(final Boolean vlEstatus, final Boolean vlSalida){
+    public void CerrarSesion(final Boolean vlEstatus, final Boolean vlSalida){
         btnSalir.setEnabled(false);
 
         final ProgressDialog nDialog;
@@ -699,13 +796,16 @@ public class Home extends AppCompatActivity {
         nDialog.setTitle("Agregando Comisión");
         nDialog.setIndeterminate(false);
 
-        int viEstatus = 0;
+        /*int viEstatus = 0;
 
         if(vlEstatus == false){
             viEstatus = 2;
         } else{
             viEstatus = 1;
         }
+        if(vlSalida == true){
+            viEstatus = 2;
+        }*/
 
 
         opDispPainani objComisionDispP = new opDispPainani();
@@ -716,7 +816,7 @@ public class Home extends AppCompatActivity {
         objComisionDispP.setiCheckIn(globales.g_opDispPList.get(0).getiCheckIn());
         objComisionDispP.setDtCheckOut(globales.g_opDispPList.get(0).getDtCheckOut());
         objComisionDispP.setiCheckOut(globales.g_opDispPList.get(0).getiCheckOut());
-        objComisionDispP.setiEstadoProceso(viEstatus);
+        objComisionDispP.setiEstadoProceso(0);
         objComisionDispP.setDeUltLat(globales.g_opDispPList.get(0).getDeUltLat());
         objComisionDispP.setDeUltLong(globales.g_opDispPList.get(0).getDeUltLong());
 
@@ -740,9 +840,10 @@ public class Home extends AppCompatActivity {
 
 
             jsonDataSet.put("tt_opDispPainani",  opDispPainaniJS);
-
+            jsonParams.put("iplFinal",vlSalida);
             jsonParams.put("ds_opDispPainani", jsonDataSet);
-            jsonParams.put("iplFinal",true);
+
+            //jsonParams.put("iplActivo", vlEstatus);
 
             jsonBody.put("request", jsonParams);
 
@@ -769,6 +870,9 @@ public class Home extends AppCompatActivity {
                             Boolean Error = respuesta.getBoolean("oplError");
                             String Mensaje = respuesta.getString("opcError");
 
+                            //JSONObject ds_opdispPainani   = respuesta.getJSONObject("tt_opDispPainani");
+
+
 
 
                             if (Error == true) {
@@ -777,12 +881,13 @@ public class Home extends AppCompatActivity {
                                 btnSalir.setEnabled(true);
 
                             } else {
-                               /* if(vlSalida == true){
+                                if(vlSalida == true){
                                     finish();
-                                }else{*/
+                                    System.exit(0);
+                                }else{
                                     MuestraMensaje("Alerta" , "Estatus Actualizado");
                                     btnSalir.setEnabled(true);
-                               // }
+                                }
 
                             }
 

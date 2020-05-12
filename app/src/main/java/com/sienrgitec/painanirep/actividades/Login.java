@@ -126,7 +126,7 @@ public class Login extends AppCompatActivity {
         };
         int permissionChecks = ContextCompat.checkSelfPermission(Login.this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,5000,0,locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,100,0,locationListener);
         /*********************/
     }
 
@@ -177,7 +177,7 @@ public class Login extends AppCompatActivity {
             dialog.show();
             return;
         }
-Log.e("login ", "iniciando");
+
 
         getmRequestQueue();
 
@@ -198,16 +198,21 @@ Log.e("login ", "iniciando");
                             JSONObject ds_ctUsuario       = respuesta.getJSONObject("tt_ctUsuario");
                             JSONObject ds_ctComisiones    = respuesta.getJSONObject("tt_ctComisiones");
                             JSONObject ds_ctEstadoPainani = respuesta.getJSONObject("tt_ctEstadoPainani");
-                            JSONObject ds_opdispPainani   = respuesta.getJSONObject("tt_opDispPainani");
+
 
                             JSONArray tt_ctUsuario       = ds_ctUsuario.getJSONArray("tt_ctUsuario");
                             JSONArray tt_ctComisiones    = ds_ctComisiones.getJSONArray("tt_ctComisiones");
                             JSONArray tt_ctEstadoPainani = ds_ctEstadoPainani.getJSONArray("tt_ctEstadoPainani");
-                            JSONArray tt_opDispPainani = ds_opdispPainani.getJSONArray("tt_opDispPainani");
+
 
                             globales.g_ctUsuarioList     = Arrays.asList(new Gson().fromJson(tt_ctUsuario.toString(), ctUsuario[].class));
                             globales.g_ctComisionesList  = Arrays.asList(new Gson().fromJson(tt_ctComisiones.toString(), ctComisiones[].class));
                             globales.g_ctEdoPainaniList  = Arrays.asList(new Gson().fromJson(tt_ctEstadoPainani.toString(), ctEstadoPainani[].class));
+
+
+
+                            JSONObject ds_opdispPainani   = respuesta.getJSONObject("tt_opDispPainani");
+                            JSONArray tt_opDispPainani = ds_opdispPainani.getJSONArray("tt_opDispPainani");
                             globales.g_opDispPList       = Arrays.asList(new Gson().fromJson(tt_opDispPainani.toString(), opDispPainani[].class));
 
 
