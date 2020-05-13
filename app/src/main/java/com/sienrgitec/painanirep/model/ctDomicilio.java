@@ -20,7 +20,25 @@ public class ctDomicilio implements Serializable{
     private String dtModificado;
     private String cUsuCrea;
     private String cUsuModifica;
+    private Double deLongitud;
+    private Double deLatitud;
     private Object id;
+
+    public Double getDeLongitud() {
+        return deLongitud;
+    }
+
+    public void setDeLongitud(Double deLongitud) {
+        this.deLongitud = deLongitud;
+    }
+
+    public Double getDeLatitud() {
+        return deLatitud;
+    }
+
+    public void setDeLatitud(Double deLatitud) {
+        this.deLatitud = deLatitud;
+    }
 
     public Integer getiDomicilio() {
         return iDomicilio;

@@ -168,7 +168,7 @@ public class ValidaDir extends AppCompatActivity {
 
     }
 
-    private void ValidaUbicacion(double vdeLatitud , final double vdeLongitud){
+    private void ValidaUbicacion(final double vdeLatitud , final double vdeLongitud){
 
 
 
@@ -204,6 +204,8 @@ public class ValidaDir extends AppCompatActivity {
 
                             } else {
                                 ctDomicilio objNuevoDom = new ctDomicilio();
+                                objNuevoDom.setDeLatitud(vdeLatitud);
+                                objNuevoDom.setDeLongitud(vdeLongitud);
                                 objNuevoDom.setcCalle(vcCalle.getText().toString());
                                 objNuevoDom.setcNumExt(vcNumE.getText().toString());
                                 objNuevoDom.setcNumInt(vcNumI.getText().toString());
