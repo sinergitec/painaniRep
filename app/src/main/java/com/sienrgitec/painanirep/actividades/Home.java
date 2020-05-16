@@ -535,6 +535,8 @@ public class Home extends AppCompatActivity {
         nDialog.setIndeterminate(false);
 
 
+        globales.opPedPainaniList.clear();
+
         opPedPainani objActualizaPed  = new opPedPainani();
 
         objActualizaPed.setcCvePedido  (globales.g_opPedPainani.getcCvePedido());
@@ -545,8 +547,8 @@ public class Home extends AppCompatActivity {
         objActualizaPed.setDtReasignado(globales.g_opPedPainani.getDtReasignado());
         objActualizaPed.setiAsignadoA  (globales.g_opPedPainani.getiAsignadoA());
         objActualizaPed.setiCliente    (globales.g_opPedPainani.getiCliente());
-        objActualizaPed.setiPainani    (globales.g_opPedPainani.getiPainani());
-        objActualizaPed.setiPedido     (globales.g_opPedPainani.getiPedido());
+        objActualizaPed.setiPainani    (globales.g_opPedPainani.getiPainani());  //
+        objActualizaPed.setiPedido     (globales.g_opPedPainani.getiPedido()); //
         objActualizaPed.setlAceptado   (vlAceptado);
         objActualizaPed.setlContestado (true);
         objActualizaPed.setlReasignado (false);
