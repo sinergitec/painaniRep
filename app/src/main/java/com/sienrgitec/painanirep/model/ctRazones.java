@@ -84,4 +84,9 @@ public class ctRazones implements Serializable {
     public void setId(Object id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return cRazon;
+    }
 }

@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -48,19 +50,15 @@ public class EvaluaCli extends AppCompatActivity {
     private AdapterEvaluacion adapter;
 
     public String  vcTipo   = "Evaluacion al cliente";
-    public Integer viEvalua = 0;
-    public Integer viPunto  = 0;
+    public Integer viEvalua = 0, viPunto  = 0;
+    public Float  vdeCalificacion;
 
-    TextView txtFecha;
-    TextView txtPedidoId;
-    TextView txtPedido;
-    TextView txtCliId;
-    TextView txtCliente;
-    TextView txtObsEvalua;
-    TextView txtValor;
 
-    Button   btnEvaluaCli;
-    Button   btnOk;
+    TextView txtFecha, txtPedidoId, txtPedido, txtCliId, txtCliente, txtObsEvalua, txtValor;
+    RatingBar ratingBar;
+
+    Button   btnEvaluaCli, btnOk;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +71,14 @@ public class EvaluaCli extends AppCompatActivity {
         txtPedido   = (TextView) findViewById(R.id.tvPed);
         txtPedidoId = (TextView) findViewById(R.id.tvPedID);
         txtObsEvalua = (TextView) findViewById(R.id.etObsEvalua);
-        txtValor     = (TextView) findViewById(R.id.etValor);
+
         btnEvaluaCli = (Button)  findViewById(R.id.btnEvalua);
         btnOk        = (Button)  findViewById(R.id.btnOk);
+        ratingBar    = (RatingBar) findViewById(R.id.ratingBar);
 
-        txtFecha.setText(globales.g_opPedPainani.getDtFecha());
+        /*txtFecha.setText(globales.g_opPedPainani.getDtFecha());
         txtCliId.setText(globales.g_opPedPainani.getiCliente().toString());
-        txtPedidoId.setText(globales.g_opPedPainani.getiPedido().toString());
+        txtPedidoId.setText(globales.g_opPedPainani.getiPedido().toString());*/
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -94,6 +93,13 @@ public class EvaluaCli extends AppCompatActivity {
         btnEvaluaCli.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 FinalizarEvaluacion();
+            }
+        });
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                vdeCalificacion = rating;
             }
         });
 
@@ -237,7 +243,7 @@ public class EvaluaCli extends AppCompatActivity {
         objNvaEvaluacion.setiEvalua(viEvalua);
         objNvaEvaluacion.setiTipoPersona(0);
         objNvaEvaluacion.setcTipo(vcTipo);
-        objNvaEvaluacion.setcValor(txtValor.getText().toString());
+        objNvaEvaluacion.setcValor(vdeCalificacion.toString() + "0");
         objNvaEvaluacion.setcObs(txtObsEvalua.getText().toString());
         objNvaEvaluacion.setcUsuCrea(globales.g_ctUsuario.getcUsuario());
         objNvaEvaluacion.setDtCreado("");
@@ -308,6 +314,7 @@ public class EvaluaCli extends AppCompatActivity {
 
                             } else {
                                 MuestraMensaje("Aviso", "La evaluación fue exitosa");
+                                //startActivity(new Intent(EvaluaCli.this, EvaluaProv.class));
                                 startActivity(new Intent(EvaluaCli.this, Home.class));
                                 finish();
 

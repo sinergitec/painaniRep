@@ -36,6 +36,8 @@ import com.sienrgitec.painanirep.R;
 import com.sienrgitec.painanirep.configuracion.Globales;
 import com.sienrgitec.painanirep.model.ctComisiones;
 import com.sienrgitec.painanirep.model.ctEstadoPainani;
+import com.sienrgitec.painanirep.model.ctEstadoProceso;
+import com.sienrgitec.painanirep.model.ctRazones;
 import com.sienrgitec.painanirep.model.ctUsuario;
 import com.sienrgitec.painanirep.model.opDispPainani;
 
@@ -77,7 +79,7 @@ public class Login extends AppCompatActivity {
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 BuscarUsuario();
-                /*startActivity(new Intent(Login.this, Home.class));
+               /* startActivity(new Intent(Login.this, ActEdoProceso.class));
                 finish();*/
             }
         });
@@ -201,16 +203,25 @@ public class Login extends AppCompatActivity {
                             JSONObject ds_ctUsuario       = respuesta.getJSONObject("tt_ctUsuario");
                             JSONObject ds_ctComisiones    = respuesta.getJSONObject("tt_ctComisiones");
                             JSONObject ds_ctEstadoPainani = respuesta.getJSONObject("tt_ctEstadoPainani");
+                            JSONObject ds_ctRazones       = respuesta.getJSONObject("tt_ctRazones");
+                            JSONObject ds_ctEdoProceso    = respuesta.getJSONObject("tt_ctEstadoProceso");
 
 
                             JSONArray tt_ctUsuario       = ds_ctUsuario.getJSONArray("tt_ctUsuario");
                             JSONArray tt_ctComisiones    = ds_ctComisiones.getJSONArray("tt_ctComisiones");
                             JSONArray tt_ctEstadoPainani = ds_ctEstadoPainani.getJSONArray("tt_ctEstadoPainani");
+                            JSONArray tt_ctRazones       = ds_ctRazones.getJSONArray("tt_ctRazones");
+                            JSONArray tt_ctEstadoProceso = ds_ctEdoProceso.getJSONArray("tt_ctEstadoProceso");
+
 
 
                             globales.g_ctUsuarioList     = Arrays.asList(new Gson().fromJson(tt_ctUsuario.toString(), ctUsuario[].class));
                             globales.g_ctComisionesList  = Arrays.asList(new Gson().fromJson(tt_ctComisiones.toString(), ctComisiones[].class));
                             globales.g_ctEdoPainaniList  = Arrays.asList(new Gson().fromJson(tt_ctEstadoPainani.toString(), ctEstadoPainani[].class));
+                            globales.g_ctRazonesList     = Arrays.asList(new Gson().fromJson(tt_ctRazones.toString(), ctRazones[].class));
+                            globales.g_ctEdoProcesoList  = Arrays.asList(new Gson().fromJson(tt_ctEstadoProceso.toString(), ctEstadoProceso[].class));
+
+
 
 
 
@@ -232,7 +243,7 @@ public class Login extends AppCompatActivity {
                                     startActivity(new Intent(Login.this, AsignaComision.class));
                                     finish();
                                 }else {
-                                    startActivity(new Intent(Login.this, Home.class));
+                                    startActivity(new Intent(Login.this, ActEdoProceso.class));
                                     finish();
                                 }
                             }

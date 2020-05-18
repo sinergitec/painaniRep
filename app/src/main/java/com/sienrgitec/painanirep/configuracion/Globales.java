@@ -4,11 +4,14 @@ import com.sienrgitec.painanirep.model.ctComisiones;
 import com.sienrgitec.painanirep.model.ctContacto;
 import com.sienrgitec.painanirep.model.ctDomicilio;
 import com.sienrgitec.painanirep.model.ctEstadoPainani;
+import com.sienrgitec.painanirep.model.ctEstadoProceso;
 import com.sienrgitec.painanirep.model.ctEvaluacion;
 import com.sienrgitec.painanirep.model.ctPainani;
+import com.sienrgitec.painanirep.model.ctRazones;
 import com.sienrgitec.painanirep.model.ctUsuario;
 import com.sienrgitec.painanirep.model.opClienteEvalua;
 import com.sienrgitec.painanirep.model.opDispPainani;
+import com.sienrgitec.painanirep.model.opPausaPainani;
 import com.sienrgitec.painanirep.model.opPedPainani;
 import com.sienrgitec.painanirep.model.opPedPainaniDet;
 import com.sienrgitec.painanirep.model.opPedido;
@@ -21,8 +24,8 @@ import java.util.List;
 
 public class Globales {
 
-    //public static  String  URL = "http://192.168.1.102:8083/painal/rest/painalService/";
-    public static  String  URL = "http://sinergitecdemo.ddns.net:8083/painal/rest/painalService/";
+    public static  String  URL = "http://192.168.1.102:8083/painal/rest/painalService/";
+    //public static  String  URL = "http://sinergitecdemo.ddns.net:8083/painal/rest/painalService/";
 
     public static Double vg_deLatitud, vg_deLongitud;
 
@@ -40,6 +43,8 @@ public class Globales {
     public static List<ctComisiones>    g_ctComisionesList    = null;
     public static List<ctEstadoPainani> g_ctEdoPainaniList    = null;
     public static List<opDispPainani>   g_opDispPList         = null;
+    public static List<ctRazones>       g_ctRazonesList       = null;
+    public static List<ctEstadoProceso> g_ctEdoProcesoList    = null;
 
 
     public static ArrayList<ctDomicilio>    ctDomicilioList     = new ArrayList<>();
@@ -49,6 +54,7 @@ public class Globales {
     public static ArrayList<opUbicaPainani> opUbicaPainaniList  = new ArrayList<>();
     public static ArrayList<opPedPainani>   opPedPainaniList    = new ArrayList<>();
     public static ArrayList<opDispPainani>  opDispPainani       = new ArrayList<>();
+    public static ArrayList<opPausaPainani> opPausaPainani      = new ArrayList<>();
 
     public static ArrayList<opClienteEvalua> opClienteEvaluaList = new ArrayList<opClienteEvalua>();
     public static ArrayList<opPedidoDet>     g_ctDetalleFinal    = new ArrayList<opPedidoDet>();

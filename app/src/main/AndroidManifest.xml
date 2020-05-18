@@ -15,21 +15,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
-        <activity android:name=".actividades.Inicio"
+        <activity android:name=".actividades.ActEdoProceso"
+            android:theme="@style/AppTheme.EvaluaCli"/>
+
+
+        <activity android:name=".actividades.EvaluaProv" />
+        <activity
+            android:name=".actividades.Inicio"
             android:theme="@style/AppTheme.EvaluaCli">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".actividades.AsignaComision"
-            android:theme="@style/AppTheme.Login"/>
+        <activity
+            android:name=".actividades.AsignaComision"
+            android:theme="@style/AppTheme.Login" />
         <activity
             android:name=".actividades.EvaluaCli"
             android:label="Evalúa Cliente"
-            android:theme="@style/AppTheme.EvaluaCli" />
+            android:theme="@style/AppTheme.EvaluaCli"></activity>
         <activity
             android:name=".actividades.Home"
             android:label="PAINAL"
@@ -53,9 +59,7 @@
         <activity
             android:name=".actividades.Login"
             android:label="PAINAL"
-            android:theme="@style/AppTheme.Login">
-
-        </activity>
+            android:theme="@style/AppTheme.Login" />
         <activity android:name=".MainActivity" />
     </application>
 
