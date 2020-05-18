@@ -5,8 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,16 +15,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
-        android:theme="@style/AppTheme">
-        <activity android:name=".actividades.AsignaComision"></activity>
+        <activity android:name=".actividades.Inicio"
+            android:theme="@style/AppTheme.EvaluaCli">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".actividades.AsignaComision"
+            android:theme="@style/AppTheme.Login"/>
         <activity
             android:name=".actividades.EvaluaCli"
             android:label="Evalúa Cliente"
-            android:theme="@style/AppTheme.EvaluaCli"></activity>
+            android:theme="@style/AppTheme.EvaluaCli" />
         <activity
             android:name=".actividades.Home"
             android:label="PAINAL"
-            android:theme = "@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".actividades.CreaContacto"
             android:label="PAINAL"
@@ -45,11 +54,7 @@
             android:name=".actividades.Login"
             android:label="PAINAL"
             android:theme="@style/AppTheme.Login">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
     </application>

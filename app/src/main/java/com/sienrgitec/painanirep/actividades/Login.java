@@ -94,7 +94,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        int permissionCheck = ContextCompat.checkSelfPermission(this,
+       /* int permissionCheck = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         if(permissionCheck == PackageManager.PERMISSION_DENIED){
             if(ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -127,12 +127,14 @@ public class Login extends AppCompatActivity {
         int permissionChecks = ContextCompat.checkSelfPermission(Login.this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,100,0,locationListener);
-        /*********************/
+
+
+       */
     }
 
     public void BuscarUsuario(){
         btnEntrar.setEnabled(false);
-        /**busca coordenadas**/
+
         globales.g_ctComisionesList    = null;
 
 
@@ -181,7 +183,8 @@ public class Login extends AppCompatActivity {
 
         getmRequestQueue();
 
-        String urlParams = String.format(url + "buscaPainani?ipcUsuario=%1$s&ipcPassword=%2$s&ipdeLatitud=%3$s&ipdeLongitud=%4$s", vcUsuLog, password, vdeLatitud, vdeLatitud );
+        String urlParams = String.format(url + "buscaPainani?ipcUsuario=%1$s&ipcPassword=%2$s&ipdeLatitud=%3$s&ipdeLongitud=%4$s", vcUsuLog, password, globales.vg_deLatitud,
+                globales.vg_deLongitud );
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, urlParams, null, new Response.Listener<JSONObject>() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -275,8 +278,8 @@ public class Login extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("ipcUsuario", vcUsuLog);
                 params.put("ipcPassword", password);
-                params.put("ipdeLatitud","vdeLatitud");
-                params.put("ipdeLongitud", "vdeLongitud");
+                params.put("ipdeLatitud",globales.vg_deLatitud.toString());
+                params.put("ipdeLongitud",globales.vg_deLongitud.toString());
 
 
 
