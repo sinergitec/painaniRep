@@ -12,7 +12,7 @@ public class ctEstadoProceso implements Serializable {
     private Boolean lActivo;
     private Object id;
 
-/*modelos de ctEstadoproceso*/
+/*modelos de ctEstadoprocesos*/
     public String getcEstadoPedido() {
         return cEstadoPedido;
     }
