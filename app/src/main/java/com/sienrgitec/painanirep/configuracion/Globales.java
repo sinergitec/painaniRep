@@ -24,8 +24,8 @@ import java.util.List;
 
 public class Globales {
 
-    public static  String  URL = "http://192.168.1.102:8083/painal/rest/painalService/";
-    //public static  String  URL = "http://sinergitecdemo.ddns.net:8083/painal/rest/painalService/";
+    //public static  String  URL = "http://192.168.1.102:8083/painal/rest/painalService/";
+    public static  String  URL = "http://sinergitecdemo.ddns.net:8083/painal/rest/painalService/";
 
     public static Double vg_deLatitud, vg_deLongitud;
 
