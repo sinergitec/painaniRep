@@ -89,12 +89,12 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <GridView
-                android:id="@+id/gridRazones"
-                android:layout_width="598dp"
-                android:layout_height="fill_parent"
+            <ListView
+                android:id="@+id/lvRazones"
+                android:layout_width="296dp"
+                android:layout_height="83dp"
                 tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="402dp" />
+                tools:layout_editor_absoluteY="540dp" />
 
         </TableRow>
     </TableLayout>
@@ -111,6 +111,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tableRow5"
         app:layout_constraintVertical_bias="0.972" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

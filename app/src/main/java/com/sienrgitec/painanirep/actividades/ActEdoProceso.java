@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -56,6 +57,7 @@ public class ActEdoProceso extends AppCompatActivity {
     public Integer  viEdoProceso = 0, viRazon = 0;
     public String   vcRazon = "", url = globales.URL;
     private static RequestQueue mRequestQueue;
+    private AdapterRazones adapter;
 
     RelativeLayout rlEstadoProc;
     TableRow       trRazones;
@@ -72,7 +74,7 @@ public class ActEdoProceso extends AppCompatActivity {
         trRazones    = (TableRow) findViewById(R.id.tableRow5);
         btnActProc   = (Button) findViewById(R.id.button);
         tlRazones    = (TableLayout) findViewById(R.id.Razones);
-        gridRazones = (GridView) findViewById(R.id.gridRazones);
+
 
         int vxMod = 0, vyMod = 0, viEstados = 0;
 
@@ -88,9 +90,16 @@ public class ActEdoProceso extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<ctRazones> adapter = new ArrayAdapter<ctRazones>(ActEdoProceso.this, simple_list_item_1, globales.g_ctRazonesList);
-        gridRazones.setAdapter(adapter);
+        final ListView lviewDetPed = (ListView) findViewById(R.id.lvRazones);
+        ArrayList<ctRazones> arrayRazones = new ArrayList<ctRazones>(globales.g_ctRazonesList);
+        adapter = new AdapterRazones(ActEdoProceso.this,arrayRazones );
+        lviewDetPed.setAdapter(adapter);
 
+
+
+
+        /*ArrayAdapter<ctRazones> adapter = new ArrayAdapter<ctRazones>(ActEdoProceso.this, simple_list_item_1, globales.g_ctRazonesList);
+        gridRazones.setAdapter(adapter);
         gridRazones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
@@ -100,7 +109,7 @@ public class ActEdoProceso extends AppCompatActivity {
                 //txtMotivo.setText(ListRazonCan.get(i).getCNombre());
 
             }
-        });
+        });*/
 
 
         for (final ctEstadoProceso objctEstado : globales.g_ctEdoProcesoList) {
@@ -136,6 +145,10 @@ public class ActEdoProceso extends AppCompatActivity {
             trRazones.setVisibility(View.VISIBLE);
             btnActProc.setVisibility(View.VISIBLE);
             tlRazones.setVisibility(View.VISIBLE);
+
+
+
+
         }else{
             trRazones.setVisibility(View.INVISIBLE);
             btnActProc.setVisibility(View.INVISIBLE);
