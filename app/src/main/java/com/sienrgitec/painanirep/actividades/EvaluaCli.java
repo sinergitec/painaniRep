@@ -143,9 +143,6 @@ public class EvaluaCli extends AppCompatActivity {
                                         viPunto   = (globales.g_ctEvaluacionList.get(iPartida).getiPunto());
                                     }
                                 });
-
-
-
                             }
                         } catch (JSONException e) {
                             AlertDialog.Builder myBuild = new AlertDialog.Builder(EvaluaCli.this);
@@ -231,10 +228,7 @@ public class EvaluaCli extends AppCompatActivity {
         return;
     }
     public void CreaEvaluacion(){
-        if(txtValor.getText().toString().equals("")){
-            MuestraMensaje("Error","Debes de asignar un valor para poder continuar");
-            return;
-        }
+
 
         opClienteEvalua objNvaEvaluacion = new opClienteEvalua();
         objNvaEvaluacion.setiPedido(globales.g_opPedPainani.getiPedido());
@@ -351,4 +345,5 @@ public class EvaluaCli extends AppCompatActivity {
 
 
     }
+
 }

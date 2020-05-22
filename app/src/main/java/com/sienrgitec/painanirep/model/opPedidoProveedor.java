@@ -21,8 +21,16 @@ public class opPedidoProveedor implements Serializable {
     private Integer iProveedor;
     private Boolean lContestado;
     private Boolean lPagado;
+    private Boolean lSurtido;
     private Object id;
 
+    public Boolean getlSurtido() {
+        return lSurtido;
+    }
+
+    public void setlSurtido(Boolean lSurtido) {
+        this.lSurtido = lSurtido;
+    }
 
     public String getcUsuCrea() {
         return cUsuCrea;

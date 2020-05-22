@@ -183,10 +183,9 @@ public class Home extends AppCompatActivity {
                 NotificationManager notificationManager = ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE));
                 notificationManager.cancelAll();
 
-
+                TerminarPedido();
                 //BuscarUsuario();
-                startActivity(new Intent(Home.this, EvaluaCli.class));
-                finish();
+
 
             }
         });
@@ -921,6 +920,97 @@ public class Home extends AppCompatActivity {
             }
         };
         mRequestQueue.add(jsonObjectRequest);
+    }
+
+    public void TerminarPedido(){
+        getmRequestQueue();
+
+        String urlParams = String.format(url + "pedTitlaniAct?ipiUnidad=%1$s&ipiPedido=%2$s&ipcUsuario=%3$s", 1, globales.g_opPedPainani.getiPedido(), globales.g_ctUsuario.getcUsuario() );
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.PUT, urlParams, null, new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            JSONObject respuesta = response.getJSONObject("response");
+                            Log.i("respuesta--->", respuesta.toString());
+
+                            String Mensaje = respuesta.getString("opcError");
+                            Boolean Error = respuesta.getBoolean("oplError");
+
+
+
+                            if (Error == true) {
+                                btnFin.setEnabled(true);
+                                MuestraMensaje("Error", Mensaje);
+                                return;
+
+                            } else {
+                                MuestraMensaje("Aviso", "Pedido Finalizafo. Evalua Cliente");
+
+                                startActivity(new Intent(Home.this, EvaluaCli.class));
+                                finish();
+                            }
+                        } catch (JSONException e) {
+                            btnFin.setEnabled(true);
+                            AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
+                            myBuild.setMessage("Error en la conversión de Datos. Vuelva a Intentar. " + e);
+                            myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR CONVERSION </font>"));
+                            myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+
+                                }
+                            });
+                            AlertDialog dialog = myBuild.create();
+                            dialog.show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        btnFin.setEnabled(true);
+                        // TODO: Handle error
+                        Log.i("Error Respuesta", error.toString());
+                        AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
+                        myBuild.setMessage("No se pudo conectar con el servidor. Vuelva a Intentar. " + error.toString());
+                        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR RESPUESTA </font>"));
+                        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        AlertDialog dialog = myBuild.create();
+                        dialog.show();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("ipiUnidad","vdeLatitud");
+                params.put("ipiPedido", "vdeLongitud");
+                params.put("ipcUsuario", globales.g_ctUsuario.getcUsuario());
+
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        // Access the RequestQueue through your singleton class.
+        mRequestQueue.add(jsonObjectRequest);
+
     }
 
 

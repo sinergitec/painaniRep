@@ -243,7 +243,7 @@ public class Login extends AppCompatActivity {
                                     startActivity(new Intent(Login.this, AsignaComision.class));
                                     finish();
                                 }else {
-                                    startActivity(new Intent(Login.this, ActEdoProceso.class));
+                                    startActivity(new Intent(Login.this, Home.class));
                                     finish();
                                 }
                             }
