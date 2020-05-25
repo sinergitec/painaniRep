@@ -174,6 +174,8 @@ public class Home extends AppCompatActivity {
             public void onClick(View v) {
                 CerrarSesion(false, true);
 
+                //Log.e("Home tendo pedidos", "folio" +  globales.g_opPedidoList.get(0).getiPedido());
+
             }
         });
 
