@@ -9,6 +9,7 @@ public class opPedidoProveedor implements Serializable {
     private Double deImpuesto;
     private Double deSubTotal;
     private Double deTotalPzas;
+    private Double dePropina;
     private String dtAvisado;
     private String dtContestado;
     private String dtCreado;
@@ -31,6 +32,15 @@ public class opPedidoProveedor implements Serializable {
     public void setlSurtido(Boolean lSurtido) {
         this.lSurtido = lSurtido;
     }
+
+    public Double getDePropina() {
+        return dePropina;
+    }
+
+    public void setDePropina(Double dePropina) {
+        this.dePropina = dePropina;
+    }
+
 
     public String getcUsuCrea() {
         return cUsuCrea;

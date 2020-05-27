@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".actividades.Login"
-    android:background="#e0e0e0">
+    android:background="#FFFFFF">
 
 
     <Button
@@ -35,7 +35,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEntrar" />
+        app:layout_constraintTop_toBottomOf="@+id/btnEntrar"
+        android:gravity="center_horizontal" />
 
     <TableLayout
         android:id="@+id/tableLayout4"

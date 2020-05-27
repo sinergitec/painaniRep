@@ -13,9 +13,37 @@ public class ctContacto implements Serializable {
     private String  cObs;
     private Boolean lActivo;
     private String  dtCreado;
+
+    public String getcEmail() {
+        return cEmail;
+    }
+
+    public void setcEmail(String cEmail) {
+        this.cEmail = cEmail;
+    }
+
+    public String getcTelefono1() {
+        return cTelefono1;
+    }
+
+    public void setcTelefono1(String cTelefono1) {
+        this.cTelefono1 = cTelefono1;
+    }
+
+    public String getcTelefono2() {
+        return cTelefono2;
+    }
+
+    public void setcTelefono2(String cTelefono2) {
+        this.cTelefono2 = cTelefono2;
+    }
+
     private String  dtModificado;
     private String  cUsuCrea;
     private String  cUsuModifica;
+    private String cEmail;
+    private String cTelefono1;
+    private String cTelefono2;
     private Object  id;
 
     public Integer getiContacto() {

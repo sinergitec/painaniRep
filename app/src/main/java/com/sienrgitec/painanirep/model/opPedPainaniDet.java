@@ -9,11 +9,20 @@ public class opPedPainaniDet implements Serializable {
     private String deTotalPiezas;
     private String dtLlega;
     private String dtSale;
+    private String dtTTraslado;
     private Integer iPainani;
     private Integer iPartida;
     private Integer iPedido;
     private Integer iProveedor;
     private Object id;
+
+    public String getDtTTraslado() {
+        return dtTTraslado;
+    }
+
+    public void setDtTTraslado(String dtTTraslado) {
+        this.dtTTraslado = dtTTraslado;
+    }
 
     public String getcDirProveedor() {
         return cDirProveedor;

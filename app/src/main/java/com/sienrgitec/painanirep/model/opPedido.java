@@ -15,6 +15,8 @@ public class opPedido implements Serializable {
     private Double  dePropina;
     private Double  deSubTotal;
     private Double  deTotalPiezas;
+    private Double  deTiempoLlega;
+    private Double  deTRecorrido;
     private String  dtAsignado;
     private String  dtCancelado;
     private String  dtCreado;
@@ -31,6 +33,23 @@ public class opPedido implements Serializable {
     private Integer iRazon;
     private Integer iUnidad;
     private Object id;
+
+
+    public Double getDeTiempoLlega() {
+        return deTiempoLlega;
+    }
+
+    public void setDeTiempoLlega(Double deTiempoLlega) {
+        this.deTiempoLlega = deTiempoLlega;
+    }
+
+    public Double getDeTRecorrido() {
+        return deTRecorrido;
+    }
+
+    public void setDeTRecorrido(Double deTRecorrido) {
+        this.deTRecorrido = deTRecorrido;
+    }
 
     public String getcCvePedido() {
         return cCvePedido;

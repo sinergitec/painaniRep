@@ -76,9 +76,9 @@ public class EvaluaCli extends AppCompatActivity {
         btnOk        = (Button)  findViewById(R.id.btnOk);
         ratingBar    = (RatingBar) findViewById(R.id.ratingBar);
 
-        /*txtFecha.setText(globales.g_opPedPainani.getDtFecha());
+        txtFecha.setText(globales.g_opPedPainani.getDtFecha());
         txtCliId.setText(globales.g_opPedPainani.getiCliente().toString());
-        txtPedidoId.setText(globales.g_opPedPainani.getiPedido().toString());*/
+        txtPedidoId.setText(globales.g_opPedPainani.getiPedido().toString());
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

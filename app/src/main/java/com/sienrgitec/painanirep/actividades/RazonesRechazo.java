@@ -3,7 +3,6 @@ package com.sienrgitec.painanirep.actividades;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -13,15 +12,9 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -37,7 +30,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sienrgitec.painanirep.R;
 import com.sienrgitec.painanirep.configuracion.Globales;
-import com.sienrgitec.painanirep.model.ctEstadoProceso;
 import com.sienrgitec.painanirep.model.ctRazones;
 import com.sienrgitec.painanirep.model.opPausaPainani;
 
@@ -49,9 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.R.layout.simple_list_item_1;
-
-public class ActEdoProceso extends AppCompatActivity {
+public class RazonesRechazo extends AppCompatActivity {
 
     public Globales globales;
     public Integer  viEdoProceso = 0, viRazon = 0;
@@ -60,106 +50,41 @@ public class ActEdoProceso extends AppCompatActivity {
     private AdapterRazones adapter;
 
     RelativeLayout rlEstadoProc;
-    TableRow       trRazones;
-    Button         btnActProc;
-    TableLayout    tlRazones;
-    GridView       gridRazones;
+    TableRow trRazones;
+    Button btnAceptar;
+    TableLayout tlRazones;
+    GridView gridRazones;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_act_edo_proceso);
+        setContentView(R.layout.activity_razones_rechazo);
 
         rlEstadoProc = (RelativeLayout) findViewById(R.id.edoproc);
         trRazones    = (TableRow) findViewById(R.id.tableRow5);
-        btnActProc   = (Button) findViewById(R.id.button);
+        btnAceptar   = (Button) findViewById(R.id.button);
         tlRazones    = (TableLayout) findViewById(R.id.Razones);
-
-
-        int vxMod = 0, vyMod = 0, viEstados = 0;
-
-
-
-        RadioGroup rgEstadoP = new RadioGroup(this);
-        rgEstadoP.setOrientation(RadioGroup.HORIZONTAL);
-
-        btnActProc.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                btnActProc.setEnabled(false);
-                ActualizaProceso();
-            }
-        });
 
         final ListView lviewDetPed = (ListView) findViewById(R.id.lvRazones);
         ArrayList<ctRazones> arrayRazones = new ArrayList<ctRazones>(globales.g_ctRazonesList);
-        adapter = new AdapterRazones(ActEdoProceso.this,arrayRazones );
+        adapter = new AdapterRazones(RazonesRechazo.this,arrayRazones );
         lviewDetPed.setAdapter(adapter);
 
-
-
-
-        /*ArrayAdapter<ctRazones> adapter = new ArrayAdapter<ctRazones>(ActEdoProceso.this, simple_list_item_1, globales.g_ctRazonesList);
-        gridRazones.setAdapter(adapter);
-        gridRazones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-
-                viRazon= globales.g_ctRazonesList.get(i).getiRazon();
-                vcRazon = globales.g_ctRazonesList.get(i).getcRazon();
-                //txtMotivo.setText(ListRazonCan.get(i).getCNombre());
-
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                btnAceptar.setEnabled(false);
+                CreaRechazo();
             }
-        });*/
+        });
 
 
-        for (final ctEstadoProceso objctEstado : globales.g_ctEdoProcesoList) {
-
-            viEstados = viEstados + 1;
-
-            RadioButton rbEdoProceso = new RadioButton(this);
-            rbEdoProceso.setText(objctEstado.getcEstadoPedido());
-            rbEdoProceso.setHeight(75);
-            rbEdoProceso.setLayoutParams(new RadioGroup.LayoutParams(180, 50)); //150
-
-            rgEstadoP.addView(rbEdoProceso);
-
-            if (viEstados % 3 == 0) {
-                vxMod = 0;
-                vyMod = vyMod + 35;
-            } else {
-                vxMod = vxMod + 80;
-            }
-
-            rbEdoProceso.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    viEdoProceso =  objctEstado.getiEstadoProceso();
-                    MuestraRazones(viEdoProceso);
-                }
-            });
-
-        }
-        rlEstadoProc.addView(rgEstadoP);
     }
-    public void MuestraRazones(Integer viEstado){
-        if (viEstado == 3 || viEstado == 4){
-            trRazones.setVisibility(View.VISIBLE);
-            btnActProc.setVisibility(View.VISIBLE);
-            tlRazones.setVisibility(View.VISIBLE);
 
-
-
-
-        }else{
-            trRazones.setVisibility(View.INVISIBLE);
-            btnActProc.setVisibility(View.INVISIBLE);
-            tlRazones.setVisibility(View.INVISIBLE);
-        }
-    }
-    public void ActualizaProceso(){
+    public void CreaRechazo(){
         globales.opPausaPainani.clear();
 
         final ProgressDialog nDialog;
-        nDialog = new ProgressDialog(ActEdoProceso.this);
+        nDialog = new ProgressDialog(RazonesRechazo.this);
         nDialog.setMessage("Cargando...");
         nDialog.setTitle("Creando Razones");
         nDialog.setIndeterminate(false);
@@ -176,7 +101,7 @@ public class ActEdoProceso extends AppCompatActivity {
         ObjopPausaP.setcTipoRazon(vcRazon);
         ObjopPausaP.setiPartida(0);
         ObjopPausaP.setDtPausa(null);
-        ObjopPausaP.setcObs(vcObservaciones);
+        ObjopPausaP.setcObs("RECHAZO PEDIDO: " + vcObservaciones);
         ObjopPausaP.setDtCreado(null);
         ObjopPausaP.setDtModifca(null);
         ObjopPausaP.setcUsuCrea(globales.g_ctUsuario.getcUsuario());
@@ -207,7 +132,7 @@ public class ActEdoProceso extends AppCompatActivity {
             e.printStackTrace();
             //nDialog.dismiss();
             MuestraMensaje("Error", e.getMessage());
-            btnActProc.setEnabled(true);
+            btnAceptar.setEnabled(true);
         }
 
         getmRequestQueue();
@@ -226,12 +151,10 @@ public class ActEdoProceso extends AppCompatActivity {
                             if (Error == true) {
                                 nDialog.dismiss();
                                 MuestraMensaje("Error" , Mensaje);
-                                btnActProc.setEnabled(true);
+                                btnAceptar.setEnabled(true);
 
                             } else {
-                                MuestraMensaje("Aviso", "Estao de Proceso Actualizado");
-                                nDialog.dismiss();
-                                startActivity(new Intent(ActEdoProceso.this, Home.class));
+                                startActivity(new Intent(RazonesRechazo.this, Home.class));
                                 finish();
 
                             }
@@ -243,7 +166,7 @@ public class ActEdoProceso extends AppCompatActivity {
                             nDialog.dismiss();
                             Log.i("Error JSONExcepcion", e.getMessage());
                             MuestraMensaje("Error", "Error Conversión de Datos." + "\n " + e.getMessage());
-                            btnActProc.setEnabled(true);
+                            btnAceptar.setEnabled(true);
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -254,7 +177,7 @@ public class ActEdoProceso extends AppCompatActivity {
                         Log.i("Error", error.toString());
                         nDialog.dismiss();
                         MuestraMensaje("Error", error.toString());
-                        btnActProc.setEnabled(true);
+                        btnAceptar.setEnabled(true);
                     }
                 }) {
             @Override
@@ -265,23 +188,6 @@ public class ActEdoProceso extends AppCompatActivity {
             }
         };
         mRequestQueue.add(jsonObjectRequest);
-
-    }
-    public void MuestraMensaje(String vcTitulo, String vcMensaje){
-        AlertDialog.Builder myBuild = new AlertDialog.Builder(ActEdoProceso.this);
-        myBuild.setMessage(vcMensaje);
-        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'>" + vcTitulo +"</font>"));
-        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                btnActProc.setEnabled(true);
-
-            }
-        });
-        AlertDialog dialog = myBuild.create();
-        dialog.show();
-        return;
     }
     public void getmRequestQueue(){
         try{
@@ -292,5 +198,21 @@ public class ActEdoProceso extends AppCompatActivity {
         }catch(Exception e){
             Log.d("Volley",e.toString());
         }
+    }
+    public void MuestraMensaje(String vcTitulo, String vcMensaje){
+        AlertDialog.Builder myBuild = new AlertDialog.Builder(RazonesRechazo.this);
+        myBuild.setMessage(vcMensaje);
+        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'>" + vcTitulo +"</font>"));
+        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                btnAceptar.setEnabled(true);
+
+            }
+        });
+        AlertDialog dialog = myBuild.create();
+        dialog.show();
+        return;
     }
 }

@@ -55,10 +55,12 @@
         android:layout_height="22dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tableRow2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.007">
+
         <Switch
             android:id="@+id/switch1"
             android:layout_width="70dp"
@@ -299,7 +301,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btnaceptar"
                 android:ems="9"
-                android:text="ARRIBO PROVEEDOR"
+                android:text="LLEGADA PROV"
                 android:textColor="@android:color/white" />
 
             <ProgressBar
@@ -315,7 +317,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btncancelar"
                 android:ems="9"
-                android:text="RECOLECCION"
+                android:text="SALIDA PROV"
                 android:textColor="@android:color/white"
                 app:layout_constraintTop_toBottomOf="@+id/tableLayout11" />
 
@@ -346,10 +348,10 @@
         android:id="@+id/btnEstatus"
         android:layout_width="90dp"
         android:layout_height="35dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/btniniciar"
         android:ems="10"
         android:text="estatus"
-        android:visibility="invisible"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -358,15 +360,28 @@
         android:id="@+id/btnSalir"
         android:layout_width="90dp"
         android:layout_height="35dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/btniniciar"
         android:ems="10"
         android:text="salir"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnEstatus"
 
+        app:layout_constraintEnd_toStartOf="@+id/btnEstatus"
         app:layout_constraintHorizontal_bias="0.005"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ibtnBuscar"
+        android:layout_width="55dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/btniniciar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnEstatus"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toEndOf="@+id/btnSalir"
+        app:srcCompat="@android:drawable/ic_menu_search" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
