@@ -128,6 +128,7 @@ public class Home extends AppCompatActivity {
         sEstatusP  = (Switch)   findViewById(R.id.switch1);
         btnSalir = (Button) findViewById(R.id.btnSalir);
         ibtnBuscarPed = (ImageButton) findViewById(R.id.ibtnBuscar);
+        btnEstatus = (Button) findViewById(R.id.btnEstatus);
 
 
         notificacion = new NotificationCompat.Builder(this);
