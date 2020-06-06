@@ -56,14 +56,7 @@ public class ValidaDir extends AppCompatActivity {
 
     private String url = globales.URL;
 
-    EditText vcCalle;
-    EditText vcNumE;
-    EditText vcNumI;
-    EditText vcColonia;
-    EditText vcDelegacion;
-    EditText vcEstado;
-    EditText vcPais;
-    EditText vcCP;
+    EditText vcCalle, vcNumE, vcNumI, vcColonia, vcDelegacion, vcEstado, vcPais, vcCP, vcReferencia;
     Button   btnValida;
     Button   btnCancelar;
 
@@ -84,6 +77,7 @@ public class ValidaDir extends AppCompatActivity {
         vcCP     =   (EditText) findViewById(R.id.etCP);
         vcColonia    = (EditText) findViewById(R.id.etColonia);
         vcDelegacion = (EditText) findViewById(R.id.etAlcaldia);
+        vcReferencia = (EditText) findViewById(R.id.etReferencia);
 
         btnValida   = (Button) findViewById(R.id.btnValida);
         btnCancelar = (Button) findViewById(R.id.btnCancelar);
@@ -214,7 +208,7 @@ public class ValidaDir extends AppCompatActivity {
                                 objNuevoDom.setcEstado(vcEstado.getText().toString());
                                 objNuevoDom.setcCP(vcCP.getText().toString());
                                 objNuevoDom.setcPais(vcPais.getText().toString());
-                                objNuevoDom.setcReferencia("");
+                                objNuevoDom.setcReferencia(vcReferencia.getText().toString());
                                 objNuevoDom.setcObs("");
                                 objNuevoDom.setlActivo(true);
                                 objNuevoDom.setDtCreado(null);

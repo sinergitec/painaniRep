@@ -107,13 +107,26 @@
     <TableLayout
         android:id="@+id/tableLayout2"
         android:layout_width="361dp"
-        android:layout_height="142dp"
+        android:layout_height="182dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.618"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout"
         app:layout_constraintVertical_bias="0.038">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/etReferencia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="16"
+                android:hint="Referencia"
+                tools:layout_editor_absoluteX="4dp"
+                tools:layout_editor_absoluteY="454dp" />
+        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"

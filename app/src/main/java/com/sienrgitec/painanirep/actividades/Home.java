@@ -312,6 +312,7 @@ public class Home extends AppCompatActivity {
                                         ConstruyeDet( viPedido,  viPedidoProv);
                                     }
                                 });
+                                txtDomCli.setText(globales.g_ctPedPainaniList.get(0).getcDirCliente());
 
 
                             }

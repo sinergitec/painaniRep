@@ -10,7 +10,10 @@ public class ctUsuario implements Serializable{
     private String dtCreado;
     private String dtModificado;
     private String cUsuarioC;
+    private Integer iDomicilio;
     private Object id;
+
+
 
     public String getcUsuario() {
         return cUsuario;
@@ -28,7 +31,13 @@ public class ctUsuario implements Serializable{
         this.iPersona = iPersona;
     }
 
+    public Integer getiDomicilio() {
+        return iDomicilio;
+    }
 
+    public void setiDomicilio(Integer iDomicilio) {
+        this.iDomicilio = iDomicilio;
+    }
 
     public Integer getiTipoPersona() {
         return iTipoPersona;
