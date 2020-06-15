@@ -44,7 +44,7 @@ public class Inicio extends AppCompatActivity {
 
                 startActivity(intent);
                 fileList();
-               // finish();
+                finish();
             }
         }, DURACION_SPLASH);
 

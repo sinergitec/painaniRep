@@ -50,6 +50,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sienrgitec.painanirep.R;
+import com.sienrgitec.painanirep.configuracion.ComparadorProv;
 import com.sienrgitec.painanirep.configuracion.Globales;
 import com.sienrgitec.painanirep.model.ctPainani;
 import com.sienrgitec.painanirep.model.ctUsuario;
@@ -68,6 +69,7 @@ import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -82,10 +84,12 @@ public class Home extends AppCompatActivity {
     private String url = globales.URL;
     private AdapterHome adapter;
     private AdapterPedXProv adapterPedXProv;
+    private AdapterPainaniPed adapterPainaniPed;
+
 
     public Integer viPedido = 0;
     public Integer viProveedor = 0;
-    public Integer viPedidoProv;
+    public Integer viPartidaProv = 0;
     private static  final int idUnica = 6192523;
 
 
@@ -103,7 +107,7 @@ public class Home extends AppCompatActivity {
 
 
     ProgressBar progressBar;
-    TextView txtDomCli,  tvEstatusP;
+    TextView txtDomCli,  tvEstatusP, tvRecibe;
     Switch sEstatusP;
     NotificationCompat.Builder notificacion;
     Button btnLlegoP, btnSalidaP, btnFin, btnSalir, btnEstatus;
@@ -130,6 +134,8 @@ public class Home extends AppCompatActivity {
         ibtnBuscarPed = (ImageButton) findViewById(R.id.ibtnBuscar);
         btnEstatus = (Button) findViewById(R.id.btnEstatus);
 
+        tvRecibe = (TextView) findViewById(R.id.tvNombreRecibe);
+
 
         notificacion = new NotificationCompat.Builder(this);
         notificacion.setAutoCancel(true);
@@ -151,7 +157,7 @@ public class Home extends AppCompatActivity {
 
 
                 MuestraMensaje("Aviso", "Asegurate de que los productos correspondan con el pedido");
-                ActPedPainaniDet("Llega", viPedido,  viProveedor);
+                ActPedPainaniDet("Llega", viPedido,  viPartidaProv);
             }
         });
         btnSalidaP.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +172,7 @@ public class Home extends AppCompatActivity {
                     return;
                 }
 
-                ActPedPainaniDet("Salida", viPedido,  viProveedor);
+                ActPedPainaniDet("Salida", viPedido,  viPartidaProv);
                 MuestraMensaje("Aviso", "Hecho");
             }
         });
@@ -292,9 +298,12 @@ public class Home extends AppCompatActivity {
                                 globales.g_ctPedPainaniDetList = Arrays.asList(new Gson().fromJson(tt_opPedPainaniDet.toString(), opPedPainaniDet[].class));
 
 
+
+                                //Collections.sort(globales.g_opPedidoProvtList, new ComparadorProv());
+
                                 globales.g_opPedPainani = globales.g_ctPedPainaniList.get(0);
 
-                                final ListView lviewPedxProv = (ListView) findViewById(R.id.lvPedxProv);
+                               /* final ListView lviewPedxProv = (ListView) findViewById(R.id.lvPedxProv);
                                 ArrayList<opPedidoProveedor> arrayPedidoxProv = new ArrayList<opPedidoProveedor>(globales.g_opPedidoProvtList);
                                 adapterPedXProv = new AdapterPedXProv(Home.this,arrayPedidoxProv );
                                 lviewPedxProv.setAdapter(adapterPedXProv);
@@ -311,8 +320,37 @@ public class Home extends AppCompatActivity {
 
                                         ConstruyeDet( viPedido,  viPedidoProv);
                                     }
+                                });*/
+
+                                final ListView lviewPedxProv = (ListView) findViewById(R.id.lvPedxProv);
+                                //ArrayList<opPedidoProveedor> arrayPedidoxProv = new ArrayList<opPedidoProveedor>(globales.g_opPedidoProvtList);
+
+
+                                ArrayList<opPedPainaniDet> arrayPedidoxProv = new ArrayList<opPedPainaniDet>(globales.g_ctPedPainaniDetList);
+                                adapterPainaniPed = new AdapterPainaniPed( Home.this,arrayPedidoxProv );
+                                lviewPedxProv.setAdapter(adapterPainaniPed);
+
+                                lviewPedxProv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int iPartida, long l) {
+
+
+
+                                        viPedido  = (globales.g_ctPedPainaniDetList.get(iPartida).getiPedido());
+                                        viProveedor = (globales.g_ctPedPainaniDetList.get(iPartida).getiPedidoProv());
+                                        viPartidaProv = (globales.g_ctPedPainaniDetList.get(iPartida).getiPartida());
+
+
+                                        Log.e("valor pedido prov",  "partida es " + viPartidaProv);
+                                        ConstruyeDet( viPedido,  viProveedor);
+                                    }
                                 });
+
+
+
+
                                 txtDomCli.setText(globales.g_ctPedPainaniList.get(0).getcDirCliente());
+                                tvRecibe.setText(globales.g_ctPedPainaniList.get(0).getcCliente());
 
 
                             }
@@ -800,6 +838,9 @@ public class Home extends AppCompatActivity {
 
 
 
+
+
+
                             if (Error == true) {
                                 nDialog.dismiss();
                                 MuestraMensaje("Error" , Mensaje);
@@ -813,12 +854,19 @@ public class Home extends AppCompatActivity {
                                 }
                                 /*Datos de entrega*/
                                 txtDomCli.setText(globales.g_ctPedPainaniList.get(0).getcDirCliente());
+                                tvRecibe.setText(globales.g_ctPedPainaniList.get(0).getcCliente());
 
                                 /*Encabezado de pedido x Proveedor*/
+                                Collections.sort(globales.g_ctPedPainaniDetList, new ComparadorProv());
+
+
                                 final ListView lviewPedxProv = (ListView) findViewById(R.id.lvPedxProv);
-                                ArrayList<opPedidoProveedor> arrayPedidoxProv = new ArrayList<opPedidoProveedor>(globales.g_opPedidoProvtList);
-                                adapterPedXProv = new AdapterPedXProv(Home.this,arrayPedidoxProv );
-                                lviewPedxProv.setAdapter(adapterPedXProv);
+                                //ArrayList<opPedidoProveedor> arrayPedidoxProv = new ArrayList<opPedidoProveedor>(globales.g_opPedidoProvtList);
+
+
+                                ArrayList<opPedPainaniDet> arrayPedidoxProv = new ArrayList<opPedPainaniDet>(globales.g_ctPedPainaniDetList);
+                                adapterPainaniPed = new AdapterPainaniPed( Home.this,arrayPedidoxProv );
+                                lviewPedxProv.setAdapter(adapterPainaniPed);
 
                                 lviewPedxProv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
@@ -826,11 +874,13 @@ public class Home extends AppCompatActivity {
 
 
 
-                                        viPedido  = (globales.g_opPedidoProvtList.get(iPartida).getiPedido());
-                                        viProveedor = (globales.g_opPedidoProvtList.get(iPartida).getiProveedor());
-                                        viPedidoProv = (globales.g_opPedidoProvtList.get(iPartida).getiPedidoProv());
+                                        viPedido  = (globales.g_ctPedPainaniDetList.get(iPartida).getiPedido());
+                                        viProveedor = (globales.g_ctPedPainaniDetList.get(iPartida).getiPedidoProv());
+                                        viPartidaProv = (globales.g_ctPedPainaniDetList.get(iPartida).getiPartida());
 
-                                        ConstruyeDet( viPedido,  viPedidoProv);
+
+
+                                        ConstruyeDet( viPedido,  viProveedor);
                                     }
                                 });
 
@@ -888,12 +938,12 @@ public class Home extends AppCompatActivity {
         lviewDetPed.setAdapter(adapter);
     }
 
-    public void ActPedPainaniDet(final String vcAccion, Integer iPedido, Integer iProveedor){
+    public void ActPedPainaniDet(final String vcAccion, Integer iPedido, Integer iProvPart){
         Integer viPainani =   globales.g_ctUsuario.getiPersona();
-        Log.e("variables recibidos", vcAccion + " " + iPedido + " "+ globales.g_ctUsuario.getiPersona() + " " +iProveedor);
+        Log.e("variables recibidos", vcAccion + " " + iPedido + " "+ globales.g_ctUsuario.getiPersona() + " " + iProvPart);
 
         getmRequestQueue();
-        String urlParams = String.format(url + "opPedPainaniDet?ipiPedido=%1$s&ipiPainani=%2$s&ipiProveedor=%3$s&ipcAccion=%4$s", iPedido, viPainani,iProveedor, vcAccion );
+        String urlParams = String.format(url + "opPedPainaniDet?ipiPedido=%1$s&ipiPainani=%2$s&ipiPartida=%3$s&ipcAccion=%4$s", iPedido, viPainani,iProvPart, vcAccion );
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.PUT, urlParams, null, new Response.Listener<JSONObject>() {
@@ -956,7 +1006,7 @@ public class Home extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("ipiPedido", "iPedido");
                 params.put("ipiPainani", "viPainani");
-                params.put("ipiProveedor", "iProveedor");
+                params.put("ipiPartida", "iProvPart");
                 params.put("ipcAccion", vcAccion);
 
 

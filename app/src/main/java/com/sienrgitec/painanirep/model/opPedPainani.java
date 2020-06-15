@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class opPedPainani implements Serializable {
     private String  cCvePedido;
     private String  cDirCliente;
+    private String cCliente;
     private String  dtAvisado;
     private String  dtContestado;
     private String  dtFecha;
@@ -17,6 +18,14 @@ public class opPedPainani implements Serializable {
     private Boolean lContestado;
     private Boolean lReasignado;
     private Object id;
+
+    public String getcCliente() {
+        return cCliente;
+    }
+
+    public void setcCliente(String cCliente) {
+        this.cCliente = cCliente;
+    }
 
     public String getcCvePedido() {
         return cCvePedido;

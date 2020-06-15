@@ -14,7 +14,20 @@ public class opPedPainaniDet implements Serializable {
     private Integer iPartida;
     private Integer iPedido;
     private Integer iProveedor;
+    private Integer iPedidoProv;
+
+
+
     private Object id;
+
+
+    public Integer getiPedidoProv() {
+        return iPedidoProv;
+    }
+
+    public void setiPedidoProv(Integer iPedidoProv) {
+        this.iPedidoProv = iPedidoProv;
+    }
 
     public String getDtTTraslado() {
         return dtTTraslado;

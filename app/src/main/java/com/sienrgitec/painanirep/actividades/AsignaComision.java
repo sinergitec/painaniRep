@@ -65,14 +65,14 @@ public class AsignaComision extends AppCompatActivity {
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(viComision == 0){
-                    MuestraMensaje("Error", "No has Seleccionado la Comision");
+                    MuestraMensaje("Error", "No has Seleccionado la Contribución");
                     return;
                 }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(AsignaComision.this);
                 builder.setCancelable(true);
                 builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Agrega Comision </font>"));
-                builder.setMessage("¿Deseas aportar este porcentaje: " + vcComision + "% al finalizar el día  ?");
+                builder.setMessage("¿Deseas contribuir a la comunidad con este porcentaje: " + vcComision + " al finalizar el día  ?");
                 builder.setPositiveButton("Si",
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -137,7 +137,7 @@ public class AsignaComision extends AppCompatActivity {
         final ProgressDialog nDialog;
         nDialog = new ProgressDialog(AsignaComision.this);
         nDialog.setMessage("Cargando...");
-        nDialog.setTitle("Agregando Comisión");
+        nDialog.setTitle("Creando Registro de Contribución");
         nDialog.setIndeterminate(false);
 
 
@@ -216,7 +216,7 @@ public class AsignaComision extends AppCompatActivity {
                                 btnAgregar.setEnabled(true);
 
                             } else {
-                                MuestraMensaje("Aviso" , "Comisíon del día Agregada");
+                                MuestraMensaje("Aviso" , "Contribución del día Asignada");
 
                                 startActivity(new Intent(AsignaComision.this, Home.class));
                                 finish();
