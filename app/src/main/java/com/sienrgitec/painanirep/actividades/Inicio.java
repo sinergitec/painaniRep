@@ -12,8 +12,10 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -40,8 +42,8 @@ public class Inicio extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(Inicio.this , Login.class);
 
+                Intent intent = new Intent(Inicio.this , Login.class);
                 startActivity(intent);
                 fileList();
                 finish();
@@ -60,14 +62,16 @@ public class Inicio extends AppCompatActivity {
             }
         }
 
-        LocationManager locationManager = (LocationManager) Inicio.this.getSystemService(Context.LOCATION_SERVICE);
 
+
+
+        LocationManager locationManager = (LocationManager) Inicio.this.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener= new LocationListener(){
             public void onLocationChanged(Location location){
                 globales.vg_deLatitud = location.getLatitude();
                 globales.vg_deLongitud = location.getLongitude();
 
-
+                Log.e("posision --> : ", "latitud " + globales.vg_deLatitud  + " " +  globales.vg_deLongitud);
             }
 
             @Override

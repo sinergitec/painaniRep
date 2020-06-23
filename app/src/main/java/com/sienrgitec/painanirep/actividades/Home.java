@@ -22,6 +22,7 @@ import android.os.Bundle;
 
 import android.os.Handler;
 
+import android.os.Vibrator;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -246,7 +247,7 @@ public class Home extends AppCompatActivity {
 
     public class Constants {
 
-        public static final int MY_DEFAULT_TIMEOUT = 15000;
+        public static final int MY_DEFAULT_TIMEOUT = 5000;
 
         //...
     }
@@ -407,10 +408,10 @@ public class Home extends AppCompatActivity {
         };
         // Access the RequestQueue through your singleton class.
 
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+       /* jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                 MY_DEFAULT_TIMEOUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
 
         mRequestQueue.add(jsonObjectRequest);
 
@@ -511,6 +512,13 @@ public class Home extends AppCompatActivity {
             }
         };
         // Access the RequestQueue through your singleton class.
+
+        /*jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_DEFAULT_TIMEOUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
+
+
         mRequestQueue.add(jsonObjectRequest);
     }
 
@@ -521,7 +529,7 @@ public class Home extends AppCompatActivity {
                 //your code
             }
         }catch(Exception e){
-            Log.d("Volley",e.toString());
+            Log.d("Volley-->",e.toString());
         }
     }
 
@@ -543,6 +551,8 @@ public class Home extends AppCompatActivity {
     }
 
     public void BuscaCoordenadas(){
+
+
         /**busca coordenadas**/
         LocationManager locationManager = (LocationManager) Home.this.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener= new LocationListener(){
@@ -566,6 +576,8 @@ public class Home extends AppCompatActivity {
     }
 
     public void CreaUbicacion(double vdeLatitud, double vdeLongitud){
+
+        Log.e("carga coordenadas", "home crea ubicacion");
 
         globales.g_ctPedPainaniList = null;
         DecimalFormat df = new DecimalFormat("0.00000000000");
@@ -650,6 +662,10 @@ public class Home extends AppCompatActivity {
 
                             } else {
                                 if(vlPedidos == true) {
+
+                                    Vibrator vibrator = (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                                    vibrator.vibrate(3000);
+
                                     globales.g_opPedPainani = globales.g_ctPedPainaniList.get(0);
                                     notificacion.setSmallIcon(R.mipmap.ic_launcher);
                                     notificacion.setTicker("Nuevo pedido");
@@ -662,8 +678,11 @@ public class Home extends AppCompatActivity {
 
                                     PendingIntent pendingIntent = PendingIntent.getActivity(Home.this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
                                     notificacion.setContentIntent(pendingIntent);
+
                                     NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                                     nm.notify(idUnica,notificacion.build());
+
+
                                     ConfirmaPedido();
                                 }
                             }
@@ -913,6 +932,12 @@ public class Home extends AppCompatActivity {
                 return headers;
             }
         };
+
+        /*jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_DEFAULT_TIMEOUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
+
         mRequestQueue.add(jsonObjectRequest);
 
     }
@@ -1021,6 +1046,13 @@ public class Home extends AppCompatActivity {
             }
         };
         // Access the RequestQueue through your singleton class.
+
+
+       /* jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_DEFAULT_TIMEOUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
+
         mRequestQueue.add(jsonObjectRequest);
 
 
@@ -1247,6 +1279,12 @@ public class Home extends AppCompatActivity {
             }
         };
         // Access the RequestQueue through your singleton class.
+
+        /*jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_DEFAULT_TIMEOUT,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
+
         mRequestQueue.add(jsonObjectRequest);
 
     }

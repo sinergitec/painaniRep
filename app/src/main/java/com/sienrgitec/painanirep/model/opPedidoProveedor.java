@@ -10,6 +10,8 @@ public class opPedidoProveedor implements Serializable {
     private Double deSubTotal;
     private Double deTotalPzas;
     private Double dePropina;
+    private Double dePorcPago;
+    private Double deCargoPago;
     private String dtAvisado;
     private String dtContestado;
     private String dtCreado;
@@ -41,6 +43,21 @@ public class opPedidoProveedor implements Serializable {
         this.dePropina = dePropina;
     }
 
+    public Double getDePorcPago() {
+        return dePorcPago;
+    }
+
+    public void setDePorcPago(Double dePorcPago) {
+        this.dePorcPago = dePorcPago;
+    }
+
+    public Double getDeCargoPago() {
+        return deCargoPago;
+    }
+
+    public void setDeCargoPago(Double deCargoPago) {
+        this.deCargoPago = deCargoPago;
+    }
 
     public String getcUsuCrea() {
         return cUsuCrea;

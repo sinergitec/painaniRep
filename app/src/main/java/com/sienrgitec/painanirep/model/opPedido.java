@@ -17,6 +17,8 @@ public class opPedido implements Serializable {
     private Double  deTotalPiezas;
     private Double  deTiempoLlega;
     private Double  deTRecorrido;
+    private Double  dePorcPago;
+    private Double  deCargoPago;
     private String  dtAsignado;
     private String  dtCancelado;
     private String  dtCreado;
@@ -34,6 +36,22 @@ public class opPedido implements Serializable {
     private Integer iUnidad;
     private Object id;
 
+
+    public Double getDePorcPago() {
+        return dePorcPago;
+    }
+
+    public void setDePorcPago(Double dePorcPago) {
+        this.dePorcPago = dePorcPago;
+    }
+
+    public Double getDeCargoPago() {
+        return deCargoPago;
+    }
+
+    public void setDeCargoPago(Double deCargoPago) {
+        this.deCargoPago = deCargoPago;
+    }
 
     public Double getDeTiempoLlega() {
         return deTiempoLlega;
