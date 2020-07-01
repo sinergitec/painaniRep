@@ -105,7 +105,7 @@ public class RazonesRechazo extends AppCompatActivity {
         ObjopPausaP.setDtCreado(null);
         ObjopPausaP.setDtModifca(null);
         ObjopPausaP.setcUsuCrea(globales.g_ctUsuario.getcUsuario());
-        ObjopPausaP.setcUsuModifca(globales.g_ctUsuario.getcUsuario());
+        ObjopPausaP.setcUsumodifca(globales.g_ctUsuario.getcUsuario());
         globales.opPausaPainani.add(ObjopPausaP);
 
 

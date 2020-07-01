@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.DialogInterface;
 
@@ -79,7 +80,7 @@ import java.util.Map;
 import static com.sienrgitec.painanirep.actividades.Home.Constants.MY_DEFAULT_TIMEOUT;
 
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity  implements ComponentCallbacks2 {
     public Globales globales;
     private static RequestQueue mRequestQueue;
     private String url = globales.URL;
@@ -94,12 +95,70 @@ public class Home extends AppCompatActivity {
     private static  final int idUnica = 6192523;
 
 
+    //**agregado 26062020 **//
+    public void onTrimMemory(int level) {
+
+        // Determine which lifecycle or system event was raised.
+        switch (level) {
+
+            case ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN:
+
+                    /*
+                       Release any UI objects that currently hold memory.
+
+                       The user interface has moved to the background.
+                    */
+
+                break;
+
+            case ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE:
+            case ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW:
+            case ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL:
+
+                    /*
+                       Release any memory that your app doesn't need to run.
+
+                       The device is running low on memory while the app is running.
+                       The event raised indicates the severity of the memory-related event.
+                       If the event is TRIM_MEMORY_RUNNING_CRITICAL, then the system will
+                       begin killing background processes.
+                    */
+
+                break;
+
+            case ComponentCallbacks2.TRIM_MEMORY_BACKGROUND:
+            case ComponentCallbacks2.TRIM_MEMORY_MODERATE:
+            case ComponentCallbacks2.TRIM_MEMORY_COMPLETE:
+
+                    /*
+                       Release as much memory as the process can.
+
+                       The app is on the LRU list and the system is running low on memory.
+                       The event raised indicates where the app sits within the LRU list.
+                       If the event is TRIM_MEMORY_COMPLETE, the process will be one of
+                       the first to be terminated.
+                    */
+
+                break;
+
+            default:
+                    /*
+                      Release any non-critical data structures.
+
+                      The app received an unrecognized memory level value
+                      from the system. Treat this as a generic low-memory message.
+                    */
+                break;
+        }
+    }
+
 
 
     @Override
     protected  void onDestroy() {
 
         NotificationManager notificationManager = ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE));
+
         notificationManager.cancelAll();
 
         super.onDestroy();
@@ -210,7 +269,7 @@ public class Home extends AppCompatActivity {
             public void onClick(View v) {
 
                 BuscarPedido();
-                //BuscarUsuario();
+
 
 
             }
@@ -222,9 +281,7 @@ public class Home extends AppCompatActivity {
                 notificationManager.cancelAll();
 
                 TerminarPedido();
-                //BuscarUsuario();
-                /*startActivity(new Intent(Home.this, EvaluaCli.class));
-                finish();*/
+
 
             }
         });
@@ -678,8 +735,10 @@ public class Home extends AppCompatActivity {
 
                                     PendingIntent pendingIntent = PendingIntent.getActivity(Home.this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
                                     notificacion.setContentIntent(pendingIntent);
+                                    ///sonidos
 
                                     NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
                                     nm.notify(idUnica,notificacion.build());
 
 
@@ -714,10 +773,10 @@ public class Home extends AppCompatActivity {
                 return headers;
             }
         };
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+        /*jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                 MY_DEFAULT_TIMEOUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
         mRequestQueue.add(jsonObjectRequest);
 
     }

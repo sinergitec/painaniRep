@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -40,6 +41,7 @@ import com.sienrgitec.painanirep.configuracion.Globales;
 import com.sienrgitec.painanirep.model.ctEstadoProceso;
 import com.sienrgitec.painanirep.model.ctRazones;
 import com.sienrgitec.painanirep.model.opPausaPainani;
+import com.sienrgitec.painanirep.model.opPedPainaniDet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -90,26 +92,33 @@ public class ActEdoProceso extends AppCompatActivity {
             }
         });
 
+        /*final ListView lviewDetPed = (ListView) findViewById(R.id.lvRazones);
+        ArrayList<ctRazones> arrayRazones = new ArrayList<ctRazones>(globales.g_ctRazonesList);
+        adapter = new AdapterRazones(ActEdoProceso.this,arrayRazones );
+        lviewDetPed.setAdapter(adapter);*/
+
+
+
         final ListView lviewDetPed = (ListView) findViewById(R.id.lvRazones);
         ArrayList<ctRazones> arrayRazones = new ArrayList<ctRazones>(globales.g_ctRazonesList);
         adapter = new AdapterRazones(ActEdoProceso.this,arrayRazones );
         lviewDetPed.setAdapter(adapter);
 
-
-
-
-        /*ArrayAdapter<ctRazones> adapter = new ArrayAdapter<ctRazones>(ActEdoProceso.this, simple_list_item_1, globales.g_ctRazonesList);
-        gridRazones.setAdapter(adapter);
-        gridRazones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lviewDetPed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> parent, View view, int iPartida, long l) {
 
-                viRazon= globales.g_ctRazonesList.get(i).getiRazon();
-                vcRazon = globales.g_ctRazonesList.get(i).getcRazon();
-                //txtMotivo.setText(ListRazonCan.get(i).getCNombre());
+
+
+                viRazon  = (globales.g_ctRazonesList.get(iPartida).getiRazon());
+                vcRazon = (globales.g_ctRazonesList.get(iPartida).getcRazon());
+                ;
+
+
+                Log.e("razones ",  "seleccionadas " + viRazon + " vcRazon " + vcRazon);
 
             }
-        });*/
+        });
 
 
         for (final ctEstadoProceso objctEstado : globales.g_ctEdoProcesoList) {
@@ -120,6 +129,17 @@ public class ActEdoProceso extends AppCompatActivity {
             rbEdoProceso.setText(objctEstado.getcEstadoPedido());
             rbEdoProceso.setHeight(75);
             rbEdoProceso.setLayoutParams(new RadioGroup.LayoutParams(180, 50)); //150
+            /*final Drawable select = getResources().getDrawable(R.drawable.btnporcentaje);
+            final Drawable d = getResources().getDrawable(R.drawable.btnaceptar);
+            //rbEdoProceso.setBackgroundDrawable(select);
+
+            if (rbEdoProceso.isSelected()){
+                rbEdoProceso.setBackgroundDrawable(select);
+            }else{
+                rbEdoProceso.setBackgroundDrawable(d);
+            }
+            rgEstadoP.addView(rbEdoProceso);*/
+
 
             rgEstadoP.addView(rbEdoProceso);
 
@@ -132,10 +152,13 @@ public class ActEdoProceso extends AppCompatActivity {
 
             rbEdoProceso.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+
+
                     viEdoProceso =  objctEstado.getiEstadoProceso();
                     MuestraRazones(viEdoProceso);
                 }
             });
+
 
         }
         rlEstadoProc.addView(rgEstadoP);
@@ -145,10 +168,6 @@ public class ActEdoProceso extends AppCompatActivity {
             trRazones.setVisibility(View.VISIBLE);
             btnActProc.setVisibility(View.VISIBLE);
             tlRazones.setVisibility(View.VISIBLE);
-
-
-
-
         }else{
             trRazones.setVisibility(View.INVISIBLE);
             btnActProc.setVisibility(View.INVISIBLE);
@@ -157,6 +176,9 @@ public class ActEdoProceso extends AppCompatActivity {
     }
     public void ActualizaProceso(){
         globales.opPausaPainani.clear();
+
+
+        Log.e("home---", "Actualizando porcesos");
 
         final ProgressDialog nDialog;
         nDialog = new ProgressDialog(ActEdoProceso.this);
@@ -170,6 +192,8 @@ public class ActEdoProceso extends AppCompatActivity {
             vcObservaciones = "No se especificaron razones ";
         }
 
+
+
         opPausaPainani ObjopPausaP = new opPausaPainani();
         ObjopPausaP.setiPainani(globales.g_ctUsuario.getiPersona());
         ObjopPausaP.setiRazon(viRazon);
@@ -180,7 +204,9 @@ public class ActEdoProceso extends AppCompatActivity {
         ObjopPausaP.setDtCreado(null);
         ObjopPausaP.setDtModifca(null);
         ObjopPausaP.setcUsuCrea(globales.g_ctUsuario.getcUsuario());
-        ObjopPausaP.setcUsuModifca(globales.g_ctUsuario.getcUsuario());
+        ObjopPausaP.setcUsumodifca(globales.g_ctUsuario.getcUsuario());
+        ObjopPausaP.setDtFecha("");
+        ObjopPausaP.setiPedido(0);
         globales.opPausaPainani.add(ObjopPausaP);
 
 

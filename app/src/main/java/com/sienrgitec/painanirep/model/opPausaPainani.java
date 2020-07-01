@@ -7,12 +7,22 @@ public class opPausaPainani implements Serializable {
     private Integer iRazon;
     private String cTipoRazon;
     private Integer iPartida;
+    private Integer iPedido;
+
+    public Integer getiPedido() {
+        return iPedido;
+    }
+
+    public void setiPedido(Integer iPedido) {
+        this.iPedido = iPedido;
+    }
+
     private String dtPausa;
     private String cObs;
     private String dtCreado;
     private String cUsuCrea;
     private String dtModifca;
-    private String cUsuModifca;
+    private String cUsumodifca;
     private String dtFecha;
     private Object id;
 
@@ -98,12 +108,12 @@ public class opPausaPainani implements Serializable {
         this.dtModifca = dtModifca;
     }
 
-    public String getcUsuModifca() {
-        return cUsuModifca;
+    public String getcUsumodifca() {
+        return cUsumodifca;
     }
 
-    public void setcUsuModifca(String cUsuModifca) {
-        this.cUsuModifca = cUsuModifca;
+    public void setcUsumodifca(String cUsumodifca) {
+        this.cUsumodifca = cUsumodifca;
     }
 
     public String getDtFecha() {
