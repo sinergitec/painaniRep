@@ -7,18 +7,20 @@
     tools:context=".actividades.AsignaComision">
 
 
+
+
     <Button
         android:id="@+id/btnOk"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@android:dimen/notification_large_icon_width"
         android:layout_marginLeft="@android:dimen/notification_large_icon_width"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/btniniciar"
         android:text="ACEPTAR"
         android:textColor="@android:color/white"
-        android:background="@drawable/btniniciar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.911"
@@ -48,19 +50,55 @@
 
     </TableRow>
 
+
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="256dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
+        android:orientation="horizontal"
+        android:textAlignment="center"
+        android:button="@drawable/radiob"
+        android:checked="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tvComision"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Selecciona la Comisión que deseas aportar hoy"
+        android:text="¿Cuánto deseas aportar a la Comunidad hoy?"
         android:textAlignment="center"
         android:textColor="#0d47a1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etOtraComision"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="62dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:ems="10"
+        android:visibility="invisible"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radiogroup" />
 </androidx.constraintlayout.widget.ConstraintLayout>

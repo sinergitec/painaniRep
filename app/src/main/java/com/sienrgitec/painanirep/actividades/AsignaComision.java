@@ -15,7 +15,10 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -45,6 +48,9 @@ public class AsignaComision extends AppCompatActivity {
     public Globales globales;
     private static RequestQueue mRequestQueue;
     private String url = globales.URL;
+    private EditText  etAporta;
+
+    RadioGroup mRgAllButtons;
 
 
     Button btnAgregar;
@@ -60,18 +66,20 @@ public class AsignaComision extends AppCompatActivity {
 
 
         btnAgregar = (Button) findViewById(R.id.btnOk);
+        mRgAllButtons = findViewById(R.id.radiogroup);
+        etAporta = (EditText) findViewById(R.id.etOtraComision);
 
 
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(viComision == 0){
-                    MuestraMensaje("Error", "No has Seleccionado la Contribución");
+                    MuestraMensaje("Error", "No has Seleccionado la Aportación");
                     return;
                 }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(AsignaComision.this);
                 builder.setCancelable(true);
-                builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Agrega Comision </font>"));
+                builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Agrega Aportacion </font>"));
                 builder.setMessage("¿Deseas contribuir a la comunidad con este porcentaje: " + vcComision + " al finalizar el día  ?");
                 builder.setPositiveButton("Si",
                         new DialogInterface.OnClickListener() {
@@ -101,7 +109,7 @@ public class AsignaComision extends AppCompatActivity {
     public void CreaBotonesCom(){
         LinearLayout GridOrdenes = (LinearLayout) findViewById(R.id.LinearComision);
 
-        for(final ctComisiones objComisiones: globales.g_ctComisionesList){
+        /*for(final ctComisiones objComisiones: globales.g_ctComisionesList){
             Log.e("asigan comision ", objComisiones.getcComision());
             final Drawable d = getResources().getDrawable(R.drawable.btnporcentaje);
             final Button myButton = new Button(getBaseContext());
@@ -110,25 +118,83 @@ public class AsignaComision extends AppCompatActivity {
             myButton.setText(objComisiones.getDeValor() + "%");
             myButton.setTag(objComisiones.getiComision().toString());
             myButton.setBackgroundDrawable(d);
-
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-
-
                         viComision = objComisiones.getiComision();
                         vcComision = objComisiones.getDeValor().toString();
                         Log.e("Selecciono", "comision " + viComision );
                         Drawable d = getResources().getDrawable(R.drawable.seleccporc);
                         myButton.setBackgroundDrawable(d);
+                }
+            });
+            GridOrdenes.addView(myButton);
+        }*/
+
+        mRgAllButtons.setOrientation(LinearLayout.HORIZONTAL);
+
+        int vxMod = 100;
+        int vyMod = 0;
+        int vCuantosMod = 0;
 
 
 
+        //
+        for(final ctComisiones objComisiones: globales.g_ctComisionesList){
+
+
+
+            vCuantosMod = vCuantosMod + 1;
+
+            RadioButton rdbtn = new RadioButton(this);
+
+            if(objComisiones.getcComision().equals("OTRO")){
+                rdbtn.setText("OTRO");
+            }else {
+                rdbtn.setText(objComisiones.getDeValor() + "%");
+            }
+
+
+            Drawable d = getResources().getDrawable(R.drawable.radiob);
+            rdbtn.setBackgroundDrawable(d);
+            rdbtn.setWidth(100);
+            rdbtn.setHeight(60);
+            rdbtn.setX(vxMod);
+            rdbtn.setY(vyMod);
+
+
+            if (vCuantosMod % 4 == 0) {
+                vxMod = -300;
+                vyMod = vyMod + 70;
+            } else {
+                vxMod = vxMod + 10;
+
+            }
+
+
+
+            rdbtn.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    viComision = objComisiones.getiComision();
+                    vcComision = objComisiones.getDeValor().toString();
+                    Log.e("Selecciono", "comision " + viComision );
+
+                    if (objComisiones.getcComision().equals("OTRO")){
+                        etAporta.setVisibility(View.VISIBLE);
+                    }else{
+                        etAporta.setVisibility(View.INVISIBLE);
+                    }
 
                 }
             });
 
-            GridOrdenes.addView(myButton);
+
+
+
+            mRgAllButtons.addView(rdbtn);
         }
+
+
+
     }
 
     public void AgregarComision(){
@@ -140,6 +206,23 @@ public class AsignaComision extends AppCompatActivity {
         nDialog.setTitle("Creando Registro de Contribución");
         nDialog.setIndeterminate(false);
 
+
+        if (etAporta.getText().toString().isEmpty()) {
+            AlertDialog.Builder myBuild = new AlertDialog.Builder(AsignaComision.this);
+            myBuild.setMessage("No se capturo el password del usuario");
+            myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR </font>"));
+            myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+
+
+                }
+            });
+            AlertDialog dialog = myBuild.create();
+            dialog.show();
+            return;
+        }
 
 
         opDispPainani objComisionDispP = new opDispPainani();
