@@ -16,9 +16,9 @@
     </style>
 
     <style name="AppTheme.Login" parent="AppTheme">
-        <item name="colorPrimary">#01579b</item>
-        <item name="colorPrimaryDark">#01579b</item>
-        <item name="colorAccent">#9e9e9e</item>
+        <item name="colorPrimary">#bbf259</item>
+        <item name="colorPrimaryDark">#bbf259</item>
+        <item name="colorAccent">#bbf259</item>
 
     </style>
 

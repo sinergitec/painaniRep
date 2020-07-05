@@ -77,6 +77,26 @@ public class AsignaComision extends AppCompatActivity {
                     return;
                 }
 
+
+                if(viComision == 6) {
+                    if (etAporta.getText().toString().isEmpty()) {
+                        AlertDialog.Builder myBuild = new AlertDialog.Builder(AsignaComision.this);
+                        myBuild.setMessage("Debes Capturar un Porcentaje para aportar");
+                        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR </font>"));
+                        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog dialog = myBuild.create();
+                        dialog.show();
+                        return;
+                    }else{
+                        vcComision = etAporta.getText().toString();
+                        Log.e("voy a aportar lo siguiente", "vccomision" + vcComision);
+                    }
+                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(AsignaComision.this);
                 builder.setCancelable(true);
                 builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Agrega Aportacion </font>"));
@@ -205,24 +225,6 @@ public class AsignaComision extends AppCompatActivity {
         nDialog.setMessage("Cargando...");
         nDialog.setTitle("Creando Registro de Contribución");
         nDialog.setIndeterminate(false);
-
-
-        if (etAporta.getText().toString().isEmpty()) {
-            AlertDialog.Builder myBuild = new AlertDialog.Builder(AsignaComision.this);
-            myBuild.setMessage("No se capturo el password del usuario");
-            myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR </font>"));
-            myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-
-
-                }
-            });
-            AlertDialog dialog = myBuild.create();
-            dialog.show();
-            return;
-        }
 
 
         opDispPainani objComisionDispP = new opDispPainani();
