@@ -60,8 +60,7 @@ public class RazonesRechazo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_razones_rechazo);
 
-        rlEstadoProc = (RelativeLayout) findViewById(R.id.edoproc);
-        trRazones    = (TableRow) findViewById(R.id.tableRow5);
+
         btnAceptar   = (Button) findViewById(R.id.button);
         tlRazones    = (TableLayout) findViewById(R.id.Razones);
 

@@ -161,8 +161,6 @@ public class AsignaComision extends AppCompatActivity {
         //
         for(final ctComisiones objComisiones: globales.g_ctComisionesList){
 
-
-
             vCuantosMod = vCuantosMod + 1;
 
             RadioButton rdbtn = new RadioButton(this);
@@ -173,14 +171,12 @@ public class AsignaComision extends AppCompatActivity {
                 rdbtn.setText(objComisiones.getDeValor() + "%");
             }
 
-
             Drawable d = getResources().getDrawable(R.drawable.radiob);
             rdbtn.setBackgroundDrawable(d);
             rdbtn.setWidth(100);
             rdbtn.setHeight(60);
             rdbtn.setX(vxMod);
             rdbtn.setY(vyMod);
-
 
             if (vCuantosMod % 4 == 0) {
                 vxMod = -300;
@@ -189,8 +185,6 @@ public class AsignaComision extends AppCompatActivity {
                 vxMod = vxMod + 10;
 
             }
-
-
 
             rdbtn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {

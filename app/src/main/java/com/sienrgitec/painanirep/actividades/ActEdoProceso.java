@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -61,29 +62,30 @@ public class ActEdoProceso extends AppCompatActivity {
     private static RequestQueue mRequestQueue;
     private AdapterRazones adapter;
 
+    RadioGroup mRgAllEdoProc;
+
     RelativeLayout rlEstadoProc;
     TableRow       trRazones;
     Button         btnActProc;
     TableLayout    tlRazones;
-    GridView       gridRazones;
+    EditText       etOtraRazon;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_act_edo_proceso);
 
-        rlEstadoProc = (RelativeLayout) findViewById(R.id.edoproc);
-        trRazones    = (TableRow) findViewById(R.id.tableRow5);
+
         btnActProc   = (Button) findViewById(R.id.button);
         tlRazones    = (TableLayout) findViewById(R.id.Razones);
+        mRgAllEdoProc = findViewById(R.id.rbEdoProceso);
+        etOtraRazon   = findViewById(R.id.etOtraRazon);
 
-
-        int vxMod = 0, vyMod = 0, viEstados = 0;
-
-
-
-        RadioGroup rgEstadoP = new RadioGroup(this);
-        rgEstadoP.setOrientation(RadioGroup.HORIZONTAL);
+        mRgAllEdoProc.setOrientation(LinearLayout.HORIZONTAL);
+        int vxMod = 45;
+        int vyMod = 0;
+        int vCuantosMod = 0;
 
         btnActProc.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -91,13 +93,6 @@ public class ActEdoProceso extends AppCompatActivity {
                 ActualizaProceso();
             }
         });
-
-        /*final ListView lviewDetPed = (ListView) findViewById(R.id.lvRazones);
-        ArrayList<ctRazones> arrayRazones = new ArrayList<ctRazones>(globales.g_ctRazonesList);
-        adapter = new AdapterRazones(ActEdoProceso.this,arrayRazones );
-        lviewDetPed.setAdapter(adapter);*/
-
-
 
         final ListView lviewDetPed = (ListView) findViewById(R.id.lvRazones);
         ArrayList<ctRazones> arrayRazones = new ArrayList<ctRazones>(globales.g_ctRazonesList);
@@ -107,13 +102,8 @@ public class ActEdoProceso extends AppCompatActivity {
         lviewDetPed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int iPartida, long l) {
-
-
-
                 viRazon  = (globales.g_ctRazonesList.get(iPartida).getiRazon());
                 vcRazon = (globales.g_ctRazonesList.get(iPartida).getcRazon());
-                ;
-
 
                 Log.e("razones ",  "seleccionadas " + viRazon + " vcRazon " + vcRazon);
 
@@ -123,55 +113,49 @@ public class ActEdoProceso extends AppCompatActivity {
 
         for (final ctEstadoProceso objctEstado : globales.g_ctEdoProcesoList) {
 
-            viEstados = viEstados + 1;
+            vCuantosMod = vCuantosMod + 1;
 
-            RadioButton rbEdoProceso = new RadioButton(this);
-            rbEdoProceso.setText(objctEstado.getcEstadoPedido());
-            rbEdoProceso.setHeight(75);
-            rbEdoProceso.setLayoutParams(new RadioGroup.LayoutParams(180, 50)); //150
-            /*final Drawable select = getResources().getDrawable(R.drawable.btnporcentaje);
-            final Drawable d = getResources().getDrawable(R.drawable.btnaceptar);
-            //rbEdoProceso.setBackgroundDrawable(select);
+            RadioButton rdbtnEdo = new RadioButton(this);
 
-            if (rbEdoProceso.isSelected()){
-                rbEdoProceso.setBackgroundDrawable(select);
-            }else{
-                rbEdoProceso.setBackgroundDrawable(d);
-            }
-            rgEstadoP.addView(rbEdoProceso);*/
+            Drawable d = getResources().getDrawable(R.drawable.radiob);
+            rdbtnEdo.setText(objctEstado.getcEstadoPedido());
+            rdbtnEdo.setBackgroundDrawable(d);
+            rdbtnEdo.setWidth(140);
+            rdbtnEdo.setHeight(60);
+            rdbtnEdo.setX(vxMod);
+            rdbtnEdo.setY(vyMod);
 
-
-            rgEstadoP.addView(rbEdoProceso);
-
-            if (viEstados % 3 == 0) {
-                vxMod = 0;
-                vyMod = vyMod + 35;
+            if (vCuantosMod % 4 == 0) {
+                vxMod = -300;
+                vyMod = vyMod + 10;
             } else {
-                vxMod = vxMod + 80;
+                vxMod = vxMod + 30;
+
             }
 
-            rbEdoProceso.setOnClickListener(new View.OnClickListener() {
+            rdbtnEdo.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-
-
                     viEdoProceso =  objctEstado.getiEstadoProceso();
                     MuestraRazones(viEdoProceso);
                 }
             });
 
-
+            mRgAllEdoProc.addView(rdbtnEdo);
         }
-        rlEstadoProc.addView(rgEstadoP);
+
+
     }
     public void MuestraRazones(Integer viEstado){
         if (viEstado == 3 || viEstado == 4){
-            trRazones.setVisibility(View.VISIBLE);
-            btnActProc.setVisibility(View.VISIBLE);
+
             tlRazones.setVisibility(View.VISIBLE);
+            btnActProc.setVisibility(View.VISIBLE);
+
+
         }else{
-            trRazones.setVisibility(View.INVISIBLE);
-            btnActProc.setVisibility(View.INVISIBLE);
             tlRazones.setVisibility(View.INVISIBLE);
+            btnActProc.setVisibility(View.INVISIBLE);
+
         }
     }
     public void ActualizaProceso(){
