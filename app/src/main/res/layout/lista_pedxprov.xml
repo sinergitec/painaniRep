@@ -1,3 +1,4 @@
+
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="60dp"
     android:padding="16dp"
@@ -39,15 +40,106 @@
                 android:layout_height="20dp"
                 android:hint="negocio"
                 android:textSize="15sp" />
-
-
-
         </TableRow>
-
-
-
-
     </TableLayout>
 
 
 </LinearLayout>
+
+
+
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/lblPedido"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="Pedido"
+                android:textColor="@color/colorText"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/txtPza"
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:hint="Art."
+                android:textColorHint="@color/colorText"
+                android:textColor="@color/colorText"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtNegocio"
+                android:layout_width="180dp"
+                android:layout_height="20dp"
+                android:hint="negocio"
+                android:textSize="18sp"
+                android:textColorHint="@color/colorText"
+                android:textColor="@color/colorText"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txPedProv"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:hint="Producto"
+                android:textColorHint="@color/colorText"
+                android:textColor="@color/colorText"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/txPzaTot"
+                android:layout_height="wrap_content"
+                android:hint="Cant"
+                android:textSize="15sp"
+                android:textColorHint="@color/colorText"
+                android:textColor="@color/colorText"/>
+            <TextView
+                android:id="@+id/txtDomProv"
+                android:layout_height="20dp"
+                android:hint="Direccion"
+                android:textSize="15sp"
+                android:textColorHint="@color/colorText"
+                android:textColor="@color/colorText"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btnDetalle"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:text="LLEGA PROV"
+                android:layout_column="0"
+                android:background="@drawable/btnaceptar"
+                android:textColor="#FFFFFF"/>
+            <Button
+                android:id="@+id/btnTerminar"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_column="1"
+                android:text="salida prov"
+                android:background="@drawable/btncancelar"
+                android:textColor="#FFFFFF"/>
+        </TableRow>
+        <View
+            android:id="@+id/textFinal"
+            android:layout_width="wrap_content"
+            android:layout_height="3dp"
+            android:layout_margin="3dp"
+            android:background="#000000"/>
+    </TableLayout>
+</RelativeLayout>
+-->

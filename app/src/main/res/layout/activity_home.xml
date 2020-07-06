@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e0e0e0"
     tools:context=".actividades.Home">
 
     <TableRow
@@ -207,28 +206,25 @@
         android:id="@+id/tableLayout10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/etext"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout9"
-        app:layout_constraintVertical_bias="0.026">
+        app:layout_constraintTop_toBottomOf="@+id/btnLlegoP">
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/txtCom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Detalle"
                 android:ems="21"
-                android:textColor="@color/colorText"
+                android:text="Detalle"
                 android:textAlignment="center"
+                android:textColor="@color/colorText"
                 tools:layout_editor_absoluteX="159dp"
                 tools:layout_editor_absoluteY="891dp" />
 
@@ -283,14 +279,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/btnLlegoP"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btnaceptar"
-                android:ems="9"
-                android:text="LLEGADA PROV"
-                android:textColor="@android:color/white" />
+
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -299,34 +288,25 @@
                 android:progressDrawable="@drawable/progress"
                 android:visibility="invisible" />
 
-            <Button
-                android:id="@+id/btnSalidaP"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btncancelar"
-                android:ems="9"
-                android:text="SALIDA PROV"
-                android:textColor="@android:color/white"
-                app:layout_constraintTop_toBottomOf="@+id/tableLayout11" />
+
 
         </TableRow>
 
 
     </TableLayout>
 
-
     <Button
         android:id="@+id/btnFin"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="@drawable/btnevalua"
+        android:background="@drawable/etext"
         android:text="finalizar"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -370,6 +350,47 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toEndOf="@+id/btnSalir"
         app:srcCompat="@android:drawable/ic_menu_search" />
+
+    <TextView
+        android:id="@+id/tvDirProv"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="30dp"
+        android:hint="Dirección Proveedor"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout9" />
+
+    <Button
+        android:id="@+id/btnLlegoP"
+        android:layout_width="50dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btnaceptar"
+        android:ems="9"
+        android:text="LLEGA PROV"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toEndOf="@+id/tvDirProv"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout9" />
+
+    <Button
+        android:id="@+id/btnSalidaP"
+        android:layout_width="50dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btncancelar"
+        android:ems="9"
+        android:text="SALIDA PROV"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toEndOf="@+id/btnLlegoP"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout9" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
