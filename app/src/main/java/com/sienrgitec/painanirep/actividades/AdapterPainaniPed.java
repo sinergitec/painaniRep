@@ -56,9 +56,9 @@ public class AdapterPainaniPed extends BaseAdapter {
         TextView txtNegocio  = (TextView) convertView.findViewById(R.id.txtNegocio);
         TextView txtDomProv  = (TextView) convertView.findViewById(R.id.txtDomProv);
 
-        txPedProv.setText(arrayList.get(position).getiPartida().toString());
-        txPzaTot.setText(arrayList.get(position).getDeTotalPiezas().toString());
-        txtNegocio.setText(arrayList.get(position).getcNegocion());
+        txPedProv.setText("Pedido: " + arrayList.get(position).getiPedido().toString());
+        txPzaTot.setText(" Total Art. " + arrayList.get(position).getDeTotalPiezas().toString());
+        txtNegocio.setText(" " + arrayList.get(position).getcNegocion());
         txtDomProv.setText(arrayList.get(position).getcDirProveedor());
 
 
