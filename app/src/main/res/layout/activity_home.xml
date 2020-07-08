@@ -1,396 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".actividades.Home">
 
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="75dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.005">
-        <TextView
-            android:id="@+id/tvEstatusP"
+
+    /**Estado del titlani**/
+    <TextView
+        android:id="@+id/tvEstatusP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estatus:"
+        android:textSize="15dp"
+        android:textColorHint="@color/colorText"
+        android:textColor="@color/colorText"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/tvDescEst"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="Estado"
+        android:textSize="15dp"
+        android:textColorHint="@color/colorText"
+        android:textColor="@color/colorText"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="100dp" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:theme="@style/SwitchTheme"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="149dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="360dp"/>
+
+    /**Datos de entrega cliente y domicilio**/
+    <TextView
+        android:id="@+id/tvEntregar"
+        android:layout_below="@id/tvEstatusP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:text="Entregar a:"
+        android:textColorHint="@color/colorText"
+        android:textColor="@color/colorText"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/tvNombreRecibe"
+        android:layout_below="@id/tvEstatusP"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/colorText"
+        android:textColor="@color/colorText"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="100dp" />
+
+    <TextView
+        android:id="@+id/tvDomicilio"
+        android:layout_below="@id/tvEntregar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Entregar en:"
+        android:textColorHint="@color/colorText"
+        android:textColor="@color/colorText"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/tvNombreDom"
+        android:layout_below="@id/tvEntregar"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/colorText"
+        android:textColor="@color/colorText"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="100dp" />
+
+<!--
+        /*lista de proveedores*/
+        <androidx.cardview.widget.CardView
+            android:layout_below="@id/tvDomicilio"
+            android:id="@+id/cardv"
+            android:foregroundGravity="center"
+            android:layout_centerInParent="true"
+            android:overScrollMode="never"
+            android:clipToPadding="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Estatus:"
-            android:textSize="20dp"
-            android:textColorHint="@color/colorText"
-            android:textColor="@color/colorText"
-            tools:layout_editor_absoluteX="121dp"
-            tools:layout_editor_absoluteY="546dp" />
-    </TableRow>
+            android:background="@color/colorPrimary">
 
-    <TableRow
-        android:id="@+id/tableRow2"
-        android:layout_width="150dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tableRow1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.007">
-
-        <TextView
-            android:id="@+id/tvDescEst"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Estado"
-            android:textSize="20dp"
-            android:textColorHint="@color/colorText"
-            android:textColor="@color/colorText"
-            tools:layout_editor_absoluteX="121dp"
-            tools:layout_editor_absoluteY="546dp" />
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow"
-        android:layout_width="80dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tableRow2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.007">
-
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:checked="true"
-            android:theme="@style/SwitchTheme"
-            tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="149dp" />
-
-
-    </TableRow>
-
-    <TableLayout
-        android:id="@+id/tableLayout8"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableRow2">
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tvEntregar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Entregar a:"
-                android:textColorHint="@color/colorText"
-                android:textColor="@color/colorText"
-                tools:layout_editor_absoluteX="38dp"
-                tools:layout_editor_absoluteY="559dp" />
-
-            <TextView
-                android:id="@+id/tvNombreRecibe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/colorText"
-                android:textColor="@color/colorText"
-                tools:layout_editor_absoluteX="71dp"
-                tools:layout_editor_absoluteY="537dp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tvDomicilio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Entregar en:"
-                android:textColorHint="@color/colorText"
-                android:textColor="@color/colorText"
-                tools:layout_editor_absoluteX="38dp"
-                tools:layout_editor_absoluteY="559dp" />
-
-            <TextView
-                android:id="@+id/tvNombreDom"
-                android:layout_width="287dp"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/colorText"
-                android:textColor="@color/colorText"
-                tools:layout_editor_absoluteX="71dp"
-                tools:layout_editor_absoluteY="537dp" />
-        </TableRow>
-
-
-    </TableLayout>
-
-    <TableLayout
-        android:id="@+id/tableLayout7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/etext"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout8">
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/tvpxp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Proveedores"
-                android:textColor="@color/colorText"
-                android:textAlignment="center"
-                android:ems="21"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="108dp" />
-
-        </TableRow>
-    </TableLayout>
+        </androidx.cardview.widget.CardView>
+-->
 
     <TableLayout
         android:id="@+id/tableLayout9"
+        android:layout_below="@+id/tvNombreDom"
+        android:background="@drawable/c"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="115dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout7">
+        android:layout_marginTop="10dp">
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="4dp">
 
             <ListView
                 android:id="@+id/lvPedxProv"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="#ffffff"
-                android:listSelector="#99FF99"
-                android:state_activated="false"></ListView>
+                android:layout_width="455dp"
+                android:layout_height="95dp"
+                android:background="@drawable/a"
+                android:listSelector="@drawable/b"
+                android:state_activated="false"
+                android:visibility="visible">
+            </ListView>
         </TableRow>
-
-
     </TableLayout>
 
 
 
-    <TableLayout
-        android:id="@+id/tableLayout10"
-        android:layout_width="match_parent"
+    /*detalle del pedido*/
+    <TextView
+        android:id="@+id/txtCom"
+        android:layout_below="@id/tableLayout9"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/etext"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLlegoP">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/txtCom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="21"
-                android:text="Detalle"
-                android:textAlignment="center"
-                android:textColor="@color/colorText"
-                tools:layout_editor_absoluteX="159dp"
-                tools:layout_editor_absoluteY="891dp" />
-
-
-        </TableRow>
-
-    </TableLayout>
+        android:ems="21"
+        android:text="Detalle"
+        android:textAlignment="center"
+        android:textColor="@color/colorText"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="65dp"
+        android:layout_marginRight="10dp"/>
 
     <TableLayout
         android:id="@+id/tableLayout11"
-
+        android:layout_below="@id/txtCom"
         android:layout_width="match_parent"
-        android:layout_height="264dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout10">
+        android:background="@drawable/c">
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-                <ListView
-                    android:id="@+id/lvDetalle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="264dp"
-                    android:background="#ffffff"
-                    android:listSelector="#99FF99"
-                    android:state_activated="false"></ListView>
-            </TableRow>
-        </TableRow>
-    </TableLayout>
-
-    <TableLayout
-        android:id="@+id/tableLayout15"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="3dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout11">
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="4dp">
+            <ListView
+                android:id="@+id/lvDetalle"
+                android:layout_width="445dp"
+                android:layout_height="264dp"
+                android:listSelector="@drawable/b"
+                android:state_activated="false">
 
-
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                android:progressDrawable="@drawable/progress"
-                android:visibility="invisible" />
-
-
-
+            </ListView>
         </TableRow>
-
 
     </TableLayout>
 
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_below="@id/tvDomicilio"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:progressDrawable="@drawable/progress"
+        android:visibility="invisible"
+        android:layout_marginTop="230dp"
+        android:layout_marginLeft="380dp" />
+
     <Button
         android:id="@+id/btnFin"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/etext"
+        android:layout_below="@id/tableLayout11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/a"
         android:text="finalizar"
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout15" />
+        android:layout_marginTop="290dp"
+        android:layout_marginLeft="200dp"
+        android:visibility="visible"/>
 
     <Button
         android:id="@+id/btnEstatus"
-        android:layout_width="90dp"
-        android:layout_height="35dp"
+        android:layout_below="@id/tableLayout11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/btniniciar"
-        android:ems="10"
-        android:text="estatus"
-        android:textColor="@android:color/white"
+        android:text="Estatus"
+        android:background="@drawable/etext"
+        android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="110dp"
+        android:visibility="invisible"/>
     <Button
         android:id="@+id/btnSalir"
-        android:layout_width="90dp"
-        android:layout_height="35dp"
+        android:layout_below="@id/tableLayout11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/btniniciar"
-        android:ems="10"
         android:text="salir"
-        android:textColor="@android:color/white"
+        android:background="@drawable/etext"
+        android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintEnd_toStartOf="@+id/btnEstatus"
         app:layout_constraintHorizontal_bias="0.005"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="210dp"
+        android:visibility="invisible"/>
     <ImageButton
         android:id="@+id/ibtnBuscar"
-        android:layout_width="55dp"
-        android:layout_height="40dp"
+        android:layout_below="@id/tableLayout11"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/btniniciar"
+        android:background="@drawable/a"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnEstatus"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toEndOf="@+id/btnSalir"
-        app:srcCompat="@android:drawable/ic_menu_search" />
-
-    <TextView
-        android:id="@+id/tvDirProv"
-        android:layout_width="215dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="30dp"
-        android:hint="Dirección Proveedor"
-        android:textColor="@color/colorText"
-        android:textColorHint="@color/colorText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout9" />
-
+        app:srcCompat="@android:drawable/ic_menu_search"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="210dp"/>
     <Button
         android:id="@+id/btnLlegoP"
-        android:layout_width="50dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btnaceptar"
-        android:ems="9"
-        android:text="LLEGA PROV"
-        android:textColor="@android:color/white"
-        app:layout_constraintStart_toEndOf="@+id/tvDirProv"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout9" />
-
+        android:layout_below="@id/tableLayout11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/etext"
+        android:textColor="@color/colorText"
+        android:text="Llega Prov"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="310dp"
+        tools:layout_editor_absoluteX="239dp"
+        android:visibility="invisible"/>
     <Button
         android:id="@+id/btnSalidaP"
-        android:layout_width="50dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btncancelar"
-        android:ems="9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/etext"
+        android:textColor="@color/colorText"
+        android:layout_below="@id/tableLayout11"
         android:text="SALIDA PROV"
-        android:textColor="@android:color/white"
-        app:layout_constraintStart_toEndOf="@+id/btnLlegoP"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout9" />
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="310dp"
+        tools:layout_editor_absoluteX="239dp"
+        android:visibility="invisible"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    /**Menu**/
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="#000000"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@xml/menu" />
+</RelativeLayout>

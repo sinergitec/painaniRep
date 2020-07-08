@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="8dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="290dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                app:srcCompat="@android:drawable/ic_menu_mapmode"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+            <TextView
+                android:id="@+id/txPedidoF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imageView"
+                android:hint="Pedido"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText"/>
+
+            <TextView
+                android:id="@+id/txPzaTot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Cantidad"
+                android:layout_below="@id/imageView"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="130dp"
+                android:textSize="15sp"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText"/>
+
+            <Button
+                android:id="@+id/btnIn"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_below="@id/imageView"
+                android:text="Button"
+                android:layout_marginLeft="245dp"/>
+
+            <Button
+                android:id="@+id/btnOut"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_below="@id/imageView"
+                android:text="Out"
+                android:layout_marginLeft="360dp"/>
+
+            <TextView
+                android:id="@+id/txtNegocio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txPedidoF"
+                android:hint="Negocio: "
+                android:textSize="15sp"
+                android:layout_marginLeft="16dp"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText"/>
+
+            <TextView
+                android:id="@+id/txtDomProv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Dirección"
+                android:layout_below="@id/txtNegocio"
+                android:layout_marginLeft="16dp"
+                android:textSize="15sp"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText"/>
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+
+</LinearLayout>

@@ -94,7 +94,7 @@ public class AsignaComision extends AppCompatActivity {
                         return;
                     }else{
                         vcComision = etAporta.getText().toString();
-                        Log.e("voy a aportar lo siguiente", "vccomision" + vcComision);
+
                     }
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(AsignaComision.this);
@@ -134,12 +134,15 @@ public class AsignaComision extends AppCompatActivity {
             final Drawable d = getResources().getDrawable(R.drawable.btnporcentaje);
             final Button myButton = new Button(getBaseContext());
             //Personalizando botones
+
             myButton.setId(objComisiones.getiComision());
             myButton.setText(objComisiones.getDeValor() + "%");
             myButton.setTag(objComisiones.getiComision().toString());
             myButton.setBackgroundDrawable(d);
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+
+
                         viComision = objComisiones.getiComision();
                         vcComision = objComisiones.getDeValor().toString();
                         Log.e("Selecciono", "comision " + viComision );
@@ -150,9 +153,9 @@ public class AsignaComision extends AppCompatActivity {
             GridOrdenes.addView(myButton);
         }*/
 
-        mRgAllButtons.setOrientation(LinearLayout.HORIZONTAL);
+        mRgAllButtons.setOrientation(LinearLayout.VERTICAL);
 
-        int vxMod = 100;
+        int vxMod = 0;
         int vyMod = 0;
         int vCuantosMod = 0;
 
@@ -168,23 +171,25 @@ public class AsignaComision extends AppCompatActivity {
             if(objComisiones.getcComision().equals("OTRO")){
                 rdbtn.setText("OTRO");
             }else {
-                rdbtn.setText(objComisiones.getDeValor() + "%");
+                rdbtn.setText(objComisiones.getDeValor());
             }
 
             Drawable d = getResources().getDrawable(R.drawable.radiob);
             rdbtn.setBackgroundDrawable(d);
-            rdbtn.setWidth(100);
-            rdbtn.setHeight(60);
+            rdbtn.setWidth(115);
+            rdbtn.setHeight(70);
             rdbtn.setX(vxMod);
             rdbtn.setY(vyMod);
 
-            if (vCuantosMod % 4 == 0) {
+
+
+            /*if (vCuantosMod % 4 == 0) {
                 vxMod = -300;
                 vyMod = vyMod + 70;
             } else {
                 vxMod = vxMod + 10;
 
-            }
+            }*/
 
             rdbtn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -349,6 +354,7 @@ public class AsignaComision extends AppCompatActivity {
         return;
 
     }
+
     public void getmRequestQueue(){
         try{
             if (mRequestQueue == null) {

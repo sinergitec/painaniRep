@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -40,6 +41,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -77,10 +79,11 @@ import java.util.List;
 
 import java.util.Map;
 
-import static com.sienrgitec.painanirep.actividades.Home.Constants.MY_DEFAULT_TIMEOUT;
+//import static com.sienrgitec.painanirep.actividades.Home.Constants.MY_DEFAULT_TIMEOUT;
 
 
-public class Home extends AppCompatActivity  implements ComponentCallbacks2 {
+
+public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     public Globales globales;
     private static RequestQueue mRequestQueue;
     private String url = globales.URL;
@@ -88,6 +91,10 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2 {
     private AdapterPedXProv adapterPedXProv;
     private AdapterPainaniPed adapterPainaniPed;
 
+    /**viewC*/
+    ViewPager viewpager;
+    AdapterViewPedDet aviewDet;
+    List<opPedPainaniDet> models;
 
     public Integer viPedido = 0;
     public Integer viProveedor = 0;
@@ -95,62 +102,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2 {
     private static  final int idUnica = 6192523;
 
 
-    //**agregado 26062020 **//
-    public void onTrimMemory(int level) {
 
-        // Determine which lifecycle or system event was raised.
-        switch (level) {
-
-            case ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN:
-
-                    /*
-                       Release any UI objects that currently hold memory.
-
-                       The user interface has moved to the background.
-                    */
-
-                break;
-
-            case ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE:
-            case ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW:
-            case ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL:
-
-                    /*
-                       Release any memory that your app doesn't need to run.
-
-                       The device is running low on memory while the app is running.
-                       The event raised indicates the severity of the memory-related event.
-                       If the event is TRIM_MEMORY_RUNNING_CRITICAL, then the system will
-                       begin killing background processes.
-                    */
-
-                break;
-
-            case ComponentCallbacks2.TRIM_MEMORY_BACKGROUND:
-            case ComponentCallbacks2.TRIM_MEMORY_MODERATE:
-            case ComponentCallbacks2.TRIM_MEMORY_COMPLETE:
-
-                    /*
-                       Release as much memory as the process can.
-
-                       The app is on the LRU list and the system is running low on memory.
-                       The event raised indicates where the app sits within the LRU list.
-                       If the event is TRIM_MEMORY_COMPLETE, the process will be one of
-                       the first to be terminated.
-                    */
-
-                break;
-
-            default:
-                    /*
-                      Release any non-critical data structures.
-
-                      The app received an unrecognized memory level value
-                      from the system. Treat this as a generic low-memory message.
-                    */
-                break;
-        }
-    }
 
 
 
@@ -167,7 +119,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2 {
 
 
     ProgressBar progressBar;
-    TextView txtDomCli,  tvEstatusP, tvRecibe;
+    TextView txtDomCli,  tvEstatusP, tvRecibe, tvDomProv;
     Switch sEstatusP;
     NotificationCompat.Builder notificacion;
     Button btnLlegoP, btnSalidaP, btnFin, btnSalir, btnEstatus;
@@ -193,6 +145,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2 {
         btnSalir = (Button) findViewById(R.id.btnSalir);
         ibtnBuscarPed = (ImageButton) findViewById(R.id.ibtnBuscar);
         btnEstatus = (Button) findViewById(R.id.btnEstatus);
+
 
         tvRecibe = (TextView) findViewById(R.id.tvNombreRecibe);
 
@@ -302,12 +255,12 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2 {
 
     }
 
-    public class Constants {
+   /* public class Constants {
 
         public static final int MY_DEFAULT_TIMEOUT = 5000;
 
         //...
-    }
+    }*/
 
     public void BuscarPedido(){
 
@@ -337,53 +290,36 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2 {
 
                             } else {
 
-                                JSONObject ds_opPedido    = respuesta.getJSONObject("tt_opPedido");
+                                JSONObject ds_opPedido = respuesta.getJSONObject("tt_opPedido");
                                 JSONObject ds_opPedidoDet = respuesta.getJSONObject("tt_opPedidoDet");
                                 JSONObject ds_opPedidoProv = respuesta.getJSONObject("tt_opPedidoProveedor");
-                                JSONObject ds_opPedPainani    = respuesta.getJSONObject("tt_opPedPainani");
+                                JSONObject ds_opPedPainani = respuesta.getJSONObject("tt_opPedPainani");
                                 JSONObject ds_opPedPainaniDet = respuesta.getJSONObject("tt_opPedPainaniDet");
 
-                                JSONArray tt_opPedido          = ds_opPedido.getJSONArray("tt_opPedido");
-                                JSONArray tt_opPedidoDet       = ds_opPedidoDet.getJSONArray("tt_opPedidoDet");
+                                JSONArray tt_opPedido = ds_opPedido.getJSONArray("tt_opPedido");
+                                JSONArray tt_opPedidoDet = ds_opPedidoDet.getJSONArray("tt_opPedidoDet");
                                 JSONArray tt_opPedidoProveedor = ds_opPedidoProv.getJSONArray("tt_opPedidoProveedor");
-                                JSONArray tt_opPedPainani      = ds_opPedPainani.getJSONArray("tt_opPedPainani");
-                                JSONArray tt_opPedPainaniDet   = ds_opPedPainaniDet.getJSONArray("tt_opPedPainaniDet");
+                                JSONArray tt_opPedPainani = ds_opPedPainani.getJSONArray("tt_opPedPainani");
+                                JSONArray tt_opPedPainaniDet = ds_opPedPainaniDet.getJSONArray("tt_opPedPainaniDet");
 
-                                globales.g_opPedidoList    = Arrays.asList(new Gson().fromJson(tt_opPedido.toString(), opPedido[].class));
+                                globales.g_opPedidoList = Arrays.asList(new Gson().fromJson(tt_opPedido.toString(), opPedido[].class));
                                 globales.g_opPedidoDetList = Arrays.asList(new Gson().fromJson(tt_opPedidoDet.toString(), opPedidoDet[].class));
                                 globales.g_opPedidoProvtList = Arrays.asList(new Gson().fromJson(tt_opPedidoProveedor.toString(), opPedidoProveedor[].class));
-                                globales.g_ctPedPainaniList    = Arrays.asList(new Gson().fromJson(tt_opPedPainani.toString(), opPedPainani[].class));
+                                globales.g_ctPedPainaniList = Arrays.asList(new Gson().fromJson(tt_opPedPainani.toString(), opPedPainani[].class));
                                 globales.g_ctPedPainaniDetList = Arrays.asList(new Gson().fromJson(tt_opPedPainaniDet.toString(), opPedPainaniDet[].class));
-
 
 
                                 //Collections.sort(globales.g_opPedidoProvtList, new ComparadorProv());
 
                                 globales.g_opPedPainani = globales.g_ctPedPainaniList.get(0);
 
-                               /* final ListView lviewPedxProv = (ListView) findViewById(R.id.lvPedxProv);
-                                ArrayList<opPedidoProveedor> arrayPedidoxProv = new ArrayList<opPedidoProveedor>(globales.g_opPedidoProvtList);
-                                adapterPedXProv = new AdapterPedXProv(Home.this,arrayPedidoxProv );
-                                lviewPedxProv.setAdapter(adapterPedXProv);
-
-                                lviewPedxProv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int iPartida, long l) {
+                                /****viepage *****/
 
 
 
-                                        viPedido  = (globales.g_opPedidoProvtList.get(iPartida).getiPedido());
-                                        viProveedor = (globales.g_opPedidoProvtList.get(iPartida).getiProveedor());
-                                        viPedidoProv = (globales.g_opPedidoProvtList.get(iPartida).getiPedidoProv());
 
-                                        ConstruyeDet( viPedido,  viPedidoProv);
-                                    }
-                                });*/
 
                                 final ListView lviewPedxProv = (ListView) findViewById(R.id.lvPedxProv);
-                                //ArrayList<opPedidoProveedor> arrayPedidoxProv = new ArrayList<opPedidoProveedor>(globales.g_opPedidoProvtList);
-
-
                                 ArrayList<opPedPainaniDet> arrayPedidoxProv = new ArrayList<opPedPainaniDet>(globales.g_ctPedPainaniDetList);
                                 adapterPainaniPed = new AdapterPainaniPed( Home.this,arrayPedidoxProv );
                                 lviewPedxProv.setAdapter(adapterPainaniPed);
@@ -391,24 +327,20 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2 {
                                 lviewPedxProv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int iPartida, long l) {
-
-
-
                                         viPedido  = (globales.g_ctPedPainaniDetList.get(iPartida).getiPedido());
                                         viProveedor = (globales.g_ctPedPainaniDetList.get(iPartida).getiPedidoProv());
                                         viPartidaProv = (globales.g_ctPedPainaniDetList.get(iPartida).getiPartida());
+                                        tvDomProv .setText(globales.g_ctPedPainaniDetList.get(iPartida).getcDirProveedor());
+                                        tvDomProv .setText(globales.g_ctPedPainaniDetList.get(iPartida).getcDirProveedor());
 
 
                                         Log.e("valor pedido prov",  "partida es " + viPartidaProv);
                                         ConstruyeDet( viPedido,  viProveedor);
                                     }
                                 });
-
-
-
-
                                 txtDomCli.setText(globales.g_ctPedPainaniList.get(0).getcDirCliente());
                                 tvRecibe.setText(globales.g_ctPedPainaniList.get(0).getcCliente());
+
 
 
                             }
@@ -939,7 +871,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2 {
 
 
                                 final ListView lviewPedxProv = (ListView) findViewById(R.id.lvPedxProv);
-                                //ArrayList<opPedidoProveedor> arrayPedidoxProv = new ArrayList<opPedidoProveedor>(globales.g_opPedidoProvtList);
+
 
 
                                 ArrayList<opPedPainaniDet> arrayPedidoxProv = new ArrayList<opPedPainaniDet>(globales.g_ctPedPainaniDetList);
