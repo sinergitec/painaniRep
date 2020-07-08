@@ -82,8 +82,8 @@ public class ActEdoProceso extends AppCompatActivity {
         mRgAllEdoProc = findViewById(R.id.rbEdoProceso);
         etOtraRazon   = findViewById(R.id.etOtraRazon);
 
-        mRgAllEdoProc.setOrientation(LinearLayout.HORIZONTAL);
-        int vxMod = 45;
+        mRgAllEdoProc.setOrientation(LinearLayout.VERTICAL);
+        int vxMod = 10;
         int vyMod = 0;
         int vCuantosMod = 0;
 
@@ -120,18 +120,18 @@ public class ActEdoProceso extends AppCompatActivity {
             Drawable d = getResources().getDrawable(R.drawable.radiob);
             rdbtnEdo.setText(objctEstado.getcEstadoPedido());
             rdbtnEdo.setBackgroundDrawable(d);
-            rdbtnEdo.setWidth(140);
+            rdbtnEdo.setWidth(200); //140
             rdbtnEdo.setHeight(60);
             rdbtnEdo.setX(vxMod);
             rdbtnEdo.setY(vyMod);
 
-            if (vCuantosMod % 4 == 0) {
+            /*if (vCuantosMod % 4 == 0) {
                 vxMod = -300;
                 vyMod = vyMod + 10;
             } else {
                 vxMod = vxMod + 30;
 
-            }
+            }*/
 
             rdbtnEdo.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {

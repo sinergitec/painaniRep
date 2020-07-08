@@ -41,6 +41,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.AuthFailureError;
@@ -51,6 +52,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sienrgitec.painanirep.R;
@@ -144,6 +146,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         sEstatusP  = (Switch)   findViewById(R.id.switch1);
         btnSalir = (Button) findViewById(R.id.btnSalir);
         ibtnBuscarPed = (ImageButton) findViewById(R.id.ibtnBuscar);
+
         btnEstatus = (Button) findViewById(R.id.btnEstatus);
 
 
@@ -250,10 +253,17 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
 
 
+
+
+
+
         BuscaCoordenadas();
         onTrimMemory(0x0000003c);
 
     }
+
+
+
 
    /* public class Constants {
 
@@ -330,8 +340,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                         viPedido  = (globales.g_ctPedPainaniDetList.get(iPartida).getiPedido());
                                         viProveedor = (globales.g_ctPedPainaniDetList.get(iPartida).getiPedidoProv());
                                         viPartidaProv = (globales.g_ctPedPainaniDetList.get(iPartida).getiPartida());
-                                        tvDomProv .setText(globales.g_ctPedPainaniDetList.get(iPartida).getcDirProveedor());
-                                        tvDomProv .setText(globales.g_ctPedPainaniDetList.get(iPartida).getcDirProveedor());
+
 
 
                                         Log.e("valor pedido prov",  "partida es " + viPartidaProv);

@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#e0e0e0">
+    android:layout_height="match_parent">
 
     <TableLayout
         android:id="@+id/tableLayout12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/c"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -28,7 +28,8 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:text="Fecha"
-
+                android:textColorHint="@color/colorText"
+                android:textColor="@color/colorText"
                 tools:layout_editor_absoluteX="137dp"
                 tools:layout_editor_absoluteY="476dp" />
 
@@ -37,11 +38,15 @@
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:text="Cliente"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText"
                 tools:layout_editor_absoluteX="54dp"
                 tools:layout_editor_absoluteY="197dp" />
 
             <TextView
                 android:id="@+id/tvCliId"
+                android:textColorHint="@color/colorText"
+                android:textColor="@color/colorText"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 tools:layout_editor_absoluteX="82dp"
@@ -52,6 +57,8 @@
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:text="Pedido"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText"
                 tools:layout_editor_absoluteX="151dp"
                 tools:layout_editor_absoluteY="359dp" />
 
@@ -60,6 +67,8 @@
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:text=""
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText"
                 tools:layout_editor_absoluteX="137dp"
                 tools:layout_editor_absoluteY="476dp" />
 
@@ -89,9 +98,9 @@
             <ListView
                 android:id="@+id/lvEvaluacion"
                 android:layout_width="wrap_content"
-                android:layout_height="150dp"
-                android:background="#ffffff"
-                android:listSelector="#99FF99"
+                android:layout_height="300dp"
+                
+                android:listSelector="@drawable/b"
                 android:state_activated="false"
                 tools:layout_editor_absoluteX="1dp"
                 tools:layout_editor_absoluteY="518dp" />
@@ -123,31 +132,25 @@
 
     </TableRow>
 
-    <TableRow
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+
+    <Button
+        android:id="@+id/btnEvalua"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/a"
+        android:text="FINALIZAR EVALUACION"
+        android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableRow3">
-
-        <Button
-            android:id="@+id/btnEvalua"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btnaceptar"
-            android:text="FINALIZAR EVALUACION"
-            android:textColor="@android:color/white"
-            tools:layout_editor_absoluteX="77dp"
-            tools:layout_editor_absoluteY="555dp" />
+        app:layout_constraintTop_toBottomOf="@+id/tableRow3" />
 
 
-    </TableRow>
+
 
     <TableRow
         android:id="@+id/tableRow4"
@@ -162,16 +165,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout13">
 
-        <TextView
-            android:id="@+id/tvQuestion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#fd6000"
-            android:text="¿Qué valor le asignas?"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            tools:layout_editor_absoluteX="26dp"
-            tools:layout_editor_absoluteY="586dp" />
+
     </TableRow>
 
 
@@ -188,9 +182,9 @@
             android:id="@+id/btnOk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/btnevalua"
+            android:background="@drawable/b"
             android:text="EVALUAR"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorText"
             tools:layout_editor_absoluteX="40dp"
             tools:layout_editor_absoluteY="558dp" />
 
@@ -203,7 +197,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
