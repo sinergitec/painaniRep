@@ -32,7 +32,8 @@ public class Inicio extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
-
+        final int ACCESS_FINE_LOCATION = 10;
+        final int NETWORK_PROVIDER = 10;
         Toast.makeText(Inicio.this, "BIENVENIDO" , Toast.LENGTH_SHORT).show();
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);

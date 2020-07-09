@@ -99,7 +99,7 @@
                 android:id="@+id/lvEvaluacion"
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
-                
+
                 android:listSelector="@drawable/b"
                 android:state_activated="false"
                 tools:layout_editor_absoluteX="1dp"
