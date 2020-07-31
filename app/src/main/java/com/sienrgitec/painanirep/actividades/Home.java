@@ -93,19 +93,16 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     private AdapterPedXProv adapterPedXProv;
     private AdapterPainaniPed adapterPainaniPed;
 
-    /**viewC*/
-    ViewPager viewpager;
-    AdapterViewPedDet aviewDet;
-    List<opPedPainaniDet> models;
+    ViewPager viewPager;
+    AdapterNvoPed adapterPedDet;
+    List <opPedPainaniDet> pedidoList;
+
+
 
     public Integer viPedido = 0;
     public Integer viProveedor = 0;
     public Integer viPartidaProv = 0;
     private static  final int idUnica = 6192523;
-
-
-
-
 
 
     @Override
@@ -136,8 +133,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         txtDomCli  = (TextView) findViewById(R.id.tvNombreDom);
-        btnLlegoP  = (Button) findViewById(R.id.btnLlegoP);
-        btnSalidaP = (Button) findViewById(R.id.btnSalidaP);
+
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -159,39 +155,6 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         tvEstatusP.setText("Disponible");
         btnFin = (Button) findViewById(R.id.btnFin);
 
-        btnLlegoP.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if(viPedido ==  0){
-                    MuestraMensaje("Error", "Debes seleccionar al menos un pedido");
-                    return;
-                }
-
-                if(globales.g_opPedidoList.get(0).getiEstadoPedido().equals(6)){
-                    MuestraMensaje("Error","Esta Accion no esta permitida. El pedido ya fue recolectado");
-                    return;
-                }
-
-
-                MuestraMensaje("Aviso", "Asegurate de que los productos correspondan con el pedido");
-                ActPedPainaniDet("Llega", viPedido,  viPartidaProv);
-            }
-        });
-        btnSalidaP.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if(viProveedor ==  0){
-                    MuestraMensaje("Error", "Debes seleccionar al menos un pedido");
-                    return;
-                }
-
-                if(globales.g_opPedidoList.get(0).getiEstadoPedido().equals(6 )){
-                    MuestraMensaje("Error","Esta Accion no esta permitida. El pedido ya fue recolectado");
-                    return;
-                }
-
-                ActPedPainaniDet("Salida", viPedido,  viPartidaProv);
-                MuestraMensaje("Aviso", "Hecho");
-            }
-        });
 
         sEstatusP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -232,13 +195,9 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         });
         btnFin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 NotificationManager notificationManager = ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE));
                 notificationManager.cancelAll();
-
                 TerminarPedido();
-
-
             }
         });
 
@@ -251,18 +210,41 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
             }
         });
 
-
-
-
-
-
-
         BuscaCoordenadas();
         onTrimMemory(0x0000003c);
 
     }
 
 
+    public void LlegadaProv (View v) {
+        if(viPedido ==  0){
+            MuestraMensaje("Error", "Debes seleccionar al menos un pedido");
+            return;
+        }
+
+        if(globales.g_opPedidoList.get(0).getiEstadoPedido().equals(6)){
+            MuestraMensaje("Error","Esta Accion no esta permitida. El pedido ya fue recolectado");
+            return;
+        }
+
+        MuestraMensaje("Aviso", "Asegurate de que los productos correspondan con el pedido");
+        ActPedPainaniDet("Llega", viPedido,  viPartidaProv);
+    }
+
+    public void SalidaProv(View v){
+        if(viProveedor ==  0){
+            MuestraMensaje("Error", "Debes seleccionar al menos un pedido");
+            return;
+        }
+
+        if(globales.g_opPedidoList.get(0).getiEstadoPedido().equals(6 )){
+            MuestraMensaje("Error","Esta Accion no esta permitida. El pedido ya fue recolectado");
+            return;
+        }
+
+        ActPedPainaniDet("Salida", viPedido,  viPartidaProv);
+        MuestraMensaje("Aviso", "Hecho");
+    }
 
 
    /* public class Constants {
@@ -273,7 +255,6 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     }*/
 
     public void BuscarPedido(){
-
 
         getmRequestQueue();
 
@@ -325,11 +306,38 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
                                 /****viepage *****/
 
+                                pedidoList = new ArrayList<>();
+                                pedidoList = Arrays.asList(new Gson().fromJson(tt_opPedPainaniDet.toString(), opPedPainaniDet[].class));
+                                viewPager  = findViewById(R.id.viewPager);
+                                adapterPedDet = new AdapterNvoPed(pedidoList, getBaseContext());
+                                viewPager.setAdapter(adapterPedDet);
+                                viewPager.setPadding(50,0,50,0);
 
+                                viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                                    @Override
+                                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                        viPedido  = (pedidoList.get(position).getiPedido());
+                                        viProveedor = (pedidoList.get(position).getiPedidoProv());
+                                        Log.e("selecciones", "original " + position + " " + viProveedor + " " +  viPedido);
+                                        ConstruyeDet( viPedido,  viProveedor);
 
+                                    }
 
+                                    @Override
+                                    public void onPageSelected(int position) {
+                                        // this will execute when page will be selected
+                                        Log.e("selecciones", "muestrame " + position + " " + pedidoList.get(position).getcNegocion());
 
-                                final ListView lviewPedxProv = (ListView) findViewById(R.id.lvPedxProv);
+                                    }
+
+                                    @Override
+                                    public void onPageScrollStateChanged(int state) {
+
+                                    }
+                                });
+
+                                /*****************/
+                                /*final ListView lviewPedxProv = (ListView) findViewById(R.id.lvPedxProv);
                                 ArrayList<opPedPainaniDet> arrayPedidoxProv = new ArrayList<opPedPainaniDet>(globales.g_ctPedPainaniDetList);
                                 adapterPainaniPed = new AdapterPainaniPed( Home.this,arrayPedidoxProv );
                                 lviewPedxProv.setAdapter(adapterPainaniPed);
@@ -346,12 +354,9 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                         Log.e("valor pedido prov",  "partida es " + viPartidaProv);
                                         ConstruyeDet( viPedido,  viProveedor);
                                     }
-                                });
+                                });*/
                                 txtDomCli.setText(globales.g_ctPedPainaniList.get(0).getcDirCliente());
                                 tvRecibe.setText(globales.g_ctPedPainaniList.get(0).getcCliente());
-
-
-
                             }
                         } catch (JSONException e) {
                             sEstatusP.setEnabled(true);
@@ -875,14 +880,43 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 txtDomCli.setText(globales.g_ctPedPainaniList.get(0).getcDirCliente());
                                 tvRecibe.setText(globales.g_ctPedPainaniList.get(0).getcCliente());
 
+                                /****viepage *****/
+
+                                pedidoList = new ArrayList<>();
+                                pedidoList = (globales.g_ctPedPainaniDetList);
+                                viewPager  = findViewById(R.id.viewPager);
+                                adapterPedDet = new AdapterNvoPed(pedidoList, getBaseContext());
+                                viewPager.setAdapter(adapterPedDet);
+                                viewPager.setPadding(130,0,130,0);
+
+                                viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                                    @Override
+                                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                                        Log.e("selecciones", "original " + position + " " + pedidoList.get(position).getcNegocion());
+
+                                    }
+
+                                    @Override
+                                    public void onPageSelected(int position) {
+                                        // this will execute when page will be selected
+                                        Log.e("selecciones", "muestrame " + position + " " + pedidoList.get(position).getcNegocion());
+
+                                    }
+
+                                    @Override
+                                    public void onPageScrollStateChanged(int state) {
+
+                                    }
+                                });
+
+                                /*****************/
+
                                 /*Encabezado de pedido x Proveedor*/
                                 Collections.sort(globales.g_ctPedPainaniDetList, new ComparadorProv());
 
 
-                                final ListView lviewPedxProv = (ListView) findViewById(R.id.lvPedxProv);
-
-
-
+                                /*final ListView lviewPedxProv = (ListView) findViewById(R.id.lvPedxProv);
                                 ArrayList<opPedPainaniDet> arrayPedidoxProv = new ArrayList<opPedPainaniDet>(globales.g_ctPedPainaniDetList);
                                 adapterPainaniPed = new AdapterPainaniPed( Home.this,arrayPedidoxProv );
                                 lviewPedxProv.setAdapter(adapterPainaniPed);
@@ -890,18 +924,12 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 lviewPedxProv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int iPartida, long l) {
-
-
-
                                         viPedido  = (globales.g_ctPedPainaniDetList.get(iPartida).getiPedido());
                                         viProveedor = (globales.g_ctPedPainaniDetList.get(iPartida).getiPedidoProv());
                                         viPartidaProv = (globales.g_ctPedPainaniDetList.get(iPartida).getiPartida());
-
-
-
                                         ConstruyeDet( viPedido,  viProveedor);
                                     }
-                                });
+                                });*/
 
                             }
 
@@ -944,12 +972,15 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
     public void ConstruyeDet(Integer viPedido, Integer viPedidoProv){
 
+        Log.e("construye det ", viPedido + " " + viPedidoProv);
+
 
         globales.g_ctDetalleFinal.clear();
         for(opPedidoDet obj: globales.g_opPedidoDetList){
 
             if(obj.getiPedido().equals(viPedido) && obj.getiPedidoProv().equals(viPedidoProv)){
 
+                Log.e("detalle--> ", "desc " + obj.getcDescripcion());
                 opPedidoDet objFinal = new opPedidoDet();
                 objFinal.setcDescripcion(obj.getcDescripcion());
                 objFinal.setDeCantidad(obj.getDeCantidad());
@@ -965,7 +996,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
     public void ActPedPainaniDet(final String vcAccion, Integer iPedido, Integer iProvPart){
         Integer viPainani =   globales.g_ctUsuario.getiPersona();
-        Log.e("variables recibidos", vcAccion + " " + iPedido + " "+ globales.g_ctUsuario.getiPersona() + " " + iProvPart);
+
 
         getmRequestQueue();
         String urlParams = String.format(url + "opPedPainaniDet?ipiPedido=%1$s&ipiPainani=%2$s&ipiPartida=%3$s&ipcAccion=%4$s", iPedido, viPainani,iProvPart, vcAccion );

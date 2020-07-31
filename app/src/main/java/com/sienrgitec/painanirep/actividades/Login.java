@@ -50,11 +50,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
+
+
+    private static RequestQueue mRequestQueue;
     public Globales globales;
     public Double vdeLongitud, vdeLatitud;
 
 
-    private static RequestQueue mRequestQueue;
+
     private String url = globales.URL;
 
 
@@ -139,11 +142,6 @@ public class Login extends AppCompatActivity {
 
         globales.g_ctComisionesList    = null;
 
-/*nuevos cambios*/
-
-
-
-        /****/
         final String vcUsuLog = etNombreU.getText().toString();
         final String password = etPasword.getText().toString();
 
@@ -181,7 +179,6 @@ public class Login extends AppCompatActivity {
             dialog.show();
             return;
         }
-
 
         getmRequestQueue();
 

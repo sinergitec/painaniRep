@@ -21,6 +21,15 @@ public class ctPainani implements Serializable{
     private String cWhattsApp;
     private String cFacebook;
     private String cTwitter;
+    private String cObs;
+    private String dtCreado;
+    private String dtModificado;
+    private Integer iEdoPainani;
+    private String cUsuCrea;
+    private String cUsuModifica;
+    private String bImagen;
+    private String cForo;
+
 
     public String getcApellidoMat() {
         return cApellidoMat;
@@ -30,13 +39,7 @@ public class ctPainani implements Serializable{
         this.cApellidoMat = cApellidoMat;
     }
 
-    private String cObs;
-    private String dtCreado;
-    private String dtModificado;
-    private Integer iEdoPainani;
-    private String cUsuCrea;
-    private String cUsuModifica;
-    private String bImagen;
+
 
     public String getcApellidoPat() {
         return cApellidoPat;
@@ -174,5 +177,11 @@ public class ctPainani implements Serializable{
         this.cUsuModifica = cUsuModifica;
     }
 
+    public String getcForo() {
+        return cForo;
+    }
 
+    public void setcForo(String cForo) {
+        this.cForo = cForo;
+    }
 }

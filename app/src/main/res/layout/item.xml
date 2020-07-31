@@ -16,14 +16,15 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="290dp">
+            android:layout_height="270dp"
+            android:background="@drawable/bgcolor">
 
             <ImageView
                 android:id="@+id/imageView"
                 app:srcCompat="@android:drawable/ic_menu_mapmode"
                 android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="170dp"/>
 
             <TextView
                 android:id="@+id/txPedidoF"
@@ -50,20 +51,26 @@
                 android:textColorHint="@color/colorText"/>
 
             <Button
-                android:id="@+id/btnIn"
-                android:layout_width="100dp"
-                android:layout_height="45dp"
-                android:layout_below="@id/imageView"
-                android:text="Button"
-                android:layout_marginLeft="245dp"/>
+                android:id="@+id/bLlegaP"
+                android:layout_width="65dp"
+                android:layout_height="40dp"
+                android:text="ENTRA"
+                android:textColor="@android:color/white"
+                android:background="@drawable/btnllegap"
+                android:layout_marginTop="120dp"
+                android:layout_marginLeft="200dp"
+                android:onClick="LlegadaProv"/>
 
             <Button
-                android:id="@+id/btnOut"
-                android:layout_width="100dp"
-                android:layout_height="45dp"
-                android:layout_below="@id/imageView"
-                android:text="Out"
-                android:layout_marginLeft="360dp"/>
+                android:id="@+id/bSaleP"
+                android:layout_width="65dp"
+                android:layout_height="40dp"
+                android:text=" SALIR"
+                android:background="@drawable/btnsalidap"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="120dp"
+                android:layout_marginLeft="280dp"
+                android:onClick="SalidaProv"/>
 
             <TextView
                 android:id="@+id/txtNegocio"
