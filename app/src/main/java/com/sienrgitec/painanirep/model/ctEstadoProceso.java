@@ -3,7 +3,7 @@ package com.sienrgitec.painanirep.model;
 import java.io.Serializable;
 
 public class ctEstadoProceso implements Serializable {
-    private String cEstadoPedido;
+    private String cEstadoProceso;
     private String cUsuCrea;
     private String cUsuModifica;
     private String dtCreado;
@@ -13,12 +13,12 @@ public class ctEstadoProceso implements Serializable {
     private Object id;
 
 /*modelos de ctEstadoprocesos*/
-    public String getcEstadoPedido() {
-        return cEstadoPedido;
+    public String getcEstadoProceso() {
+        return cEstadoProceso;
     }
 
-    public void setcEstadoPedido(String cEstadoPedido) {
-        this.cEstadoPedido = cEstadoPedido;
+    public void setcEstadoProceso(String cEstadoProceso) {
+        this.cEstadoProceso = cEstadoProceso;
     }
 
     public String getcUsuCrea() {

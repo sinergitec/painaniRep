@@ -104,34 +104,22 @@ public class ActEdoProceso extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int iPartida, long l) {
                 viRazon  = (globales.g_ctRazonesList.get(iPartida).getiRazon());
                 vcRazon = (globales.g_ctRazonesList.get(iPartida).getcRazon());
-
-                Log.e("razones ",  "seleccionadas " + viRazon + " vcRazon " + vcRazon);
-
             }
         });
 
 
         for (final ctEstadoProceso objctEstado : globales.g_ctEdoProcesoList) {
-
             vCuantosMod = vCuantosMod + 1;
-
             RadioButton rdbtnEdo = new RadioButton(this);
-
             Drawable d = getResources().getDrawable(R.drawable.radiob);
-            rdbtnEdo.setText(objctEstado.getcEstadoPedido());
+            rdbtnEdo.setText(objctEstado.getcEstadoProceso());
             rdbtnEdo.setBackgroundDrawable(d);
             rdbtnEdo.setWidth(200); //140
             rdbtnEdo.setHeight(60);
             rdbtnEdo.setX(vxMod);
             rdbtnEdo.setY(vyMod);
 
-            /*if (vCuantosMod % 4 == 0) {
-                vxMod = -300;
-                vyMod = vyMod + 10;
-            } else {
-                vxMod = vxMod + 30;
 
-            }*/
 
             rdbtnEdo.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {

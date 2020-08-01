@@ -48,7 +48,7 @@ public class AdapterRecyclerDetP extends RecyclerView.Adapter<AdapterRecyclerDet
             super(itemView);
             cantidad = (TextView) itemView.findViewById(R.id.tvCantidad);
             descripcion  = (TextView) itemView.findViewById(R.id.tvArt);
-            obs = (TextView) itemView.findViewById(R.id.tvArt);
+            obs = (TextView) itemView.findViewById(R.id.tvObs);
 
         }
 

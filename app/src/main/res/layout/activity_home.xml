@@ -144,8 +144,9 @@
 
     </androidx.viewpager.widget.ViewPager>
 
+
     <TextView
-        android:id="@+id/txtCom"
+        android:id="@+id/txtDet"
         android:layout_below="@id/viewPager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -155,8 +156,32 @@
         android:textColor="@color/colorText"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="65dp"
-        android:layout_marginRight="65dp"/>
+        android:layout_marginRight="65dp"
+        android:visibility="invisible"/>
 
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/idrecycler"
+        android:layout_below="@+id/viewPager"
+        android:layout_width="391dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager" />
+
+
+
+
+
+<!--
     <TableLayout
         android:id="@+id/tableLayout11"
         android:layout_below="@id/txtCom"
@@ -192,7 +217,7 @@
         </TableRow>
 
     </TableLayout>
-
+-->
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -215,33 +240,10 @@
         android:layout_marginRight="65dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp" />
+        android:layout_marginBottom="60dp"
+        android:visibility="invisible"/>
 
-<!--
-    <Button
-        android:id="@+id/btnLlegoP"
-        android:layout_below="@id/viewPager"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:background="@drawable/a"
-        android:textColor="@color/colorText"
-        android:text="Llega Prov"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="150dp"
-        android:visibility="visible"/>
-    <Button
-        android:id="@+id/btnSalidaP"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:background="@drawable/b"
-        android:textColor="@color/colorText"
-        android:layout_below="@id/viewPager"
-        android:text="SALIDA PROV"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="250dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible"/>
--->
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -272,7 +274,7 @@
 
             <ImageButton
                 android:id="@+id/ibtnBuscar"
-                android:layout_below="@id/tableLayout11"
+                android:layout_below="@id/idrecycler"
                 android:layout_width="90dp"
                 android:layout_height="35dp"
                 android:layout_marginBottom="8dp"

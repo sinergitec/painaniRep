@@ -62,10 +62,9 @@ public class Login extends AppCompatActivity {
 
 
     Button   btnEntrar;
-    TextView txtRegistro;
-    TextView txtRecuperaPw;
-    EditText etNombreU;
-    EditText etPasword;
+    TextView txtRegistro, txtRecuperaPw;
+    EditText etNombreU, etPasword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +81,6 @@ public class Login extends AppCompatActivity {
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 BuscarUsuario();
-               /* startActivity(new Intent(Login.this, ActEdoProceso.class));
-                finish();*/
             }
         });
 
@@ -99,42 +96,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-       /* int permissionCheck = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION);
-        if(permissionCheck == PackageManager.PERMISSION_DENIED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)){
-            }else{
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            }
-        }
 
-        LocationManager locationManager = (LocationManager) Login.this.getSystemService(Context.LOCATION_SERVICE);
-
-        LocationListener locationListener= new LocationListener(){
-            public void onLocationChanged(Location location){
-                Log.e("Login ", "ubicacion " + location.getLatitude() + " " + location.getLongitude());
-                vdeLatitud = location.getLatitude();
-                vdeLongitud = location.getLongitude();
-
-
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-            @Override
-            public void onProviderEnabled(String provider){}
-            @Override
-            public void onProviderDisabled(String provider){}
-
-        };
-        int permissionChecks = ContextCompat.checkSelfPermission(Login.this,
-                Manifest.permission.ACCESS_FINE_LOCATION);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,100,0,locationListener);
-
-
-       */
     }
 
     public void BuscarUsuario(){
@@ -220,8 +182,6 @@ public class Login extends AppCompatActivity {
 
 
 
-
-
                             JSONObject ds_opdispPainani   = respuesta.getJSONObject("tt_opDispPainani");
                             JSONArray tt_opDispPainani = ds_opdispPainani.getJSONArray("tt_opDispPainani");
                             globales.g_opDispPList       = Arrays.asList(new Gson().fromJson(tt_opDispPainani.toString(), opDispPainani[].class));
@@ -236,7 +196,6 @@ public class Login extends AppCompatActivity {
                                 globales.g_ctUsuario = globales.g_ctUsuarioList.get(0);
 
                                 if(lComision == true){
-                                    Log.e("home-->", "dentro dl if");
                                     startActivity(new Intent(Login.this, AsignaComision.class));
                                     finish();
                                 }else {
