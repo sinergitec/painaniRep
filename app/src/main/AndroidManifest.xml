@@ -21,7 +21,10 @@
         android:roundIcon="@mipmap/logopainal"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
-        <activity android:name=".actividades.RazonesRechazo"></activity>
+        <activity android:name=".actividades.RazonesRechazo"
+            android:theme="@style/AppTheme.EvaluaCli">
+
+        </activity>
         <activity
             android:name=".actividades.ActEdoProceso"
             android:theme="@style/AppTheme.EvaluaCli" />

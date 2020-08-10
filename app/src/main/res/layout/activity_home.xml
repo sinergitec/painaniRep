@@ -136,11 +136,15 @@
         android:layout_height="270dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="-2dp"
         android:layout_marginTop="90dp"
         android:clipToPadding="false"
         android:foregroundGravity="center"
-        android:overScrollMode="never">
+        android:overScrollMode="never"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="32dp">
 
     </androidx.viewpager.widget.ViewPager>
 
@@ -233,7 +237,7 @@
         android:id="@+id/btnFin"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:text="finalizar"
+        android:text="entregar a cliente"
         android:background="@drawable/a"
         android:textColor="@color/colorText"
         android:layout_marginLeft="65dp"

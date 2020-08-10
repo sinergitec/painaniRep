@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -100,7 +101,7 @@ public class AsignaComision extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(AsignaComision.this);
                 builder.setCancelable(true);
                 builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Agrega Aportacion </font>"));
-                builder.setMessage("¿Deseas contribuir a la comunidad con este porcentaje: " + vcComision + " al finalizar el día  ?");
+                builder.setMessage("¿Deseas contribuir a la comunidad con el: " + vcComision + "% al finalizar el día?");
                 builder.setPositiveButton("Si",
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -153,7 +154,7 @@ public class AsignaComision extends AppCompatActivity {
             GridOrdenes.addView(myButton);
         }*/
 
-        mRgAllButtons.setOrientation(LinearLayout.VERTICAL);
+        //mRgAllButtons.setOrientation(RelativeLayout.CENTER_HORIZONTAL);
 
         int vxMod = 0;
         int vyMod = 0;
@@ -171,23 +172,23 @@ public class AsignaComision extends AppCompatActivity {
             if(objComisiones.getcComision().equals("OTRO")){
                 rdbtn.setText("OTRO");
             }else {
-                rdbtn.setText(objComisiones.getDeValor());
+                rdbtn.setText(objComisiones.getDeValor() + "%");
             }
 
             Drawable d = getResources().getDrawable(R.drawable.radiob);
             rdbtn.setBackgroundDrawable(d);
-            rdbtn.setWidth(115);
-            rdbtn.setHeight(70);
+            rdbtn.setWidth(140);
+            rdbtn.setHeight(80);
             rdbtn.setX(vxMod);
             rdbtn.setY(vyMod);
-
+            vyMod = vyMod + 20;
 
 
             /*if (vCuantosMod % 4 == 0) {
-                vxMod = -300;
+                vxMod = 100;
                 vyMod = vyMod + 70;
             } else {
-                vxMod = vxMod + 10;
+
 
             }*/
 

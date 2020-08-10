@@ -46,10 +46,10 @@ import java.util.Map;
 public class EvaluaCli extends AppCompatActivity {
     public Globales globales;
     private static RequestQueue mRequestQueue;
-    private String url = globales.URL;
+    private String url = globales.URL, vcPersona;
     private AdapterEvaluacion adapter;
 
-    public String  vcTipo   = "Evaluacion al cliente";
+    public String  vcTipo   = "";
     public Integer viEvalua = 0, viPunto  = 0;
     public Float  vdeCalificacion;
 
@@ -65,6 +65,11 @@ public class EvaluaCli extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evalua_cli);
 
+
+        Intent i = getIntent();
+        vcPersona =  i.getStringExtra("ipcPersona");
+        vcTipo    = i.getStringExtra("ipcEvaluacion");
+
         txtFecha    = (TextView) findViewById(R.id.tvFecha);
         txtCliente  = (TextView) findViewById(R.id.tvCli);
         txtCliId    = (TextView) findViewById(R.id.tvCliId);
@@ -77,7 +82,7 @@ public class EvaluaCli extends AppCompatActivity {
         ratingBar    = (RatingBar) findViewById(R.id.ratingBar);
 
         txtFecha.setText(globales.g_opPedPainani.getDtFecha());
-        txtCliId.setText(globales.g_opPedPainani.getiCliente().toString());
+        //txtCliId.setText(vcPersona);
         txtPedidoId.setText(globales.g_opPedPainani.getiPedido().toString());
 
         btnOk.setOnClickListener(new View.OnClickListener() {
@@ -275,7 +280,7 @@ public class EvaluaCli extends AppCompatActivity {
             JSONArray opEvaluaJS   = new JSONArray(JS_opClienteEvalua);
             jsonDataSet.put("tt_opClienteEvalua",  opEvaluaJS);
             jsonParams.put("ds_NvaEvaluacion", jsonDataSet);
-            jsonParams.put("ipcPersona", "Cliente");
+            jsonParams.put("ipcPersona", vcPersona);
             jsonBody.put("request", jsonParams);
 
             Log.i("Response", jsonBody.toString());

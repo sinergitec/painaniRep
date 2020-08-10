@@ -16,15 +16,28 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="270dp"
+            android:layout_height="280dp"
             android:background="@drawable/bgcolor">
+
+            <TextView
+                android:id="@+id/tvProvT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:hint="ProvTotal"
+                android:layout_marginLeft="200dp"
+                android:textColorHint="@color/colorText"
+                android:textColor="@color/colorText"/>
 
             <ImageView
                 android:id="@+id/imageView"
+                android:layout_below="@+id/tvProvT"
                 app:srcCompat="@android:drawable/ic_menu_mapmode"
                 android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"/>
+                android:layout_height="120dp"/>
 
             <TextView
                 android:id="@+id/txPedidoF"
@@ -53,23 +66,26 @@
             <Button
                 android:id="@+id/bLlegaP"
                 android:layout_width="65dp"
-                android:layout_height="40dp"
-                android:text="ENTRA"
+                android:layout_height="wrap_content"
+                android:text="entra"
                 android:textColor="@android:color/white"
                 android:background="@drawable/btnllegap"
-                android:layout_marginTop="120dp"
-                android:layout_marginLeft="200dp"
-                android:onClick="LlegadaProv"/>
+                android:onClick="LlegadaProv"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="200dp"
+                android:layout_marginLeft="220dp"
+                android:layout_marginEnd="200dp"
+                android:layout_marginRight="200dp" />
 
             <Button
                 android:id="@+id/bSaleP"
                 android:layout_width="65dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:text=" SALIR"
                 android:background="@drawable/btnsalidap"
                 android:textColor="@android:color/white"
-                android:layout_marginTop="120dp"
-                android:layout_marginLeft="280dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginLeft="200dp"
                 android:onClick="SalidaProv"/>
 
             <TextView
@@ -93,7 +109,6 @@
                 android:textSize="15sp"
                 android:textColor="@color/colorText"
                 android:textColorHint="@color/colorText"/>
-
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

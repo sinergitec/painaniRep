@@ -74,6 +74,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,6 +83,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import java.util.Map;
+
+import static com.sienrgitec.painanirep.configuracion.Globales.MY_DEFAULT_TIMEOUT;
 
 //import static com.sienrgitec.painanirep.actividades.Home.Constants.MY_DEFAULT_TIMEOUT;
 
@@ -103,22 +106,17 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     RecyclerView recycler;
 
 
-    public Integer viPedido = 0;
-    public Integer viProveedor = 0;
-    public Integer viPartidaProv = 0;
+
+    public Integer viPartidaProv = 0, viProveedor = 0, viPedido = 0, viProvTotal = 0;
     private static  final int idUnica = 6192523;
 
 
     @Override
     protected  void onDestroy() {
-
         NotificationManager notificationManager = ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE));
-
         notificationManager.cancelAll();
-
         super.onDestroy();
     }
-
 
 
     ProgressBar progressBar;
@@ -187,6 +185,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                 BuscarPedido();
             }
         });
+
         btnFin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 NotificationManager notificationManager = ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE));
@@ -201,6 +200,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                 finish();
             }
         });
+
         BuscaCoordenadas();
         onTrimMemory(0x0000003c);
     }
@@ -258,6 +258,8 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
                                 /****viepage-INICIO si se modifica este bloque buscar y modificar la funcion de ActualizaPedido() dentro este codigo*****/
 
+
+
                                 pedidoList = new ArrayList<>();
                                 pedidoList = Arrays.asList(new Gson().fromJson(tt_opPedPainaniDet.toString(), opPedPainaniDet[].class));
                                 viewPager  = findViewById(R.id.viewPager);
@@ -271,7 +273,6 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                         viPedido  = (pedidoList.get(position).getiPedido());
                                         viProveedor = (pedidoList.get(position).getiPedidoProv());
                                         viPartidaProv = (pedidoList.get(position).getiPedidoProv());
-                                        Log.e("selecciones", "original " + position + " " + viProveedor + " " +  viPedido);
                                         ConstruyeDet( viPedido,  viProveedor);
                                     }
                                     @Override
@@ -351,7 +352,6 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     }
 
     public void LlegadaProv (View v) {
-        Log.e("Llegada Prov", viPedido + " <--- valor");
 
         if(viPedido ==  0){
             MuestraMensaje("Error", "Debes seleccionar al menos un pedido");
@@ -361,8 +361,9 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
             MuestraMensaje("Error","Esta Accion no esta permitida. El pedido ya fue recolectado");
             return;
         }
-        MuestraMensaje("Aviso", "Asegurate de que los productos correspondan con el pedido");
         ActPedPainaniDet("Llega", viPedido,  viPartidaProv);
+
+
     }
 
     public void SalidaProv(View v){
@@ -375,7 +376,12 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
             return;
         }
         ActPedPainaniDet("Salida", viPedido,  viPartidaProv);
-        MuestraMensaje("Aviso", "Hecho");
+
+        Intent Evalua = new Intent(Home.this, EvaluaCli.class);
+        Evalua.putExtra("ipcPersona", "proveedor");
+        Evalua.putExtra("ipcEvaluacion", "Evaluacion al proveedor");
+        startActivity(Evalua);
+
     }
 
     public void ActualizaEstadoP(final Boolean vlActivo){
@@ -677,10 +683,10 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                 return headers;
             }
         };
-        /*jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                 MY_DEFAULT_TIMEOUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mRequestQueue.add(jsonObjectRequest);
 
     }
@@ -836,7 +842,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 viewPager  = findViewById(R.id.viewPager);
                                 adapterPedDet = new AdapterNvoPed(pedidoList, getBaseContext());
                                 viewPager.setAdapter(adapterPedDet);
-                                viewPager.setPadding(130,0,130,0);
+                                viewPager.setPadding(50,0,50,0);
 
                                 viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                     @Override
@@ -948,6 +954,11 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 return;
 
                             } else {
+                                if(vcAccion == "Llega"){
+                                    MuestraMensaje("Aviso", "Asegurate de que los productos correspondan con el pedido");
+                                }else{
+                                    MuestraMensaje("Aviso", "Hecho");
+                                }
 
                             }
                         } catch (JSONException e) {
@@ -1153,6 +1164,10 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     }
 
     public void TerminarPedido(){
+
+
+        Log.e("Homme--> ", "Finalizando pedido");
+
         getmRequestQueue();
 
         String urlParams = String.format(url + "pedTitlaniAct?ipiUnidad=%1$s&ipiPedido=%2$s&ipcUsuario=%3$s", 1, globales.g_opPedPainani.getiPedido(), globales.g_ctUsuario.getcUsuario() );
@@ -1177,10 +1192,19 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 return;
 
                             } else {
-                                MuestraMensaje("Aviso", "Pedido Finalizafo. Evalua Cliente");
-
+                                /*MuestraMensaje("Aviso", "Pedido Finalizafo. Evalua Cliente ");
                                 startActivity(new Intent(Home.this, EvaluaCli.class));
-                                finish();
+                                finish();*/
+
+                                Intent Evalua = new Intent(Home.this, EvaluaCli.class);
+                                Evalua.putExtra("ipcPersona", "cliente");
+                                Evalua.putExtra("ipcEvaluacion", "Evaluacion al cliente");
+                                startActivity(Evalua);
+
+                                //vistaNueva.putExtra("cliente", globales.g_ctPedPainaniList.get(0).getcCliente() );
+
+
+
                             }
                         } catch (JSONException e) {
                             btnFin.setEnabled(true);
@@ -1222,8 +1246,8 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
             @Override
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("ipiUnidad","vdeLatitud");
-                params.put("ipiPedido", "vdeLongitud");
+                params.put("ipiUnidad","1");
+                params.put("ipiPedido", globales.g_opPedPainani.getiPedido().toString());
                 params.put("ipcUsuario", globales.g_ctUsuario.getcUsuario());
 
 

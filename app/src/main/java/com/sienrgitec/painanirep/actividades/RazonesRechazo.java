@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -61,13 +62,27 @@ public class RazonesRechazo extends AppCompatActivity {
         setContentView(R.layout.activity_razones_rechazo);
 
 
-        btnAceptar   = (Button) findViewById(R.id.button);
+        btnAceptar   = (Button) findViewById(R.id.btnRechazo);
         tlRazones    = (TableLayout) findViewById(R.id.Razones);
 
         final ListView lviewDetPed = (ListView) findViewById(R.id.lvRazones);
         ArrayList<ctRazones> arrayRazones = new ArrayList<ctRazones>(globales.g_ctRazonesList);
         adapter = new AdapterRazones(RazonesRechazo.this,arrayRazones );
         lviewDetPed.setAdapter(adapter);
+
+
+        lviewDetPed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int iPartida, long l) {
+                Log.i("Home -->", " Detalle presiono " + iPartida  );
+
+                viRazon = globales.g_ctRazonesList.get(iPartida).getiRazon() ;
+                vcRazon = globales.g_ctRazonesList.get(iPartida).getcRazon() ;
+            }
+        });
+
+
+
 
         btnAceptar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
