@@ -319,6 +319,8 @@ public class EvaluaCli extends AppCompatActivity {
                             } else {
                                 MuestraMensaje("Aviso", "La evaluación fue exitosa");
                                 //startActivity(new Intent(EvaluaCli.this, EvaluaProv.class));
+
+                                globales.opClienteEvaluaList.clear();
                                 startActivity(new Intent(EvaluaCli.this, Home.class));
                                 finish();
 
