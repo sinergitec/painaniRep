@@ -50,7 +50,7 @@ public class EvaluaCli extends AppCompatActivity {
     private AdapterEvaluacion adapter;
 
     public String  vcTipo   = "";
-    public Integer viEvalua = 0, viPunto  = 0;
+    public Integer viEvalua = 0, viPunto  = 0, viPersona = 0;
     public Float  vdeCalificacion;
 
 
@@ -69,6 +69,10 @@ public class EvaluaCli extends AppCompatActivity {
         Intent i = getIntent();
         vcPersona =  i.getStringExtra("ipcPersona");
         vcTipo    = i.getStringExtra("ipcEvaluacion");
+        viPersona = i.getIntExtra("ipiPersona", 0);
+
+
+        Log.e("Evaluacion ","vipersona " + viPersona);
 
         txtFecha    = (TextView) findViewById(R.id.tvFecha);
         txtCliente  = (TextView) findViewById(R.id.tvCli);
@@ -232,12 +236,13 @@ public class EvaluaCli extends AppCompatActivity {
         dialog.show();
         return;
     }
-    public void CreaEvaluacion(){
 
+    public void CreaEvaluacion(){
+        Log.e("Crea Evaluacion--> ","viPersona " + viPersona);
 
         opClienteEvalua objNvaEvaluacion = new opClienteEvalua();
         objNvaEvaluacion.setiPedido(globales.g_opPedPainani.getiPedido());
-        objNvaEvaluacion.setiPersona(globales.g_opPedPainani.getiCliente());
+        objNvaEvaluacion.setiPersona(viPersona);
         objNvaEvaluacion.setiPunto(viPunto);
         objNvaEvaluacion.setiEvalua(viEvalua);
         objNvaEvaluacion.setiTipoPersona(0);

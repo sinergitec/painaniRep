@@ -107,7 +107,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
 
 
-    public Integer viPartidaProv = 0, viProveedor = 0, viPedido = 0, viProvTotal = 0;
+    public Integer viPartidaProv = 0, viProveedor = 0, viPedido = 0, viProvTotal = 0, viProvEvalua = 0;
     private static  final int idUnica = 6192523;
 
 
@@ -273,11 +273,13 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                         viPedido  = (pedidoList.get(position).getiPedido());
                                         viProveedor = (pedidoList.get(position).getiPedidoProv());
                                         viPartidaProv = (pedidoList.get(position).getiPedidoProv());
+                                        viProvEvalua = (pedidoList.get(position).getiProveedor());
                                         ConstruyeDet( viPedido,  viProveedor);
                                     }
                                     @Override
                                     public void onPageSelected(int position) {
                                         // this will execute when page will be selected
+                                        viProvEvalua = (pedidoList.get(position).getiProveedor());
                                     }
 
                                     @Override
@@ -377,10 +379,15 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         }
         ActPedPainaniDet("Salida", viPedido,  viPartidaProv);
 
+        Log.e("home", viProvEvalua + " <--valor");
+
         Intent Evalua = new Intent(Home.this, EvaluaCli.class);
-        Evalua.putExtra("ipcPersona", "proveedor");
+        Evalua.putExtra("ipcPersona", "Proveedor");
         Evalua.putExtra("ipcEvaluacion", "Evaluacion al proveedor");
+        Evalua.putExtra("ipiPersona",viProvEvalua);
         startActivity(Evalua);
+
+
 
     }
 
@@ -851,6 +858,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                         Log.e("selecciones", "original " + position + " " + pedidoList.get(position).getcNegocion() + "pedido " + viPedido);
                                         viPartidaProv = (pedidoList.get(position).getiPedidoProv());
                                         viProveedor = (pedidoList.get(position).getiPedidoProv());
+                                        viProvEvalua = (pedidoList.get(position).getiProveedor());
                                         Log.e("selecciones", "original " + position + " " + viProveedor + " " +  viPedido);
                                         ConstruyeDet( viPedido,  viProveedor);
                                     }
@@ -1199,6 +1207,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 Intent Evalua = new Intent(Home.this, EvaluaCli.class);
                                 Evalua.putExtra("ipcPersona", "cliente");
                                 Evalua.putExtra("ipcEvaluacion", "Evaluacion al cliente");
+                                Evalua.putExtra("ipiPersona", globales.g_opPedPainani.getiCliente());
                                 startActivity(Evalua);
 
                                 //vistaNueva.putExtra("cliente", globales.g_ctPedPainaniList.get(0).getcCliente() );
@@ -1249,6 +1258,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                 params.put("ipiUnidad","1");
                 params.put("ipiPedido", globales.g_opPedPainani.getiPedido().toString());
                 params.put("ipcUsuario", globales.g_ctUsuario.getcUsuario());
+              //  params.put("ipiPersona", )
 
 
 
