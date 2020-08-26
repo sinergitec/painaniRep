@@ -9,6 +9,7 @@ import com.sienrgitec.painanirep.model.ctEvaluacion;
 import com.sienrgitec.painanirep.model.ctPainani;
 import com.sienrgitec.painanirep.model.ctRazones;
 import com.sienrgitec.painanirep.model.ctUsuario;
+import com.sienrgitec.painanirep.model.ctVehiculo;
 import com.sienrgitec.painanirep.model.opClienteEvalua;
 import com.sienrgitec.painanirep.model.opDispPainani;
 import com.sienrgitec.painanirep.model.opPausaPainani;
@@ -47,6 +48,7 @@ public class Globales {
     public static List<opDispPainani>   g_opDispPList         = null;
     public static List<ctRazones>       g_ctRazonesList       = null;
     public static List<ctEstadoProceso> g_ctEdoProcesoList    = null;
+    public static List<ctVehiculo>      g_ctVehiculoList      = null;
 
 
     public static ArrayList<ctDomicilio>    ctDomicilioList     = new ArrayList<>();

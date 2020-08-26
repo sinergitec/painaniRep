@@ -51,6 +51,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -93,7 +94,7 @@ import static com.sienrgitec.painanirep.configuracion.Globales.MY_DEFAULT_TIMEOU
 public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     public Globales globales;
     private static RequestQueue mRequestQueue;
-    private String url = globales.URL;
+    private String url = globales.URL, vcEvaluado = "";
     private AdapterHome adapter;
     private AdapterPedXProv adapterPedXProv;
     private AdapterPainaniPed adapterPainaniPed;
@@ -135,6 +136,9 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        Intent i = getIntent();
+        vcEvaluado =  i.getStringExtra("ipcEvaluado");
+
         txtDomCli  = (TextView) findViewById(R.id.tvNombreDom);
         tvDetalle  = (TextView) findViewById(R.id.txtDet);
         tvEstatusP = (TextView) findViewById(R.id.tvDescEst);
@@ -156,6 +160,12 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         notificacion = new NotificationCompat.Builder(this);
         notificacion.setAutoCancel(true);
         tvEstatusP.setText("Disponible");
+
+
+        Log.e("Home--> ", "Valor en evaluado " + vcEvaluado);
+        if(vcEvaluado.equals("proveedor")){
+            BuscarPedido();
+        }
 
         sEstatusP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -344,10 +354,22 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         };
         // Access the RequestQueue through your singleton class.
 
-       /* jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                MY_DEFAULT_TIMEOUT,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
+        jsonObjectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 20000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 20000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
 
         mRequestQueue.add(jsonObjectRequest);
 
@@ -487,11 +509,22 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         };
         // Access the RequestQueue through your singleton class.
 
-        /*jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                MY_DEFAULT_TIMEOUT,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
+        jsonObjectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 20000;
+            }
 
+            @Override
+            public int getCurrentRetryCount() {
+                return 20000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
 
         mRequestQueue.add(jsonObjectRequest);
     }
@@ -690,10 +723,42 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                 return headers;
             }
         };
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                MY_DEFAULT_TIMEOUT,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        jsonObjectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 20000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 20000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+        jsonObjectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 20000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 20000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
         mRequestQueue.add(jsonObjectRequest);
 
     }
@@ -908,10 +973,22 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
             }
         };
 
-        /*jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                MY_DEFAULT_TIMEOUT,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
+        jsonObjectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 20000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 20000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
 
         mRequestQueue.add(jsonObjectRequest);
 
@@ -1168,6 +1245,27 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                 return headers;
             }
         };
+
+        jsonObjectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 20000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 20000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+
+
+
         mRequestQueue.add(jsonObjectRequest);
     }
 

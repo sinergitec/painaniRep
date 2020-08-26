@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -33,11 +35,13 @@ import com.google.gson.reflect.TypeToken;
 import com.sienrgitec.painanirep.R;
 import com.sienrgitec.painanirep.configuracion.Globales;
 import com.sienrgitec.painanirep.model.ctComisiones;
+import com.sienrgitec.painanirep.model.ctVehiculo;
 import com.sienrgitec.painanirep.model.opDispPainani;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,26 +54,32 @@ public class AsignaComision extends AppCompatActivity {
     private static RequestQueue mRequestQueue;
     private String url = globales.URL;
     private EditText  etAporta;
+    private TextView tvVehiculoSelec, tvComisionSelec;
 
-    RadioGroup mRgAllButtons;
+
+
+
+    RadioGroup mRgAllButtons, mRgAllVehiculos;
 
 
     Button btnAgregar;
 
-    public Integer viComision = 0;
+    public Integer viComision = 0, viVehiculo = 0;
     public String vcComision = "";
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asigna_comision);
 
-
-        btnAgregar = (Button) findViewById(R.id.btnOk);
-        mRgAllButtons = findViewById(R.id.radiogroup);
-        etAporta = (EditText) findViewById(R.id.etOtraComision);
-
+        btnAgregar      = (Button)     findViewById(R.id.btnOk);
+        mRgAllButtons   = (RadioGroup) findViewById(R.id.rb);
+        mRgAllVehiculos = (RadioGroup) findViewById(R.id.rbVehiculo);
+        etAporta        = (EditText)   findViewById(R.id.etOtraComision);
+        tvVehiculoSelec = (TextView)   findViewById(R.id.tvVehiculo);
+        tvComisionSelec = (TextView)   findViewById(R.id.tvComision);
 
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -77,8 +87,6 @@ public class AsignaComision extends AppCompatActivity {
                     MuestraMensaje("Error", "No has Seleccionado la Aportación");
                     return;
                 }
-
-
                 if(viComision == 6) {
                     if (etAporta.getText().toString().isEmpty()) {
                         AlertDialog.Builder myBuild = new AlertDialog.Builder(AsignaComision.this);
@@ -95,7 +103,6 @@ public class AsignaComision extends AppCompatActivity {
                         return;
                     }else{
                         vcComision = etAporta.getText().toString();
-
                     }
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(AsignaComision.this);
@@ -106,7 +113,18 @@ public class AsignaComision extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                AgregarComision();
+
+                               if(globales.g_ctVehiculoList.size() > 1){
+                                   SeleccionaVehiculo();
+                                   tvComisionSelec.setVisibility(View.INVISIBLE);
+                                   tvVehiculoSelec.setVisibility(View.VISIBLE);
+
+                               }
+                               else{
+                                   viVehiculo = globales.g_ctVehiculoList.get(0).getiTipoVehiculo();
+                                   AgregarComision();
+                               }
+                               //
                             }
                 });
 	            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -116,116 +134,103 @@ public class AsignaComision extends AppCompatActivity {
 
                 }
             });
-
             AlertDialog dialog = builder.create();
             dialog.show();
-
             }
         });
-
-
         CreaBotonesCom();
     }
 
-    public void CreaBotonesCom(){
-        LinearLayout GridOrdenes = (LinearLayout) findViewById(R.id.LinearComision);
-
-        /*for(final ctComisiones objComisiones: globales.g_ctComisionesList){
-            Log.e("asigan comision ", objComisiones.getcComision());
-            final Drawable d = getResources().getDrawable(R.drawable.btnporcentaje);
-            final Button myButton = new Button(getBaseContext());
-            //Personalizando botones
-
-            myButton.setId(objComisiones.getiComision());
-            myButton.setText(objComisiones.getDeValor() + "%");
-            myButton.setTag(objComisiones.getiComision().toString());
-            myButton.setBackgroundDrawable(d);
-            myButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-
-
-                        viComision = objComisiones.getiComision();
-                        vcComision = objComisiones.getDeValor().toString();
-                        Log.e("Selecciono", "comision " + viComision );
-                        Drawable d = getResources().getDrawable(R.drawable.seleccporc);
-                        myButton.setBackgroundDrawable(d);
-                }
-            });
-            GridOrdenes.addView(myButton);
-        }*/
-
-        //mRgAllButtons.setOrientation(RelativeLayout.CENTER_HORIZONTAL);
-
+    public void SeleccionaVehiculo(){
+        mRgAllButtons.setVisibility(View.INVISIBLE);
+        mRgAllVehiculos.setVisibility(View.VISIBLE);
+        btnAgregar.setVisibility(View.INVISIBLE);
         int vxMod = 0;
         int vyMod = 0;
         int vCuantosMod = 0;
 
-
-
-        //
-        for(final ctComisiones objComisiones: globales.g_ctComisionesList){
+        for(final ctVehiculo objVehiculos: globales.g_ctVehiculoList){
 
             vCuantosMod = vCuantosMod + 1;
 
-            RadioButton rdbtn = new RadioButton(this);
+            RadioButton rdbtnVehiculo = new RadioButton(this);
+            rdbtnVehiculo.setText(objVehiculos.getcVehiculo());
 
+            Drawable d = getResources().getDrawable(R.drawable.radiob);
+            rdbtnVehiculo.setBackgroundDrawable(d);
+            rdbtnVehiculo.setWidth(160);
+            rdbtnVehiculo.setHeight(80);
+            rdbtnVehiculo.setX(vxMod);
+            rdbtnVehiculo.setY(vyMod);
+            vyMod = vyMod + 15;
+
+            rdbtnVehiculo.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AsignaComision.this);
+                    builder.setCancelable(true);
+                    builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Seleccionar Vehículo </font>"));
+                    builder.setMessage("¿Deseas seleccionar el vehículo: " + objVehiculos.getcVehiculo() + " para operar el día de hoy?");
+                    builder.setPositiveButton("Si",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    viVehiculo = objVehiculos.getiVehiculo();
+                                    AgregarComision();;
+                                }
+                            });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            return;
+
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            });
+            mRgAllVehiculos.addView(rdbtnVehiculo);
+        }
+    }
+
+    public void CreaBotonesCom(){
+        int vxMod = 0, vyMod = 0, vCuantosMod = 0;
+        for(final ctComisiones objComisiones: globales.g_ctComisionesList){
+            vCuantosMod = vCuantosMod + 1;
+            RadioButton rdbtn = new RadioButton(this);
             if(objComisiones.getcComision().equals("OTRO")){
-                rdbtn.setText("OTRO");
+                rdbtn.setText("Otro");
             }else {
                 rdbtn.setText(objComisiones.getDeValor() + "%");
             }
-
             Drawable d = getResources().getDrawable(R.drawable.radiob);
             rdbtn.setBackgroundDrawable(d);
             rdbtn.setWidth(140);
             rdbtn.setHeight(80);
             rdbtn.setX(vxMod);
             rdbtn.setY(vyMod);
-            vyMod = vyMod + 20;
-
-
-            /*if (vCuantosMod % 4 == 0) {
-                vxMod = 100;
-                vyMod = vyMod + 70;
-            } else {
-
-
-            }*/
-
+            vyMod = vyMod + 15;
             rdbtn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     viComision = objComisiones.getiComision();
                     vcComision = objComisiones.getDeValor().toString();
-                    Log.e("Selecciono", "comision " + viComision );
-
                     if (objComisiones.getcComision().equals("OTRO")){
                         etAporta.setVisibility(View.VISIBLE);
                     }else{
                         etAporta.setVisibility(View.INVISIBLE);
                     }
-
                 }
             });
-
-
-
-
             mRgAllButtons.addView(rdbtn);
         }
-
-
-
     }
 
     public void AgregarComision(){
-
-
         final ProgressDialog nDialog;
         nDialog = new ProgressDialog(AsignaComision.this);
         nDialog.setMessage("Cargando...");
         nDialog.setTitle("Creando Registro de Contribución");
         nDialog.setIndeterminate(false);
-
 
         opDispPainani objComisionDispP = new opDispPainani();
         objComisionDispP.setiPainani(globales.g_opDispPList.get(0).getiPainani());
@@ -238,9 +243,9 @@ public class AsignaComision extends AppCompatActivity {
         objComisionDispP.setiEstadoProceso(globales.g_opDispPList.get(0).getiEstadoProceso());
         objComisionDispP.setDeUltLat(globales.g_opDispPList.get(0).getDeUltLat());
         objComisionDispP.setDeUltLong(globales.g_opDispPList.get(0).getDeUltLong());
+        objComisionDispP.setiVehiculo(viVehiculo);
 
         globales.opDispPainani.add(objComisionDispP);
-
 
         JSONObject jsonBody = new JSONObject();
         JSONObject jsonParams = new JSONObject();
@@ -252,20 +257,11 @@ public class AsignaComision extends AppCompatActivity {
                 globales.opDispPainani,
                 new TypeToken<ArrayList<opDispPainani>>() {
                 }.getType());
-
-
-
         try {
             JSONArray opDispPainaniJS   = new JSONArray(JS_opDispPainani);
-
-
             jsonDataSet.put("tt_opDispPainani",  opDispPainaniJS);
             jsonParams.put("ds_opDispPainani", jsonDataSet);
-
-
             jsonBody.put("request", jsonParams);
-
-
             Log.i("Response", jsonBody.toString());
 
         } catch (JSONException e) {
@@ -303,8 +299,12 @@ public class AsignaComision extends AppCompatActivity {
                             } else {
                                 MuestraMensaje("Aviso" , "Contribución del día Asignada");
 
-                                startActivity(new Intent(AsignaComision.this, Home.class));
-                                finish();
+//                                startActivity(new Intent(AsignaComision.this, Home.class));
+//                                finish();
+
+                                Intent Home = new Intent(AsignaComision.this, Home.class);
+                                Home.putExtra("ipcEvaluado", "cliente");
+                                startActivity(Home);
                             }
 
                         } catch (JSONException e) {

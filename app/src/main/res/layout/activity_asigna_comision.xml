@@ -27,8 +27,8 @@
 
     <TableRow
         android:id="@+id/tableRow5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="600dp"
+        android:layout_height="match_parent"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
@@ -41,16 +41,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/LinearComision"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="600dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
+            <RadioGroup
+                android:id="@+id/rb"
+                android:layout_width="600dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            </RadioGroup>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </TableRow>
 
@@ -68,11 +75,33 @@
         android:layout_marginRight="150dp"
         android:button="@drawable/radiob"
         android:checked="true"
+        android:orientation="horizontal"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
+
+
+    <RadioGroup
+        android:id="@+id/rbVehiculo"
+        android:layout_width="0dp"
+        android:layout_height="500dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="false"
+        android:layout_marginStart="150dp"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="150dp"
+        android:layout_marginRight="150dp"
+        android:button="@drawable/radiob"
+        android:checked="true"
         android:orientation="vertical"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
 
 
@@ -91,6 +120,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvVehiculo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Selecciona tu vehiculo"
+        android:textAlignment="center"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
     <EditText
         android:id="@+id/etOtraComision"

@@ -13,7 +13,17 @@ public class opDispPainani implements Serializable {
     private Integer iComision;
     private Integer iEstadoProceso;
     private Integer iPainani;
+    private Integer iVehiculo;
     private Object  id;
+
+
+    public Integer getiVehiculo() {
+        return iVehiculo;
+    }
+
+    public void setiVehiculo(Integer iVehiculo) {
+        this.iVehiculo = iVehiculo;
+    }
 
     public Double getDeUltLat() {
         return deUltLat;

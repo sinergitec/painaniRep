@@ -39,6 +39,7 @@ import com.sienrgitec.painanirep.model.ctEstadoPainani;
 import com.sienrgitec.painanirep.model.ctEstadoProceso;
 import com.sienrgitec.painanirep.model.ctRazones;
 import com.sienrgitec.painanirep.model.ctUsuario;
+import com.sienrgitec.painanirep.model.ctVehiculo;
 import com.sienrgitec.painanirep.model.opDispPainani;
 
 import org.json.JSONArray;
@@ -164,6 +165,7 @@ public class Login extends AppCompatActivity {
                             JSONObject ds_ctEstadoPainani = respuesta.getJSONObject("tt_ctEstadoPainani");
                             JSONObject ds_ctRazones       = respuesta.getJSONObject("tt_ctRazones");
                             JSONObject ds_ctEdoProceso    = respuesta.getJSONObject("tt_ctEstadoProceso");
+                            JSONObject ds_ctVehiculo      = respuesta.getJSONObject("tt_ctVehiculo");
 
 
                             JSONArray tt_ctUsuario       = ds_ctUsuario.getJSONArray("tt_ctUsuario");
@@ -171,6 +173,7 @@ public class Login extends AppCompatActivity {
                             JSONArray tt_ctEstadoPainani = ds_ctEstadoPainani.getJSONArray("tt_ctEstadoPainani");
                             JSONArray tt_ctRazones       = ds_ctRazones.getJSONArray("tt_ctRazones");
                             JSONArray tt_ctEstadoProceso = ds_ctEdoProceso.getJSONArray("tt_ctEstadoProceso");
+                            JSONArray tt_ctVehiculo      = ds_ctVehiculo.getJSONArray("tt_ctVehiculo");
 
 
 
@@ -179,6 +182,7 @@ public class Login extends AppCompatActivity {
                             globales.g_ctEdoPainaniList  = Arrays.asList(new Gson().fromJson(tt_ctEstadoPainani.toString(), ctEstadoPainani[].class));
                             globales.g_ctRazonesList     = Arrays.asList(new Gson().fromJson(tt_ctRazones.toString(), ctRazones[].class));
                             globales.g_ctEdoProcesoList  = Arrays.asList(new Gson().fromJson(tt_ctEstadoProceso.toString(), ctEstadoProceso[].class));
+                            globales.g_ctVehiculoList    = Arrays.asList(new Gson().fromJson(tt_ctVehiculo.toString(), ctVehiculo[].class));
 
 
 
@@ -199,8 +203,12 @@ public class Login extends AppCompatActivity {
                                     startActivity(new Intent(Login.this, AsignaComision.class));
                                     finish();
                                 }else {
-                                    startActivity(new Intent(Login.this, Home.class));
-                                    finish();
+                                    /*startActivity(new Intent(Login.this, Home.class));
+                                    finish();*/
+
+                                    Intent Home = new Intent(Login.this, Home.class);
+                                    Home.putExtra("ipcEvaluado", "cliente");
+                                    startActivity(Home);
                                 }
                             }
                         } catch (JSONException e) {

@@ -168,7 +168,9 @@ public class RazonesRechazo extends AppCompatActivity {
                                 btnAceptar.setEnabled(true);
 
                             } else {
-                                startActivity(new Intent(RazonesRechazo.this, Home.class));
+                                Intent Home = new Intent(RazonesRechazo.this, Home.class);
+                                Home.putExtra("ipcEvaluado", "cliente");
+                                startActivity(Home);
                                 finish();
 
                             }

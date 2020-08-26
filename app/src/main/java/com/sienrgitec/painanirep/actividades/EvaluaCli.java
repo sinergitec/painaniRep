@@ -256,6 +256,9 @@ public class EvaluaCli extends AppCompatActivity {
         objNvaEvaluacion.setDtFecha(globales.g_opPedPainani.getDtFecha());
 
         globales.opClienteEvaluaList.add(objNvaEvaluacion);
+        ratingBar.setRating(Float.parseFloat("0.0"));
+
+
     }
 
     public void FinalizarEvaluacion(){
@@ -269,9 +272,6 @@ public class EvaluaCli extends AppCompatActivity {
         JSONObject jsonBody = new JSONObject();
         JSONObject jsonParams = new JSONObject();
         JSONObject jsonDataSet = new JSONObject();
-
-
-
 
         final Gson gson = new Gson();
         String JS_opClienteEvalua = gson.toJson(
@@ -318,11 +318,21 @@ public class EvaluaCli extends AppCompatActivity {
 
                             } else {
                                 MuestraMensaje("Aviso", "La evaluación fue exitosa");
-                                //startActivity(new Intent(EvaluaCli.this, EvaluaProv.class));
+
+
+                                if(vcPersona.equals("Proveedor")) {
+                                    Intent Home = new Intent(EvaluaCli.this, Home.class);
+                                    Home.putExtra("ipcEvaluado", "proveedor");
+                                    startActivity(Home);
+                                }else{
+                                    Intent Home = new Intent(EvaluaCli.this, Home.class);
+                                    Home.putExtra("ipcEvaluado", "cliente");
+                                    startActivity(Home);
+                                }
 
                                 globales.opClienteEvaluaList.clear();
-                                startActivity(new Intent(EvaluaCli.this, Home.class));
-                                finish();
+                                /*startActivity(new Intent(EvaluaCli.this, Home.class));
+                                finish();*/
 
                             }
 
