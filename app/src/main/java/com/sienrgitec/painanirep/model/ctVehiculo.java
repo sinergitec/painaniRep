@@ -15,11 +15,13 @@ public class ctVehiculo implements Serializable {
     private String  cInfoVehiculo;
     private Double  dePesoTotal;
     private Double  deValorTotal;
+    private Double  deVelProm;
     private String  dtCreado;
     private String  dtModificado;
     private String  cUsuCrea;
     private String  cUsuModifica;
     private String  cVehiculo;
+
 
     public Object getId() {
         return id;
@@ -147,5 +149,14 @@ public class ctVehiculo implements Serializable {
 
     public void setcVehiculo(String cVehiculo) {
         this.cVehiculo = cVehiculo;
+    }
+
+
+    public Double getDeVelProm() {
+        return deVelProm;
+    }
+
+    public void setDeVelProm(Double deVelProm) {
+        this.deVelProm = deVelProm;
     }
 }

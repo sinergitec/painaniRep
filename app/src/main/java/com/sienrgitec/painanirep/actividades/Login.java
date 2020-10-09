@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -97,8 +98,42 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        BuscaCoordenadas();
+    }
+
+
+    public void BuscaCoordenadas(){
+        Log.e("Principal-->", "BUSCAcoORDENADAS");
+
+        LocationManager locationManager = (LocationManager) Login.this.getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener= new LocationListener(){
+            public void onLocationChanged(Location location){
+                globales.vg_deLatitud = location.getLatitude();
+                globales.vg_deLongitud = location.getLongitude();
+
+                Log.e("posision --> : ", "latitud " + globales.vg_deLatitud  + " " +  globales.vg_deLongitud);
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            @Override
+            public void onProviderEnabled(String provider){}
+            @Override
+            public void onProviderDisabled(String provider){}
+
+        };
+        int permissionChecks = ContextCompat.checkSelfPermission(Login.this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,2000,0,locationListener);
+        Toast.makeText(Login.this, "OBTENIENDO TU UBICACIÓN" , Toast.LENGTH_LONG).show();
 
     }
+
+
+
+
+
+
 
     public void BuscarUsuario(){
         btnEntrar.setEnabled(false);
@@ -175,8 +210,6 @@ public class Login extends AppCompatActivity {
                             JSONArray tt_ctEstadoProceso = ds_ctEdoProceso.getJSONArray("tt_ctEstadoProceso");
                             JSONArray tt_ctVehiculo      = ds_ctVehiculo.getJSONArray("tt_ctVehiculo");
 
-
-
                             globales.g_ctUsuarioList     = Arrays.asList(new Gson().fromJson(tt_ctUsuario.toString(), ctUsuario[].class));
                             globales.g_ctComisionesList  = Arrays.asList(new Gson().fromJson(tt_ctComisiones.toString(), ctComisiones[].class));
                             globales.g_ctEdoPainaniList  = Arrays.asList(new Gson().fromJson(tt_ctEstadoPainani.toString(), ctEstadoPainani[].class));
@@ -209,6 +242,8 @@ public class Login extends AppCompatActivity {
                                     Intent Home = new Intent(Login.this, Home.class);
                                     Home.putExtra("ipcEvaluado", "cliente");
                                     startActivity(Home);
+                                    finish();
+
                                 }
                             }
                         } catch (JSONException e) {

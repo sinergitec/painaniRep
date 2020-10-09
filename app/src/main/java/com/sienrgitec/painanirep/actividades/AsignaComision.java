@@ -158,7 +158,7 @@ public class AsignaComision extends AppCompatActivity {
 
             Drawable d = getResources().getDrawable(R.drawable.radiob);
             rdbtnVehiculo.setBackgroundDrawable(d);
-            rdbtnVehiculo.setWidth(160);
+            rdbtnVehiculo.setWidth(190);
             rdbtnVehiculo.setHeight(80);
             rdbtnVehiculo.setX(vxMod);
             rdbtnVehiculo.setY(vyMod);

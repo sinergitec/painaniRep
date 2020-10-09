@@ -3,17 +3,7 @@ import java.io.Serializable;
 
 public class ctPainani implements Serializable{
     private Integer iPainani;
-    private Integer iUnidad;
-
-    public Integer getiUnidad() {
-        return iUnidad;
-    }
-
-    public void setiUnidad(Integer iUnidad) {
-        this.iUnidad = iUnidad;
-    }
-
-    private String cNombre;
+    private String  cNombre;
     private String cApellidoPat;
     private String cApellidoMat;
     private Boolean lVehiculo;
@@ -22,14 +12,27 @@ public class ctPainani implements Serializable{
     private String cFacebook;
     private String cTwitter;
     private String cObs;
-    private String dtCreado;
-    private String dtModificado;
-    private Integer iEdoPainani;
-    private String cUsuCrea;
-    private String cUsuModifica;
     private String bImagen;
     private String cForo;
+    private Integer iEdoPainani;
+    private Integer iUnidad;
+    private Double deVelProm;
+    private String  dtCreado;
+    private String dtModificado;
+    private String cUsuCrea;
+    private String cUsuModifica;
 
+
+
+
+
+    public Integer getiUnidad() {
+        return iUnidad;
+    }
+
+    public void setiUnidad(Integer iUnidad) {
+        this.iUnidad = iUnidad;
+    }
 
     public String getcApellidoMat() {
         return cApellidoMat;
@@ -91,10 +94,6 @@ public class ctPainani implements Serializable{
         this.cNombre = cNombre;
     }
 
-
-
-
-
     public Boolean getlVehiculo() {
         return lVehiculo;
     }
@@ -110,8 +109,6 @@ public class ctPainani implements Serializable{
     public void setcMail(String cMail) {
         this.cMail = cMail;
     }
-
-
 
     public String getcFacebook() {
         return cFacebook;
