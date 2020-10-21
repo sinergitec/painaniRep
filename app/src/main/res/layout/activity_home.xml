@@ -288,16 +288,17 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="8dp"/>
             <Button
-                android:id="@+id/btnEstatus"
+                android:id="@+id/btnReportar"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginBottom="8dp"
-                android:text="Estatus"
+                android:text="Ayuda"
                 android:background="@drawable/etext"
                 android:textColor="@color/colorText"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="50dp"
-                android:visibility="invisible"/>
+                android:textSize="12dp"
+                android:visibility="visible"/>
         </TableRow>
 
 

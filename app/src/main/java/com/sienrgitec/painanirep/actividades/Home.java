@@ -64,11 +64,13 @@ import com.sienrgitec.painanirep.configuracion.Globales;
 import com.sienrgitec.painanirep.model.ctPainani;
 import com.sienrgitec.painanirep.model.ctUsuario;
 import com.sienrgitec.painanirep.model.opDispPainani;
+import com.sienrgitec.painanirep.model.opPausaPainani;
 import com.sienrgitec.painanirep.model.opPedPainani;
 import com.sienrgitec.painanirep.model.opPedPainaniDet;
 import com.sienrgitec.painanirep.model.opPedido;
 import com.sienrgitec.painanirep.model.opPedidoDet;
 import com.sienrgitec.painanirep.model.opPedidoProveedor;
+import com.sienrgitec.painanirep.model.opPerfilCli;
 import com.sienrgitec.painanirep.model.opUbicaPainani;
 
 import org.json.JSONArray;
@@ -94,10 +96,11 @@ import static com.sienrgitec.painanirep.configuracion.Globales.MY_DEFAULT_TIMEOU
 public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     public Globales globales;
     private static RequestQueue mRequestQueue;
-    private String url = globales.URL, vcEvaluado = "";
+    private String url = globales.URL, vcEvaluado = "" ,vcNegocio = "", vcCliente = "";
     private AdapterHome adapter;
     private AdapterPedXProv adapterPedXProv;
     private AdapterPainaniPed adapterPainaniPed;
+
 
     ViewPager viewPager;
     AdapterNvoPed adapterPedDet;
@@ -105,6 +108,8 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
     ArrayList<opPedidoDet> listaDetallePed;
     RecyclerView recycler;
+
+    List<opPerfilCli> opPerfilCliList = null;
 
 
 
@@ -124,7 +129,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     TextView txtDomCli,  tvEstatusP, tvRecibe, tvDetalle;
     Switch sEstatusP;
     NotificationCompat.Builder notificacion;
-    Button  btnFin, btnSalir, btnEstatus;
+    Button  btnFin, btnSalir, btnReportar;
     ImageButton ibtnBuscarPed;
 
 
@@ -144,7 +149,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         tvEstatusP = (TextView) findViewById(R.id.tvDescEst);
         tvRecibe   = (TextView) findViewById(R.id.tvNombreRecibe);
 
-        btnEstatus = (Button) findViewById(R.id.btnEstatus);
+        btnReportar = (Button) findViewById(R.id.btnReportar);
         btnSalir   = (Button) findViewById(R.id.btnSalir);
         btnFin     = (Button) findViewById(R.id.btnFin);
         sEstatusP  = (Switch) findViewById(R.id.switch1);
@@ -162,10 +167,12 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         tvEstatusP.setText("Disponible");
 
 
-        Log.e("Home--> ", "Valor en evaluado " + vcEvaluado);
+
         if(vcEvaluado.equals("proveedor")){
             BuscarPedido();
-        }
+        } /*else{
+            BuscarPedido();
+        }*/
 
         sEstatusP.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -204,13 +211,41 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
             }
         });
 
-        btnEstatus.setOnClickListener(new View.OnClickListener() {
+
+
+
+        btnReportar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(Home.this, ActEdoProceso.class));
-                finish();
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                builder.setCancelable(true);
+                //builder.setTitle(Html.fromHtml("<font color ='#FF0000'> ALERTA </font>"));
+                builder.setMessage(Html.fromHtml("<font color ='#FF0000'> ¿REPORTAR UN PROBLEMA? </font>"));
+                builder.setPositiveButton("Si",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                               /* ActualizaPedido(true);
+                                progressBar.setVisibility(View.INVISIBLE);*/
+                            }
+                        });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        /*ActualizaPedido(false);
+                        progressBar.setVisibility(View.INVISIBLE);*/
+                    }
+                });
+
+
+                final AlertDialog alert = builder.create();
+                alert.show();
+
+
             }
         });
 
+        sEstatusP.setVisibility(View.VISIBLE);
         BuscaCoordenadas();
         onTrimMemory(0x0000003c);
     }
@@ -218,9 +253,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     public void BuscarPedido(){
 
         getmRequestQueue();
-
         String urlParams = String.format(url + "opPedPainani?ipiPainani=%1$s",  globales.g_opDispPList.get(0).getiPainani());
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, urlParams, null, new Response.Listener<JSONObject>() {
                     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -241,9 +274,10 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 return;
 
                             } else {
-
+                                OcultarEstatus();
                                 btnFin.setVisibility(View.VISIBLE);
                                 tvDetalle.setVisibility(View.VISIBLE);
+
 
                                 JSONObject ds_opPedido = respuesta.getJSONObject("tt_opPedido");
                                 JSONObject ds_opPedidoDet = respuesta.getJSONObject("tt_opPedidoDet");
@@ -257,18 +291,17 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 JSONArray tt_opPedPainani = ds_opPedPainani.getJSONArray("tt_opPedPainani");
                                 JSONArray tt_opPedPainaniDet = ds_opPedPainaniDet.getJSONArray("tt_opPedPainaniDet");
 
-                                globales.g_opPedidoList = Arrays.asList(new Gson().fromJson(tt_opPedido.toString(), opPedido[].class));
-                                globales.g_opPedidoDetList = Arrays.asList(new Gson().fromJson(tt_opPedidoDet.toString(), opPedidoDet[].class));
-                                globales.g_opPedidoProvtList = Arrays.asList(new Gson().fromJson(tt_opPedidoProveedor.toString(), opPedidoProveedor[].class));
-                                globales.g_ctPedPainaniList = Arrays.asList(new Gson().fromJson(tt_opPedPainani.toString(), opPedPainani[].class));
+                                globales.g_opPedidoList        = Arrays.asList(new Gson().fromJson(tt_opPedido.toString(), opPedido[].class));
+                                globales.g_opPedidoDetList     = Arrays.asList(new Gson().fromJson(tt_opPedidoDet.toString(), opPedidoDet[].class));
+                                globales.g_opPedidoProvtList   = Arrays.asList(new Gson().fromJson(tt_opPedidoProveedor.toString(), opPedidoProveedor[].class));
+                                globales.g_ctPedPainaniList    = Arrays.asList(new Gson().fromJson(tt_opPedPainani.toString(), opPedPainani[].class));
                                 globales.g_ctPedPainaniDetList = Arrays.asList(new Gson().fromJson(tt_opPedPainaniDet.toString(), opPedPainaniDet[].class));
 
 
                                 globales.g_opPedPainani = globales.g_ctPedPainaniList.get(0);
+                                vcCliente = globales.g_ctPedPainaniList.get(0).getcCliente();
 
                                 /****viepage-INICIO si se modifica este bloque buscar y modificar la funcion de ActualizaPedido() dentro este codigo*****/
-
-
 
                                 pedidoList = new ArrayList<>();
                                 pedidoList = Arrays.asList(new Gson().fromJson(tt_opPedPainaniDet.toString(), opPedPainaniDet[].class));
@@ -280,20 +313,29 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                     @Override
                                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                        Log.e("valor seleccionado--> " , "prov --> " + pedidoList.get(position).getcNegocion() + "  viPartidaProv " + viPartidaProv);
                                         viPedido  = (pedidoList.get(position).getiPedido());
                                         viProveedor = (pedidoList.get(position).getiPedidoProv());
-                                        viPartidaProv = (pedidoList.get(position).getiPedidoProv());
+                                        viPartidaProv = (pedidoList.get(position).getiPartida());
                                         viProvEvalua = (pedidoList.get(position).getiProveedor());
+                                        vcNegocio = (pedidoList.get(position).getcNegocion());
                                         ConstruyeDet( viPedido,  viProveedor);
                                     }
                                     @Override
                                     public void onPageSelected(int position) {
                                         // this will execute when page will be selected
+                                        Log.e("valor seleccionado--> " , "prov --> " + pedidoList.get(position).getcNegocion() );
+
+                                        viPedido  = (pedidoList.get(position).getiPedido());
+                                        viProveedor = (pedidoList.get(position).getiPedidoProv());
+                                        viPartidaProv = (pedidoList.get(position).getiPartida());
                                         viProvEvalua = (pedidoList.get(position).getiProveedor());
+                                        vcNegocio = (pedidoList.get(position).getcNegocion());
                                     }
 
                                     @Override
                                     public void onPageScrollStateChanged(int state) {
+
 
                                     }
                                 });
@@ -370,13 +412,11 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
             }
         });
-
         mRequestQueue.add(jsonObjectRequest);
 
     }
 
     public void LlegadaProv (View v) {
-
         if(viPedido ==  0){
             MuestraMensaje("Error", "Debes seleccionar al menos un pedido");
             return;
@@ -391,6 +431,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     }
 
     public void SalidaProv(View v){
+
         if(viProveedor ==  0){
             MuestraMensaje("Error", "Debes seleccionar al menos un pedido");
             return;
@@ -401,12 +442,13 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         }
         ActPedPainaniDet("Salida", viPedido,  viPartidaProv);
 
-        Log.e("home", viProvEvalua + " <--valor");
+
 
         Intent Evalua = new Intent(Home.this, EvaluaCli.class);
         Evalua.putExtra("ipcPersona", "Proveedor");
         Evalua.putExtra("ipcEvaluacion", "Evaluacion al proveedor");
         Evalua.putExtra("ipiPersona",viProvEvalua);
+        Evalua.putExtra("ipcEvalua",vcNegocio);
         startActivity(Evalua);
 
 
@@ -765,7 +807,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
     public void ConfirmaPedido() {
 
-        progressBar.setVisibility(View.VISIBLE);
+       /* progressBar.setVisibility(View.VISIBLE);
         final AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
         builder.setCancelable(true);
         builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Tienes un nuevo pedido </font>"));
@@ -782,6 +824,30 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ActualizaPedido(false);
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        });*/
+
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+        builder.setCancelable(true);
+        builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Tienes un nuevo pedido </font>"));
+        builder.setMessage("¿Deseas revisar el Perfil del cliente antes de Aceptar el pedido? " + '\n' +
+                           "SI: para ver perfil de cliente. " + '\n' +
+                           "NO: para ACEPTAR pedido sin revisar perfil del cliente");
+        builder.setPositiveButton("SI",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //ActualizaPedido(true);
+                        ConsultaCliente();
+                        progressBar.setVisibility(View.INVISIBLE);
+                    }
+                });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ActualizaPedido(true);
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
@@ -809,10 +875,141 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                 handler.removeCallbacks(runnable);
             }
         });
-        handler.postDelayed(runnable, 15000);
+        handler.postDelayed(runnable, 25000);
+        OcultarEstatus();
+    }
+
+    public void ConsultaCliente(){
+        getmRequestQueue();
+        String urlParams = String.format(url + "perfilCli?ipiPedido=%1$s&ipiCliente=%2$s",  globales.g_opPedPainani.getiPedido(), globales.g_opPedPainani.getiCliente());
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, urlParams, null, new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject respuesta = response.getJSONObject("response");
+                            Log.i("respuesta--->", respuesta.toString());
+                            String Mensaje = respuesta.getString("opcError");
+                            Boolean Error = respuesta.getBoolean("oplError");
+
+                            if (Error == true) {
+                                sEstatusP.setEnabled(true);
+                                MuestraMensaje("Aviso", Mensaje);
+                                return;
+
+                            } else {
+                                JSONObject ds_perfil = respuesta.getJSONObject("ttPerfilCli");
+                                JSONArray ttPerfilCli = ds_perfil.getJSONArray("ttPerfilCli");
+                                opPerfilCliList = Arrays.asList(new Gson().fromJson(ttPerfilCli.toString(), opPerfilCli[].class));
+
+
+
+
+                                final AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                                builder.setCancelable(true);
+                                builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Deseas Aceptar el Pedido </font>"));
+                                builder.setMessage("Nombre: " + opPerfilCliList.get(0).getcCliente() + '\n' +
+                                                   "Pedidos: " + opPerfilCliList.get(0).getiTotalPed() + '\n' +
+                                                   "Evaluación " + opPerfilCliList.get(0).getDeEvalua());
+                                builder.setPositiveButton("Si",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                ActualizaPedido(true);
+                                                progressBar.setVisibility(View.INVISIBLE);
+                                            }
+                                        });
+                                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ActualizaPedido(false);
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                    }
+                                });
+
+
+                                final AlertDialog alert = builder.create();
+                                alert.show();
+
+                            }
+                        } catch (JSONException e) {
+                            sEstatusP.setEnabled(true);
+                            AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
+                            myBuild.setMessage("Error en la conversión de Datos. Vuelva a Intentar. " + e);
+                            myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR CONVERSION </font>"));
+                            myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+
+                                }
+                            });
+                            AlertDialog dialog = myBuild.create();
+                            dialog.show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        sEstatusP.setEnabled(true);
+                        // TODO: Handle error
+                        Log.i("Error Respuesta", error.toString());
+                        AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
+                        myBuild.setMessage("No se pudo conectar con el servidor. Vuelva a Intentar. " + error.toString());
+                        myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR RESPUESTA </font>"));
+                        myBuild.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActualizaPedido(true);
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog dialog = myBuild.create();
+                        dialog.show();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("ipiPedido",globales.g_opPedPainani.getiPedido().toString());
+                params.put("ipiCliente",globales.g_opPedPainani.getiCliente().toString());
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        // Access the RequestQueue through your singleton class.
+
+        jsonObjectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 20000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 20000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        mRequestQueue.add(jsonObjectRequest);
     }
 
     public void ActualizaPedido(final Boolean vlAceptado){
+
+
+        Log.e("home-->", " Actualiza Ped");
         final ProgressDialog nDialog;
         nDialog = new ProgressDialog(getApplicationContext());
         nDialog.setMessage("Cargando...");
@@ -889,7 +1086,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                             globales.g_opPedidoProvtList = Arrays.asList(new Gson().fromJson(tt_opPedidoProveedor.toString(), opPedidoProveedor[].class));
                             globales.g_opPedidoDetList   = Arrays.asList(new Gson().fromJson(tt_opPedidoDet.toString(), opPedidoDet[].class));
 
-
+                            vcCliente = globales.g_ctPedPainaniList.get(0).getcCliente();
                             if (Error == true) {
                                 nDialog.dismiss();
                                 MuestraMensaje("Error" , Mensaje);
@@ -907,6 +1104,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
                                 btnFin.setVisibility(View.VISIBLE);
                                 tvDetalle.setVisibility(View.VISIBLE);
+                                OcultarEstatus();
                                 /****viepage-Inicio si se modifca este bloque buscar y modificar la funcion buscaPedido() dentro de este codigo*****/
 
                                 pedidoList = new ArrayList<>();
@@ -989,7 +1187,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
             }
         });
-
+        OcultarEstatus();
         mRequestQueue.add(jsonObjectRequest);
 
     }
@@ -1047,7 +1245,6 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
                             }
                         } catch (JSONException e) {
-
                             AlertDialog.Builder myBuild = new AlertDialog.Builder(Home.this);
                             myBuild.setMessage("Error en la conversión de Datos. Vuelva a Intentar. " + e);
                             myBuild.setTitle(Html.fromHtml("<font color ='#FF0000'> ERROR CONVERSION </font>"));
@@ -1055,7 +1252,6 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
-
                                 }
                             });
                             AlertDialog dialog = myBuild.create();
@@ -1063,7 +1259,6 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                         }
                     }
                 }, new Response.ErrorListener() {
-
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
@@ -1089,8 +1284,6 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                 params.put("ipiPainani", "viPainani");
                 params.put("ipiPartida", "iProvPart");
                 params.put("ipcAccion", vcAccion);
-
-
                 return params;
             }
 
@@ -1102,16 +1295,12 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
             }
         };
         // Access the RequestQueue through your singleton class.
-
-
        /* jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                 MY_DEFAULT_TIMEOUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
 
         mRequestQueue.add(jsonObjectRequest);
-
-
     }
 
     public void CerrarSesion(final Boolean vlEstatus, final Boolean vlSalida){
@@ -1136,7 +1325,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
 
         opDispPainani objComisionDispP = new opDispPainani();
-        objComisionDispP.setiPainani(globales.g_opDispPList.get(0).getiPainani());
+        objComisionDispP.setiPainani(globales.g_ctUsuarioList.get(0).getiPersona());
         objComisionDispP.setDtFecha(globales.g_opDispPList.get(0).getDtFecha());
         objComisionDispP.setiComision(globales.g_opDispPList.get(0).getiComision());
         objComisionDispP.setDtCheckIn(globales.g_opDispPList.get(0).getDtCheckIn());
@@ -1198,10 +1387,6 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                             String Mensaje = respuesta.getString("opcError");
 
                             //JSONObject ds_opdispPainani   = respuesta.getJSONObject("tt_opDispPainani");
-
-
-
-
                             if (Error == true) {
                                 nDialog.dismiss();
                                 MuestraMensaje("Error" , Mensaje);
@@ -1263,9 +1448,6 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
             }
         });
 
-
-
-
         mRequestQueue.add(jsonObjectRequest);
     }
 
@@ -1306,7 +1488,10 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 Evalua.putExtra("ipcPersona", "cliente");
                                 Evalua.putExtra("ipcEvaluacion", "Evaluacion al cliente");
                                 Evalua.putExtra("ipiPersona", globales.g_opPedPainani.getiCliente());
+                                Evalua.putExtra("ipcEvalua",vcCliente);
                                 startActivity(Evalua);
+
+
 
                                 //vistaNueva.putExtra("cliente", globales.g_ctPedPainaniList.get(0).getcCliente() );
 
@@ -1381,5 +1566,15 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
     }
 
+
+    public void OcultarEstatus(){
+         sEstatusP.setVisibility(View.INVISIBLE);
+    }
+
+    public void AbreMaps(View v){
+        Log.e("Home-->", " Abriendo mapas");
+        startActivity(new Intent(Home.this, MapsActivity.class));
+                               finish();
+    }
 
 }

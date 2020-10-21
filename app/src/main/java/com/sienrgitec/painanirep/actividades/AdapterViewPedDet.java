@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,6 +52,7 @@ public class AdapterViewPedDet extends PagerAdapter {
 
 
         TextView tvProv, tvDirProv;
+
 
         tvProv = view.findViewById(R.id.txtNegocio);
         tvDirProv = view.findViewById(R.id.txtDomProv);

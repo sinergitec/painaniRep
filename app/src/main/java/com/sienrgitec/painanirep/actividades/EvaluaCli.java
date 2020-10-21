@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -49,12 +50,12 @@ public class EvaluaCli extends AppCompatActivity {
     private String url = globales.URL, vcPersona;
     private AdapterEvaluacion adapter;
 
-    public String  vcTipo   = "";
+    public String  vcTipo   = "", vcEvaluado;
     public Integer viEvalua = 0, viPunto  = 0, viPersona = 0;
     public Float  vdeCalificacion;
 
 
-    TextView txtFecha, txtPedidoId, txtPedido, txtCliId, txtCliente, txtObsEvalua, txtValor;
+    TextView txtFecha, txtPedidoId, txtPedido, txtCliId, txtCliente, txtObsEvalua;
     RatingBar ratingBar;
 
     Button   btnEvaluaCli, btnOk;
@@ -64,12 +65,16 @@ public class EvaluaCli extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evalua_cli);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
 
         Intent i = getIntent();
         vcPersona =  i.getStringExtra("ipcPersona");
         vcTipo    = i.getStringExtra("ipcEvaluacion");
         viPersona = i.getIntExtra("ipiPersona", 0);
+        vcEvaluado = i.getStringExtra("ipcEvalua");
 
 
         Log.e("Evaluacion ","vipersona " + viPersona);
@@ -86,7 +91,7 @@ public class EvaluaCli extends AppCompatActivity {
         ratingBar    = (RatingBar) findViewById(R.id.ratingBar);
 
         txtFecha.setText(globales.g_opPedPainani.getDtFecha());
-        //txtCliId.setText(vcPersona);
+        txtCliId.setText(vcEvaluado);
         txtPedidoId.setText(globales.g_opPedPainani.getiPedido().toString());
 
         btnOk.setOnClickListener(new View.OnClickListener() {
@@ -257,6 +262,7 @@ public class EvaluaCli extends AppCompatActivity {
 
         globales.opClienteEvaluaList.add(objNvaEvaluacion);
         ratingBar.setRating(Float.parseFloat("0.0"));
+        txtObsEvalua.setText("");
 
 
     }
@@ -331,6 +337,7 @@ public class EvaluaCli extends AppCompatActivity {
                                 }
 
                                 globales.opClienteEvaluaList.clear();
+
                                 /*startActivity(new Intent(EvaluaCli.this, Home.class));
                                 finish();*/
 

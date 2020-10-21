@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -31,13 +31,19 @@
                 android:textColorHint="@color/colorText"
                 android:textColor="@color/colorText"/>
 
+
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_below="@+id/tvProvT"
-                app:srcCompat="@android:drawable/ic_menu_mapmode"
-                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"/>
+                android:layout_height="120dp"
+                android:layout_below="@+id/tvProvT"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="-4dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:scaleType="centerCrop"/>
+
 
             <TextView
                 android:id="@+id/txPedidoF"
@@ -67,15 +73,16 @@
                 android:id="@+id/bLlegaP"
                 android:layout_width="65dp"
                 android:layout_height="wrap_content"
-                android:text="entra"
-                android:textColor="@android:color/white"
-                android:background="@drawable/btnllegap"
-                android:onClick="LlegadaProv"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="200dp"
                 android:layout_marginLeft="220dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="200dp"
-                android:layout_marginRight="200dp" />
+                android:layout_marginRight="200dp"
+                android:background="@drawable/btnllegap"
+                android:onClick="LlegadaProv"
+                android:text="entra"
+                android:textColor="@android:color/white"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/bSaleP"
@@ -109,6 +116,21 @@
                 android:textSize="15sp"
                 android:textColor="@color/colorText"
                 android:textColorHint="@color/colorText"/>
+
+             <Button
+                android:id="@+id/button2"
+                android:onClick="AbreMaps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="70dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="50dp"
+                android:text="Mapas" />
+
+
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

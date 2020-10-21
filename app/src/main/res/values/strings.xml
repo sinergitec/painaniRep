@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TITLANI</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
