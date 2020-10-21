@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -55,6 +57,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -96,7 +99,7 @@ import static com.sienrgitec.painanirep.configuracion.Globales.MY_DEFAULT_TIMEOU
 public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     public Globales globales;
     private static RequestQueue mRequestQueue;
-    private String url = globales.URL, vcEvaluado = "" ,vcNegocio = "", vcCliente = "";
+    private String url = globales.URL, vcEvaluado = "" ,vcNegocio = "", vcCliente = "", vcDir = "";
     private AdapterHome adapter;
     private AdapterPedXProv adapterPedXProv;
     private AdapterPainaniPed adapterPainaniPed;
@@ -301,6 +304,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 globales.g_opPedPainani = globales.g_ctPedPainaniList.get(0);
                                 vcCliente = globales.g_ctPedPainaniList.get(0).getcCliente();
 
+
                                 /****viepage-INICIO si se modifica este bloque buscar y modificar la funcion de ActualizaPedido() dentro este codigo*****/
 
                                 pedidoList = new ArrayList<>();
@@ -319,6 +323,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                         viPartidaProv = (pedidoList.get(position).getiPartida());
                                         viProvEvalua = (pedidoList.get(position).getiProveedor());
                                         vcNegocio = (pedidoList.get(position).getcNegocion());
+                                        vcDir   = (pedidoList.get(position).getcDirProveedor());
                                         ConstruyeDet( viPedido,  viProveedor);
                                     }
                                     @Override
@@ -331,6 +336,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                         viPartidaProv = (pedidoList.get(position).getiPartida());
                                         viProvEvalua = (pedidoList.get(position).getiProveedor());
                                         vcNegocio = (pedidoList.get(position).getcNegocion());
+                                        vcDir   = (pedidoList.get(position).getcDirProveedor());
                                     }
 
                                     @Override
@@ -1572,9 +1578,16 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     }
 
     public void AbreMaps(View v){
-        Log.e("Home-->", " Abriendo mapas");
-        startActivity(new Intent(Home.this, MapsActivity.class));
-                               finish();
+
+
+        Intent Home = new Intent(Home.this, MapsActivity.class);
+        Home.putExtra("ipcDom", vcDir);
+        startActivity(Home);
+        finish();
+
+
+        /*startActivity(new Intent(Home.this, MapsActivity.class));
+        finish();*/
     }
 
 }

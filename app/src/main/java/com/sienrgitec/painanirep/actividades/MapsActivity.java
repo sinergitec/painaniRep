@@ -2,7 +2,11 @@ package com.sienrgitec.painanirep.actividades;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -12,9 +16,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sienrgitec.painanirep.R;
 
+import java.util.List;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    String vcDom;
+    LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +32,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+
+        Intent i = getIntent();
+        vcDom =  i.getStringExtra("ipcDom");
+
+
+
+
     }
 
     /**
@@ -37,11 +54,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+
+
+
+        Geocoder geocoder=new Geocoder(MapsActivity.this);
+        List<Address> addressList;
+
+        try {
+            addressList = geocoder.getFromLocationName(vcDom, 1);
+            if(addressList!=null){
+                Address singleaddress=addressList.get(0);
+                latLng =new LatLng(singleaddress.getLatitude(),singleaddress.getLongitude());
+                Log.e("Home-->", " Abriendo mapas" + latLng);
+
+
+                mMap = googleMap;
+
+                // Add a marker in Sydney and move the camera
+                LatLng sydney = new LatLng(singleaddress.getLatitude(),singleaddress.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+
+
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return ;
+        }
+
+
     }
 }
