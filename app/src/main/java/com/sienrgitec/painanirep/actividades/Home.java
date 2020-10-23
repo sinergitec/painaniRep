@@ -1648,7 +1648,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
             MuestraMensaje("Error", e.getMessage());
             ibtnPanico.setEnabled(true);
         }
-
+/**/
 
         getmRequestQueue();
 
