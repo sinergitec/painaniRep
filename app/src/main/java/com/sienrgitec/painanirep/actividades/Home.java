@@ -66,6 +66,7 @@ import com.sienrgitec.painanirep.configuracion.ComparadorProv;
 import com.sienrgitec.painanirep.configuracion.Globales;
 import com.sienrgitec.painanirep.model.ctPainani;
 import com.sienrgitec.painanirep.model.ctUsuario;
+import com.sienrgitec.painanirep.model.opBuzonMensaje;
 import com.sienrgitec.painanirep.model.opDispPainani;
 import com.sienrgitec.painanirep.model.opPausaPainani;
 import com.sienrgitec.painanirep.model.opPedPainani;
@@ -114,10 +115,9 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
     List<opPerfilCli> opPerfilCliList = null;
 
-
-
     public Integer viPartidaProv = 0, viProveedor = 0, viPedido = 0, viProvTotal = 0, viProvEvalua = 0;
     private static  final int idUnica = 6192523;
+    public static ArrayList<opBuzonMensaje>      opNvoProblemaList       = new ArrayList<>();
 
 
     @Override
@@ -133,11 +133,12 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
     Switch sEstatusP;
     NotificationCompat.Builder notificacion;
     Button  btnFin, btnSalir, btnReportar;
-    ImageButton ibtnBuscarPed;
+    ImageButton ibtnBuscarPed, ibtnPanico;
 
 
     public static  List<opPedidoDet> listapedido = null;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +149,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         vcEvaluado =  i.getStringExtra("ipcEvaluado");
 
         txtDomCli  = (TextView) findViewById(R.id.tvNombreDom);
-        tvDetalle  = (TextView) findViewById(R.id.txtDet);
+       // tvDetalle  = (TextView) findViewById(R.id.txtDet);
         tvEstatusP = (TextView) findViewById(R.id.tvDescEst);
         tvRecibe   = (TextView) findViewById(R.id.tvNombreRecibe);
 
@@ -164,11 +165,14 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         progressBar.getIndeterminateDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
         recycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
+        recycler.setElevation(5);
+
 
         notificacion = new NotificationCompat.Builder(this);
         notificacion.setAutoCancel(true);
         tvEstatusP.setText("Disponible");
 
+        ibtnPanico = (ImageButton) findViewById(R.id.ibPanico);
 
 
         if(vcEvaluado.equals("proveedor")){
@@ -215,11 +219,8 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
         });
 
 
-
-
         btnReportar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 final AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
                 builder.setCancelable(true);
                 //builder.setTitle(Html.fromHtml("<font color ='#FF0000'> ALERTA </font>"));
@@ -228,23 +229,27 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                               /* ActualizaPedido(true);
-                                progressBar.setVisibility(View.INVISIBLE);*/
+                                Intent Evalua = new Intent(Home.this, ReportaProblemas.class);
+                                Evalua.putExtra("ipiPedido", viPedido);
+                                startActivity(Evalua);
                             }
                         });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
                         /*ActualizaPedido(false);
                         progressBar.setVisibility(View.INVISIBLE);*/
                     }
                 });
-
-
                 final AlertDialog alert = builder.create();
                 alert.show();
+            }
+        });
 
-
+        ibtnPanico.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Alerta();
             }
         });
 
@@ -279,7 +284,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                             } else {
                                 OcultarEstatus();
                                 btnFin.setVisibility(View.VISIBLE);
-                                tvDetalle.setVisibility(View.VISIBLE);
+//                                tvDetalle.setVisibility(View.VISIBLE);
 
 
                                 JSONObject ds_opPedido = respuesta.getJSONObject("tt_opPedido");
@@ -447,18 +452,6 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
             return;
         }
         ActPedPainaniDet("Salida", viPedido,  viPartidaProv);
-
-
-
-        Intent Evalua = new Intent(Home.this, EvaluaCli.class);
-        Evalua.putExtra("ipcPersona", "Proveedor");
-        Evalua.putExtra("ipcEvaluacion", "Evaluacion al proveedor");
-        Evalua.putExtra("ipiPersona",viProvEvalua);
-        Evalua.putExtra("ipcEvalua",vcNegocio);
-        startActivity(Evalua);
-
-
-
     }
 
     public void ActualizaEstadoP(final Boolean vlActivo){
@@ -1109,7 +1102,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 tvRecibe.setText(globales.g_ctPedPainaniList.get(0).getcCliente());
 
                                 btnFin.setVisibility(View.VISIBLE);
-                                tvDetalle.setVisibility(View.VISIBLE);
+                                //tvDetalle.setVisibility(View.VISIBLE);
                                 OcultarEstatus();
                                 /****viepage-Inicio si se modifca este bloque buscar y modificar la funcion buscaPedido() dentro de este codigo*****/
 
@@ -1247,6 +1240,13 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                     MuestraMensaje("Aviso", "Asegurate de que los productos correspondan con el pedido");
                                 }else{
                                     MuestraMensaje("Aviso", "Hecho");
+
+                                    Intent Evalua = new Intent(Home.this, EvaluaCli.class);
+                                    Evalua.putExtra("ipcPersona", "Proveedor");
+                                    Evalua.putExtra("ipcEvaluacion", "Evaluacion al proveedor");
+                                    Evalua.putExtra("ipiPersona",viProvEvalua);
+                                    Evalua.putExtra("ipcEvalua",vcNegocio);
+                                    startActivity(Evalua);
                                 }
 
                             }
@@ -1572,22 +1572,135 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
     }
 
-
     public void OcultarEstatus(){
          sEstatusP.setVisibility(View.INVISIBLE);
     }
 
     public void AbreMaps(View v){
 
-
+        Log.e("entrando a mapas", vcDir);
         Intent Home = new Intent(Home.this, MapsActivity.class);
         Home.putExtra("ipcDom", vcDir);
+        Home.putExtra("ipcNegocio", vcNegocio);
         startActivity(Home);
-        finish();
+
 
 
         /*startActivity(new Intent(Home.this, MapsActivity.class));
         finish();*/
+    }
+
+    public void Alerta(){
+
+        final ProgressDialog nDialog;
+        nDialog = new ProgressDialog(Home.this);
+        nDialog.setMessage("Cargando...");
+        nDialog.setTitle("Generando Reporte");
+        nDialog.setIndeterminate(false);
+
+        ibtnPanico.setEnabled(false);
+
+
+
+        opBuzonMensaje ObjNvoMensaje = new opBuzonMensaje();
+
+        ObjNvoMensaje.setiPersona(globales.g_ctUsuario.getiPersona());
+        ObjNvoMensaje.setiTipoPersona(globales.g_ctUsuario.getiTipoPersona());
+        ObjNvoMensaje.setiPedido(viPedido);
+        ObjNvoMensaje.setiMensaje(0);
+        ObjNvoMensaje.setcTipo("ALERTA");
+        ObjNvoMensaje.setcMensaje("ALERTA");
+        ObjNvoMensaje.setcMensaje2("");
+        ObjNvoMensaje.setcObs("PELIGRO");
+        ObjNvoMensaje.setlLeido(false);
+        ObjNvoMensaje.setDtLeido(null);
+        ObjNvoMensaje.setDtCreado(null);
+        ObjNvoMensaje.setDtModificado(null);
+        ObjNvoMensaje.setcUsuCrea(globales.g_ctUsuario.getcUsuario());
+        ObjNvoMensaje.setcUsuModifica(globales.g_ctUsuario.getcUsuario());
+
+        opNvoProblemaList.add(ObjNvoMensaje);
+
+
+        JSONObject jsonBody = new JSONObject();
+        JSONObject jsonParams = new JSONObject();
+        JSONObject jsonDataSet = new JSONObject();
+
+        final Gson gson = new Gson();
+        String JS_opBuzonMensaje = gson.toJson(
+                opNvoProblemaList,
+                new TypeToken<ArrayList<ctPainani>>() {
+                }.getType());
+
+        try {
+            JSONArray opBuzonMensaje   = new JSONArray(JS_opBuzonMensaje);
+
+            jsonDataSet.put("tt_opBuzonMensajes",  opBuzonMensaje);
+
+            jsonParams.put("ds_Buzon", jsonDataSet);
+            jsonBody.put("request", jsonParams);
+
+            Log.i("Response", jsonBody.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            //nDialog.dismiss();
+            MuestraMensaje("Error", e.getMessage());
+            ibtnPanico.setEnabled(true);
+        }
+
+
+        getmRequestQueue();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, url + "reportarProblema/", jsonBody, new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject respuesta = response.getJSONObject("response");
+                            Log.i("respuesta resrt->", "mensaje: " + respuesta.toString());
+
+                            Boolean Error = respuesta.getBoolean("oplError");
+                            String Mensaje = respuesta.getString("opcError");
+                            if (Error == true) {
+                                nDialog.dismiss();
+                                MuestraMensaje("Error" , Mensaje);
+                                ibtnPanico.setEnabled(true);
+
+                            } else {
+                                opNvoProblemaList.clear();
+                                MuestraMensaje("AVISO", "Alerta Generada");
+                                nDialog.dismiss();
+                                ibtnPanico.setEnabled(true);
+                            }
+
+                        } catch (JSONException e) {
+                            Log.i("Error JSONExcepcion", e.getMessage());
+                            nDialog.dismiss();
+                            Log.i("Error JSONExcepcion", e.getMessage());
+                            MuestraMensaje("Error", "Error Conversión de Datos." + "\n " + e.getMessage());
+                            ibtnPanico.setEnabled(true);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        Log.i("Error", error.toString());
+                        nDialog.dismiss();
+                        MuestraMensaje("Error", error.toString());
+                        ibtnPanico.setEnabled(true);
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        mRequestQueue.add(jsonObjectRequest);
     }
 
 }

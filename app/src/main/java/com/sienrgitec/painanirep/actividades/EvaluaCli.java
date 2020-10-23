@@ -100,7 +100,6 @@ public class EvaluaCli extends AppCompatActivity {
                     MuestraMensaje("Error", "Debes seleccionar un parametro para evaluar");
                     return;
                 }
-                MuestraMensaje("Aviso", "Hecho");
                 CreaEvaluacion();
             }
         });
@@ -199,8 +198,6 @@ public class EvaluaCli extends AppCompatActivity {
                 params.put("iplActivo", "true");
                 params.put("ipcTipo", vcTipo);
 
-
-
                 return params;
             }
 
@@ -243,7 +240,19 @@ public class EvaluaCli extends AppCompatActivity {
     }
 
     public void CreaEvaluacion(){
-        Log.e("Crea Evaluacion--> ","viPersona " + viPersona);
+        Log.e("Crea Evaluacion--> ","viPersona " + viPersona + " vcTipo " + vcTipo + " viPunto " + viPunto);
+
+        if(globales.opClienteEvaluaList != null ){
+            for(opClienteEvalua objEvalua:globales.opClienteEvaluaList){
+                if(objEvalua.getiPunto().equals(viPunto)){
+                    Log.e("Evalua", "No se puede evaluar el mismo rubro");
+                    MuestraMensaje("ERROR","No puedes Evaluar 2 veces el mismo rubro.");
+                    ratingBar.setRating(Float.parseFloat("0.0"));
+                    txtObsEvalua.setText("");
+                    return;
+                }
+            }
+        }
 
         opClienteEvalua objNvaEvaluacion = new opClienteEvalua();
         objNvaEvaluacion.setiPedido(globales.g_opPedPainani.getiPedido());
@@ -263,6 +272,9 @@ public class EvaluaCli extends AppCompatActivity {
         globales.opClienteEvaluaList.add(objNvaEvaluacion);
         ratingBar.setRating(Float.parseFloat("0.0"));
         txtObsEvalua.setText("");
+
+
+        MuestraMensaje("Aviso", "Hecho");
 
 
     }

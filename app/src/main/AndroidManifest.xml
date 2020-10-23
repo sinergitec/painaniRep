@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sienrgitec.painanirep">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -21,7 +20,10 @@
         android:roundIcon="@mipmap/logopainal"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
+        <activity android:name=".actividades.ReportaProblemas"
+            android:theme="@style/AppTheme.EvaluaCli">
 
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -29,17 +31,18 @@
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
+-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
             android:name=".actividades.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity
             android:name=".actividades.RazonesRechazo"
-            android:theme="@style/AppTheme.EvaluaCli"></activity>
+            android:theme="@style/AppTheme.EvaluaCli" />
         <activity
             android:name=".actividades.ActEdoProceso"
             android:theme="@style/AppTheme.EvaluaCli" />
@@ -63,7 +66,7 @@
         <activity
             android:name=".actividades.Home"
             android:label="PAINAL"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".actividades.CreaContacto"
             android:label="PAINAL"
@@ -84,7 +87,8 @@
             android:name=".actividades.Login"
             android:label="PAINAL"
             android:theme="@style/AppTheme.Login" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
 
         <service
             android:name=".actividades.CreaUbicacionService"

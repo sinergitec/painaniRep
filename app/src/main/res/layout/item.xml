@@ -11,13 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="20dp"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:background="@drawable/background">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:background="@drawable/bgcolor">
+            android:layout_height="180dp"
+            android:background="@drawable/background">
 
             <TextView
                 android:id="@+id/tvProvT"
@@ -26,111 +27,126 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:hint="ProvTotal"
                 android:layout_marginLeft="200dp"
-                android:textColorHint="@color/colorText"
-                android:textColor="@color/colorText"/>
+                android:hint="ProvTotal"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText" />
 
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_below="@+id/tvProvT"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="-4dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginRight="0dp"
-                android:scaleType="centerCrop"/>
-
+                android:layout_marginTop="13dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/ic_ubicacion"
+                android:onClick="AbreMaps"
+                android:scaleType="centerCrop"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/txPedidoF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/imageView"
-                android:hint="Pedido"
-                android:textSize="15sp"
-                android:layout_marginTop="10dp"
+                android:layout_below="@id/tvProvT"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:hint="Pedido"
                 android:textColor="@color/colorText"
-                android:textColorHint="@color/colorText"/>
+                android:textColorHint="@color/colorText"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/txPzaTot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Cantidad"
-                android:layout_below="@id/imageView"
+                android:layout_below="@id/tvProvT"
+                android:layout_marginStart="36dp"
+                android:layout_marginLeft="36dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="130dp"
-                android:textSize="15sp"
+                android:layout_marginEnd="98dp"
+                android:layout_marginRight="98dp"
+                android:layout_toEndOf="@+id/txPedidoF"
+                android:layout_toRightOf="@+id/txPedidoF"
+                android:hint="Cantidad"
                 android:textColor="@color/colorText"
-                android:textColorHint="@color/colorText"/>
+                android:textColorHint="@color/colorText"
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/bLlegaP"
-                android:layout_width="65dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="200dp"
-                android:layout_marginLeft="220dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="200dp"
-                android:layout_marginRight="200dp"
+                android:layout_below="@+id/imageView"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="142dp"
+                android:layout_marginLeft="142dp"
+                android:layout_marginTop="43dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/btnllegap"
                 android:onClick="LlegadaProv"
                 android:text="entra"
-                android:textColor="@android:color/white"
-                android:visibility="visible" />
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/bSaleP"
-                android:layout_width="65dp"
-                android:layout_height="wrap_content"
-                android:text=" SALIR"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/imageView"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="18dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="43dp"
+                android:layout_marginBottom="16dp"
+                android:layout_toEndOf="@+id/bLlegaP"
+                android:layout_toRightOf="@+id/bLlegaP"
                 android:background="@drawable/btnsalidap"
-                android:textColor="@android:color/white"
-                android:layout_marginTop="80dp"
-                android:layout_marginLeft="200dp"
-                android:onClick="SalidaProv"/>
+                android:onClick="SalidaProv"
+                android:text=" SALIR"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:id="@+id/txtNegocio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txPedidoF"
-                android:hint="Negocio: "
-                android:textSize="15sp"
                 android:layout_marginLeft="16dp"
+                android:hint="Negocio: "
                 android:textColor="@color/colorText"
-                android:textColorHint="@color/colorText"/>
+                android:textColorHint="@color/colorText"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/txtDomProv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Dirección"
                 android:layout_below="@id/txtNegocio"
                 android:layout_marginLeft="16dp"
-                android:textSize="15sp"
+                android:hint="Dirección"
                 android:textColor="@color/colorText"
-                android:textColorHint="@color/colorText"/>
+                android:textColorHint="@color/colorText"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp" />
 
-             <Button
+            <Button
                 android:id="@+id/button2"
-                android:onClick="AbreMaps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="14dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="70dp"
-                android:layout_marginLeft="70dp"
-                android:layout_marginTop="50dp"
-                android:text="Mapas" />
-
-
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="5dp"
+                android:onClick="AbreMaps"
+                android:text="Mapas"
+                android:visibility="invisible" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

@@ -7,16 +7,26 @@ public class opBuzonMensaje implements Serializable {
     private Integer iTipoPersona;
     private Integer iPedido;
     private Integer iMensaje;
+    private String  cTipo;
     private String  cMensaje;
     private String  cMensaje2;
     private String  cObs;
     private Boolean lLeido;
     private String  dtLeido;
+    private Boolean lSolicitud;
     private String  dtCreado;
     private String  dtModificado;
     private String  cUsuCrea;
     private String  cUsuModifica;
     private Object id;
+
+    public Boolean getlSolicitud() {
+        return lSolicitud;
+    }
+
+    public void setlSolicitud(Boolean lSolicitud) {
+        this.lSolicitud = lSolicitud;
+    }
 
     public Integer getiPersona() {
         return iPersona;
@@ -48,6 +58,14 @@ public class opBuzonMensaje implements Serializable {
 
     public void setiMensaje(Integer iMensaje) {
         this.iMensaje = iMensaje;
+    }
+
+    public String getcTipo() {
+        return cTipo;
+    }
+
+    public void setcTipo(String cTipo) {
+        this.cTipo = cTipo;
     }
 
     public String getcMensaje() {

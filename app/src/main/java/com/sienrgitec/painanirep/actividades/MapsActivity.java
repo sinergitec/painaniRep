@@ -8,20 +8,25 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sienrgitec.painanirep.R;
+import com.sienrgitec.painanirep.configuracion.Globales;
 
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    private Globales globales;
     private GoogleMap mMap;
-    String vcDom;
+    String vcDom, vcRazonS;
     LatLng latLng;
 
     @Override
@@ -37,6 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Intent i = getIntent();
         vcDom =  i.getStringExtra("ipcDom");
+        vcRazonS = i.getStringExtra("ipcNegocio");
 
 
 
@@ -74,10 +80,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 // Add a marker in Sydney and move the camera
                 LatLng sydney = new LatLng(singleaddress.getLatitude(),singleaddress.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+                mMap.addMarker(new MarkerOptions().position(sydney).title(vcRazonS)).showInfoWindow();
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
+                CameraPosition camera = new CameraPosition.Builder().target(sydney)
+                        .zoom(15)
+                        .bearing(90)
+                        .tilt(30)
+                        .build();
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camera));
 
+                LatLng tuUbicacion = new LatLng(globales.vg_deLatitud,globales.vg_deLongitud);
+                mMap.addMarker(new MarkerOptions().position(tuUbicacion).title("Tu ubicación"));
+
+
+
+                LatLngBounds.Builder constructor = new LatLngBounds.Builder();
+
+                constructor.include(sydney);
+                constructor.include(tuUbicacion);
+
+                LatLngBounds limites = constructor.build();
+
+                int ancho = getResources().getDisplayMetrics().widthPixels;
+                int alto = getResources().getDisplayMetrics().heightPixels;
+                int padding = (int) (alto * 0.25); // 25% de espacio (padding) superior e inferior
+
+                CameraUpdate centrarmarcadores = CameraUpdateFactory.newLatLngBounds(limites, ancho, alto, padding);
+
+                mMap.animateCamera(centrarmarcadores);
 
             }
 

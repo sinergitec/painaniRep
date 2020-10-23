@@ -2,6 +2,7 @@ package com.sienrgitec.painanirep.actividades;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.sienrgitec.painanirep.R;
@@ -42,6 +44,7 @@ public class AdapterNvoPed  extends PagerAdapter {
         return view.equals(object);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
@@ -66,12 +69,9 @@ public class AdapterNvoPed  extends PagerAdapter {
 
 
 
+
+
         btn = view.findViewById(R.id.bLlegaP);
-
-
-
-
-
 
 
         tvPedido.setText("Pedido: " + listapedidos.get(position).getiPedido().toString());
