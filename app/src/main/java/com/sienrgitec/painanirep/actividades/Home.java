@@ -806,7 +806,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
     public void ConfirmaPedido() {
 
-       /* progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         final AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
         builder.setCancelable(true);
         builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Tienes un nuevo pedido </font>"));
@@ -817,6 +817,9 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                     public void onClick(DialogInterface dialog, int which) {
                         ActualizaPedido(true);
                         progressBar.setVisibility(View.INVISIBLE);
+                        startActivity(new Intent(Home.this, PerfilCli.class));
+                        finish();
+
                     }
                 });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -825,15 +828,15 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                 ActualizaPedido(false);
                 progressBar.setVisibility(View.INVISIBLE);
             }
-        });*/
+        });
 
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+       /* final AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
         builder.setCancelable(true);
         builder.setTitle(Html.fromHtml("<font color ='#FF0000'> Tienes un nuevo pedido </font>"));
         builder.setMessage("¿Deseas revisar el Perfil del cliente antes de Aceptar el pedido? " + '\n' +
                            "SI: para ver perfil de cliente. " + '\n' +
-                           "NO: para ACEPTAR pedido sin revisar perfil del cliente");
+                           "ACEPTAR: para ACEPTAR pedido sin revisar perfil del cliente");
         builder.setPositiveButton("SI",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -850,7 +853,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
-
+*/
 
         final AlertDialog alert = builder.create();
         alert.show();
@@ -874,8 +877,9 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                 handler.removeCallbacks(runnable);
             }
         });
-        handler.postDelayed(runnable, 25000);
-        OcultarEstatus();
+        handler.postDelayed(runnable, 20000);
+
+        //OcultarEstatus();
     }
 
     public void ConsultaCliente(){
@@ -1104,7 +1108,7 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
                                 btnFin.setVisibility(View.VISIBLE);
                                 //tvDetalle.setVisibility(View.VISIBLE);
                                 OcultarEstatus();
-                                /****viepage-Inicio si se modifca este bloque buscar y modificar la funcion buscaPedido() dentro de este codigo*****/
+                                /****viepage-Inicio si se modifca este bloque buscar y modificar la funcion buscaPedido() dentro de este codigo
 
                                 pedidoList = new ArrayList<>();
                                 pedidoList = (globales.g_ctPedPainaniDetList);
@@ -1136,10 +1140,10 @@ public class Home extends AppCompatActivity  implements ComponentCallbacks2  {
 
                                     }
                                 });
-                                /****viepage-FIN si se modifca este bloque buscar y modificar la funcion buscaPedido() dentro de este codigo*****/
+                                viepage-FIN si se modifca este bloque buscar y modificar la funcion buscaPedido() dentro de este codigo*****/
 
                                 /*Encabezado de pedido x Proveedor*/
-                                Collections.sort(globales.g_ctPedPainaniDetList, new ComparadorProv());
+                                //Collections.sort(globales.g_ctPedPainaniDetList, new ComparadorProv());
                             }
 
                         } catch (JSONException e) {

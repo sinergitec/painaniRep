@@ -20,10 +20,10 @@
         android:roundIcon="@mipmap/logopainal"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
-        <activity android:name=".actividades.ReportaProblemas"
-            android:theme="@style/AppTheme.EvaluaCli">
-
-        </activity>
+        <activity android:name=".actividades.PerfilCli"></activity>
+        <activity
+            android:name=".actividades.ReportaProblemas"
+            android:theme="@style/AppTheme.EvaluaCli"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -31,7 +31,7 @@
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
--->
+        -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -39,7 +39,7 @@
         <activity
             android:name=".actividades.MapsActivity"
             android:label="@string/title_activity_maps"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".actividades.RazonesRechazo"
             android:theme="@style/AppTheme.EvaluaCli" />
@@ -87,8 +87,9 @@
             android:name=".actividades.Login"
             android:label="PAINAL"
             android:theme="@style/AppTheme.Login" />
-        <activity android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
 
         <service
             android:name=".actividades.CreaUbicacionService"
